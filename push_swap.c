@@ -164,8 +164,45 @@ void	rrr(int stack_a[], int top_a, int stack_b[], int top_b)
 }
 
 
+#include <stdlib.h>
+int main(int argc,	char **argv)
+{
+	int	stack_a[MAX_SIZE];
+	int	stack_b[MAX_SIZE];
+	int	top_a;
+	int	top_b;
 
+	init_stacks(&top_a, &top_b);
 
+	int	i = 1;
+	while (i < argc)
+	{
+		stack_a[++top_a] = atoi(argv[i]);
+		i++;
+	}
+	
+	// Iniciliazar "A" com elementos e "B" vazio
+	printf("Stacks inicializada, [A] com elementos e [B] sem elementos:\n");
+	print_stacks(stack_a, top_a, stack_b, top_b);
+
+	// Trocar os 2 primeiro elementos de "A"
+	sa(stack_a, top_a);
+	printf("\nStack [A] após 'sa':\n");
+	print_stacks(stack_a, top_a, stack_b, top_b);
+	
+	// Mover elemento do top[A] para top[B]
+	pb(stack_a, &top_a, stack_b, &top_b);
+	printf("\nStacks após 'pb':\n");
+	print_stacks(stack_a, top_a, stack_b, top_b);
+
+	//Rodar elementos de [A] para cima
+	ra(stack_a, top_a);
+	printf("\nStack A após ra:\n");
+	print_stack(stack_a, top_a);
+	//print_stacks(stack_a, top_a, stack_b, top_b);
+
+	return (0);
+}
 
 /*
 //#########TESTAR A FUNÇAO = ra = PARA RODAR TODOS OS ELEMENTOS DA PILHA "A" PARA CIMA
