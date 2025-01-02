@@ -11,6 +11,49 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "../printf/ft_printf.h"
+#include <stdlib.h>
+
+//Convert Alpa to Integre
+int	ft_atoi(const char *nptr)
+{
+	size_t	i;
+	int		sign;
+	int		convert;
+
+	i = 0;
+	while (((unsigned char)nptr[i] >= 9 && (unsigned char)nptr[i] <= 13)
+		|| ((unsigned char)nptr[i] == 32))
+		i++;
+	sign = 1;
+	if (((unsigned char)nptr[i] == 43) || ((unsigned char)nptr[i] == 45))
+	{
+		if ((unsigned char)nptr[i] == 45)
+			sign = -1;
+		i++;
+	}
+	convert = 0;
+	while ((unsigned char)nptr[i] >= 48 && (unsigned char)nptr[i] <= 57)
+	{
+		convert = (convert * 10) + ((unsigned char)nptr[i] - 48);
+		i++;
+	}
+	return (sign * convert);
+}
+//Funçao para inicializar Stack com valore de ARGV convertidos
+void	init_stack(int stack[], int *top, int argc, char **argv)
+{
+	int	i = 1;
+	*top = -1;
+	while(i < argc)
+	{
+		stack[++(*top)] = ft_atoi(argv[i]);
+		i++;
+	}
+}
+
+
+
 
 //Funçao para inicializar os Stacks
 void	init_stacks(int *top_a, int *top_b)
@@ -23,16 +66,14 @@ void	print_stack(int stack[], int top)
 {
 	while (top >= 0)
 	{
-		printf("%d\n", stack[top]);
+		ft_printf("%d\n", stack[top]);
 		top--;
 	}
 }
 //Funçao para imprimir as pilhas A e B
 void	print_stacks(int stack_a[], int top_a, int stack_b[], int top_b)
 {
-	//printf("Stack A:\n");
 	print_stack(stack_a, top_a);
-	//printf("Stack B:\n");
 	print_stack(stack_b, top_b);
 }
 
@@ -162,9 +203,6 @@ void	rrr(int stack_a[], int top_a, int stack_b[], int top_b)
 	rra(stack_a, top_a);
 	rrb(stack_b, top_b);
 }
-
-
-#include <stdlib.h>
 int main(int argc,	char **argv)
 {
 	int	stack_a[MAX_SIZE];
@@ -177,29 +215,107 @@ int main(int argc,	char **argv)
 	int	i = 1;
 	while (i < argc)
 	{
-		stack_a[++top_a] = atoi(argv[i]);
+		// stack_a[++top_a] = atoi(argv[i]);
+		stack_a[++top_a] = ft_atoi(argv[i]);
 		i++;
 	}
 	
-	// Iniciliazar "A" com elementos e "B" vazio
+	// Iniciliazar [A] com elementos e [B] vazio
 	printf("Stacks inicializada, [A] com elementos e [B] sem elementos:\n");
-	print_stacks(stack_a, top_a, stack_b, top_b);
+	print_stack(stack_a, top_a);
+	printf("\n______________________________\n");
 
-	// Trocar os 2 primeiro elementos de "A"
-	sa(stack_a, top_a);
-	printf("\nStack [A] após 'sa':\n");
-	print_stacks(stack_a, top_a, stack_b, top_b);
-	
 	// Mover elemento do top[A] para top[B]
 	pb(stack_a, &top_a, stack_b, &top_b);
-	printf("\nStacks após 'pb':\n");
-	print_stacks(stack_a, top_a, stack_b, top_b);
-
-	//Rodar elementos de [A] para cima
-	ra(stack_a, top_a);
-	printf("\nStack A após ra:\n");
+	printf("\nStack[A] após 1º'pb':\n");
 	print_stack(stack_a, top_a);
-	//print_stacks(stack_a, top_a, stack_b, top_b);
+	printf("\nStack[B] após o 1º'pb':\n");
+	print_stack(stack_b, top_b);
+	pb(stack_a, &top_a, stack_b, &top_b);
+	printf("\nStack[A] após o 2º'pb':\n");
+	print_stack(stack_a, top_a);
+	printf("\nStack[B] após o 2º'pb':\n");
+	print_stack(stack_b, top_b);
+	pb(stack_a, &top_a, stack_b, &top_b);
+	printf("\nStack[A] após o 3º'pb':\n");
+	print_stack(stack_a, top_a);
+	printf("\nStack[B] após o 3º'pb':\n");
+	print_stack(stack_b, top_b);
+	printf("\n______________________________\n");
+
+	// Trocar os 2 primeiro elementos de [A] e [B]
+	ss(stack_a, top_a, stack_b, top_b);
+	printf("\nStack [A] após 'ss':\n");
+	print_stack(stack_a, top_a);
+	printf("\nStack [B] após 'ss':\n");
+	print_stack(stack_b, top_b);
+	printf("\n______________________________\n");
+
+	//Rodar elementos de [A] e [B] para CIMA
+	rr(stack_a, top_a, stack_b, top_b);
+	printf("\nStack [A] após rr:\n");
+	print_stack(stack_a, top_a);
+	printf("\nStack [B] após rr:\n");
+	print_stack(stack_b, top_b);
+	printf("\n______________________________\n");
+
+	// Mover elemento do top[B] para top[A]
+	pa(stack_a,&top_a, stack_b, &top_b);
+	printf("\nStack[B] após o 1º'pa':\n");
+	print_stack(stack_b, top_b);
+	printf("\nStack[A] após 1º'pa':\n");
+	print_stack(stack_a, top_a);
+	printf("\n______________________________\n");
+
+	//Rodar elementos de [A] para BAIXO
+	rra(stack_a,top_a);
+	printf("\nStack [A] após rra:\n");
+	print_stack(stack_a, top_a);
+	printf("\n______________________________\n");
+
+	// Mover elemento do top[A] para top[B]
+	pb(stack_a, &top_a, stack_b, &top_b);
+	printf("\nStack[A] após 4º'pb':\n");
+	print_stack(stack_a, top_a);
+	printf("\nStack[B] após o 4º'pb':\n");
+	print_stack(stack_b, top_b);
+	printf("\n______________________________\n");
+
+	//Rodar elementos de [A] e [B] para BAIXO
+	rrr(stack_a, top_a, stack_b, top_b);
+	printf("\nStack [A] após rrr:\n");
+	print_stack(stack_a, top_a);
+	printf("\nStack [B] após rrr:\n");
+	print_stack(stack_b, top_b);
+	printf("\n______________________________\n");
+
+	// Mover elemento do top[A] para top[B]
+	pb(stack_a, &top_a, stack_b, &top_b);
+	printf("\nStack[B] após o 5º'pb':\n");
+	print_stack(stack_b, top_b);
+	printf("\nStack[A] após o 5º'pb':\n");
+	print_stack(stack_a, top_a);
+	printf("\n______________________________\n");
+
+	// Trocar os 2 primeiro elementos de [B]
+	sb(stack_b, top_b);
+	printf("\nStack [B] após 'sb':\n");
+	print_stack(stack_b, top_b);
+	printf("\n______________________________\n");
+
+	// Trocar os 2 primeiro elementos de [A]
+	sa(stack_a, top_a);
+	printf("\nStack [A] após 'sa':\n");
+	print_stack(stack_a, top_a);
+	printf("\n______________________________\n");
+
+	// Mover elemento do top[B] para top[A]
+	pa(stack_a, &top_a, stack_b, &top_b);
+	printf("\nStack[A] após 2º'pa':\n");
+	print_stack(stack_a, top_a);
+	printf("\nStack[B] após 2º'pa':\n");
+	print_stack(stack_b, top_b);
+	printf("\n______________________________\n");
 
 	return (0);
 }
