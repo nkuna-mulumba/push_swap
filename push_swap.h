@@ -13,14 +13,26 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-# include <stdio.h>
+# include <limits.h>
 
 #  ifndef MAX_SIZE
 #   define MAX_SIZE 1000
-#  endif
+#  endif 
 
 //Funçao para inicializar Stacks
 void	init_stacks(int *top_a, int *top_b);
+
+//Funçao para inicializar Stack com valore de ARGV convertidos
+void	init_stack(int stack[], int *top, int argc, char **argv);
+
+//Funçao para CHEQUEAR elementos UNICO
+int	check_element(int stack[], int top);
+
+//Funçao para verificar DIGITOS
+int	ft_isdigit(int c);
+
+// Setup de Inicialização de Stacks e sua conversão
+void	setup_stacks(int stack_a[], int *top_a, int *top_b, int argc, char **argv);
 
 //Funçao para imprimir a pilha (para depuraçao)
 void	print_stack(int stack[], int top);

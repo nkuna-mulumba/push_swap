@@ -12,7 +12,60 @@
 
 #include "push_swap.h"
 #include "../printf/ft_printf.h"
-#include <stdlib.h>
+//#include <stdlib.h>
+
+
+////Funçao para verificar DIGITOS
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
+}
+
+//Funçao para validar que esta dentro de rango de inteiro
+int is_valid_integer(char *str, int *value)
+{
+	int	i;
+	int sign;
+	long result;
+
+    // Ignorar espaços em branco
+	i = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+        i++;
+    // Verificar sinal
+	sign = 1;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+    // Verificar se o primeiro caractere após o sinal é um dígito
+	if (!ft_isdigit(str[i]))
+		return 0; // Não é um inteiro válido
+    // Converter a string para um número inteiro e verificar os limites
+	result = 0;
+	while (str[i] != '\0')
+	{
+		if (!ft_isdigit(str[i]))
+			return 0; // Não é um inteiro válido
+		result = result * 10 + (str[i] - '0');
+		if ((sign == 1 && result > INT_MAX) || (sign == -1 && -result < INT_MIN))
+			return 0; // Fora do intervalo permitido
+		i++;
+	}
+	*value = (int)(sign * result);
+	return 1; // É um inteiro válido
+}
+
+
 
 //Convert Alpa to Integre
 int	ft_atoi(const char *nptr)
@@ -40,6 +93,12 @@ int	ft_atoi(const char *nptr)
 	}
 	return (sign * convert);
 }
+//Funçao para inicializar os Stacks
+void	init_stacks(int *top_a, int *top_b)
+{
+	*top_a = -1;
+	*top_b = -1;
+}
 //Funçao para inicializar Stack com valore de ARGV convertidos
 void	init_stack(int stack[], int *top, int argc, char **argv)
 {
@@ -47,20 +106,61 @@ void	init_stack(int stack[], int *top, int argc, char **argv)
 	*top = -1;
 	while(i < argc)
 	{
+		if (!is_valid_integer(argv[i]))
+		{
+			ft_printf("ERROR 'VALOR INVÁLIDO: %s'\n", argv[i]);
+			exit (1);
+		}
 		stack[++(*top)] = ft_atoi(argv[i]);
 		i++;
 	}
 }
-
-
-
-
-//Funçao para inicializar os Stacks
-void	init_stacks(int *top_a, int *top_b)
+//Funçao para CHEQUEAR elementos UNICO
+int	check_element(int stack[], int top)
 {
-	*top_a = -1;
-	*top_b = -1;
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i <= top)
+	{
+		j = i + 1;
+		while (j <= top)
+		{
+			if (stack[i] == stack[j])
+			{
+				return (0);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }
+// Setup de Inicialização de Stacks e sua conversão
+void	setup_stacks(int stack_a[], int *top_a, int *top_b, int argc, char **argv)
+{
+	if (argc < 2)
+	{
+		ft_printf("ERROR 'NUMERO DE ARGUMENTO INSUFIENTE'\n");
+		exit (1);
+	}
+
+	init_stacks(top_a, top_b);
+	init_stack(stack_a, top_a, argc, argv);
+	
+	// Verifica a unicidade dos elementos na pilha stack_a
+	if (!check_element(stack_a, *top_a))
+	{
+		ft_printf("ERROR 'VALORES DUPLICADOS'\n");
+		exit (1);
+	}
+	
+}
+
+//-2.147.483.648 a 2.147.483.647
+//-2147483648 a 2147483647
+
 //Funçao para imprimir a pilha (para depuraçao)
 void	print_stack(int stack[], int top)
 {
@@ -70,7 +170,7 @@ void	print_stack(int stack[], int top)
 		top--;
 	}
 }
-//Funçao para imprimir as pilhas A e B
+//Funçao para imprimir as dois pilhas A e B
 void	print_stacks(int stack_a[], int top_a, int stack_b[], int top_b)
 {
 	print_stack(stack_a, top_a);
@@ -210,115 +310,162 @@ int main(int argc,	char **argv)
 	int	top_a;
 	int	top_b;
 
-	init_stacks(&top_a, &top_b);
-
-	int	i = 1;
-	while (i < argc)
-	{
-		// stack_a[++top_a] = atoi(argv[i]);
-		stack_a[++top_a] = ft_atoi(argv[i]);
-		i++;
-	}
+	// Setup de Inicialização de Stacks e sua conversão
+	setup_stacks(stack_a, &top_a, &top_b, argc, argv);
 	
-	// Iniciliazar [A] com elementos e [B] vazio
-	printf("Stacks inicializada, [A] com elementos e [B] sem elementos:\n");
+	// Imprimir elementos de [A] e [B] vazio
+	ft_printf("\nStack [A] com elementos\n");
 	print_stack(stack_a, top_a);
-	printf("\n______________________________\n");
+	ft_printf("\nStack [B] vazio:\n");
+	print_stack(stack_b, top_b);
+	ft_printf("\n______________________________\n");
 
 	// Mover elemento do top[A] para top[B]
 	pb(stack_a, &top_a, stack_b, &top_b);
-	printf("\nStack[A] após 1º'pb':\n");
+	ft_printf("\nStack[A] após 1º'pb':\n");
 	print_stack(stack_a, top_a);
-	printf("\nStack[B] após o 1º'pb':\n");
+	ft_printf("\nStack[B] após o 1º'pb':\n");
 	print_stack(stack_b, top_b);
 	pb(stack_a, &top_a, stack_b, &top_b);
-	printf("\nStack[A] após o 2º'pb':\n");
+	ft_printf("\nStack[A] após o 2º'pb':\n");
 	print_stack(stack_a, top_a);
-	printf("\nStack[B] após o 2º'pb':\n");
+	ft_printf("\nStack[B] após o 2º'pb':\n");
 	print_stack(stack_b, top_b);
 	pb(stack_a, &top_a, stack_b, &top_b);
-	printf("\nStack[A] após o 3º'pb':\n");
+	ft_printf("\nStack[A] após o 3º'pb':\n");
 	print_stack(stack_a, top_a);
-	printf("\nStack[B] após o 3º'pb':\n");
+	ft_printf("\nStack[B] após o 3º'pb':\n");
 	print_stack(stack_b, top_b);
-	printf("\n______________________________\n");
+	ft_printf("\n______________________________\n");
 
 	// Trocar os 2 primeiro elementos de [A] e [B]
 	ss(stack_a, top_a, stack_b, top_b);
-	printf("\nStack [A] após 'ss':\n");
+	ft_printf("\nStack [A] após 'ss':\n");
 	print_stack(stack_a, top_a);
-	printf("\nStack [B] após 'ss':\n");
+	ft_printf("\nStack [B] após 'ss':\n");
 	print_stack(stack_b, top_b);
-	printf("\n______________________________\n");
+	ft_printf("\n______________________________\n");
 
 	//Rodar elementos de [A] e [B] para CIMA
 	rr(stack_a, top_a, stack_b, top_b);
-	printf("\nStack [A] após rr:\n");
+	ft_printf("\nStack [A] após rr:\n");
 	print_stack(stack_a, top_a);
-	printf("\nStack [B] após rr:\n");
+	ft_printf("\nStack [B] após rr:\n");rr(stack_a, top_a, stack_b, top_b);
 	print_stack(stack_b, top_b);
-	printf("\n______________________________\n");
+	ft_printf("\n______________________________\n");
 
 	// Mover elemento do top[B] para top[A]
 	pa(stack_a,&top_a, stack_b, &top_b);
-	printf("\nStack[B] após o 1º'pa':\n");
+	ft_printf("\nStack[B] após o 1º'pa':\n");
 	print_stack(stack_b, top_b);
-	printf("\nStack[A] após 1º'pa':\n");
+	ft_printf("\nStack[A] após 1º'pa':\n");
 	print_stack(stack_a, top_a);
-	printf("\n______________________________\n");
+	ft_printf("\n______________________________\n");
 
 	//Rodar elementos de [A] para BAIXO
 	rra(stack_a,top_a);
-	printf("\nStack [A] após rra:\n");
-	print_stack(stack_a, top_a);
-	printf("\n______________________________\n");
+	ft_printf("\nStack [A] após rra:\n");
+	print_stack(stack_a, top_a);rr(stack_a, top_a, stack_b, top_b);
+	ft_printf("\n______________________________\n");
 
 	// Mover elemento do top[A] para top[B]
 	pb(stack_a, &top_a, stack_b, &top_b);
-	printf("\nStack[A] após 4º'pb':\n");
+	ft_printf("\nStack[A] após 4º'pb':\n");
 	print_stack(stack_a, top_a);
-	printf("\nStack[B] após o 4º'pb':\n");
+	ft_printf("\nStack[B] após o 4º'pb':\n");
 	print_stack(stack_b, top_b);
-	printf("\n______________________________\n");
+	ft_printf("\n______________________________\n");
 
 	//Rodar elementos de [A] e [B] para BAIXO
 	rrr(stack_a, top_a, stack_b, top_b);
-	printf("\nStack [A] após rrr:\n");
+	ft_printf("\nStack [A] após rrr:\n");
 	print_stack(stack_a, top_a);
-	printf("\nStack [B] após rrr:\n");
+	ft_printf("\nStack [B] após rrr:\n");
 	print_stack(stack_b, top_b);
-	printf("\n______________________________\n");
+	ft_printf("\n______________________________\n");
 
 	// Mover elemento do top[A] para top[B]
 	pb(stack_a, &top_a, stack_b, &top_b);
-	printf("\nStack[B] após o 5º'pb':\n");
+	ft_printf("\nStack[B] após o 5º'pb':\n");
 	print_stack(stack_b, top_b);
-	printf("\nStack[A] após o 5º'pb':\n");
+	ft_printf("\nStack[A] após o 5º'pb':\n");
 	print_stack(stack_a, top_a);
-	printf("\n______________________________\n");
+	ft_printf("\n______________________________\n");
 
 	// Trocar os 2 primeiro elementos de [B]
 	sb(stack_b, top_b);
-	printf("\nStack [B] após 'sb':\n");
+	ft_printf("\nStack [B] após 'sb':\n");
 	print_stack(stack_b, top_b);
-	printf("\n______________________________\n");
+	ft_printf("\n______________________________\n");
 
 	// Trocar os 2 primeiro elementos de [A]
 	sa(stack_a, top_a);
-	printf("\nStack [A] após 'sa':\n");
+	ft_printf("\nStack [A] após 'sa':\n");
 	print_stack(stack_a, top_a);
-	printf("\n______________________________\n");
+	ft_printf("\n______________________________\n");
 
 	// Mover elemento do top[B] para top[A]
 	pa(stack_a, &top_a, stack_b, &top_b);
-	printf("\nStack[A] após 2º'pa':\n");
+	ft_printf("\nStack[A] após 2º'pa':\n");
 	print_stack(stack_a, top_a);
-	printf("\nStack[B] após 2º'pa':\n");
+	ft_printf("\nStack[B] após 2º'pa':\n");
 	print_stack(stack_b, top_b);
-	printf("\n______________________________\n");
+	ft_printf("\n______________________________\n");
 
 	return (0);
 }
+
+/*
+Para ordenar elementos em pilhas (stacks) no contexto do projeto push_swap, a escolha do algoritmo adequado dependerá de vários fatores, incluindo eficiência, facilidade de implementação e o número de operações permitidas. Aqui estão algumas opções que podem ser particularmente eficazes para trabalhar com pilhas:
+
+1. Radix Sort:
+Vantagens:
+
+Eficiência: Pode ordenar grandes conjuntos de números inteiros rapidamente.
+
+Estável: Mantém a ordem relativa dos elementos iguais.
+
+Desvantagens:
+
+Complexidade de Implementação: Pode ser mais complicado de implementar, especialmente com a necessidade de gerenciar múltiplas passagens.
+
+Uso no push_swap: Adapta bem ao contexto de push_swap, onde você pode usar operações de push e pop para dividir elementos em diferentes "baldes" e ordená-los.
+
+2. Greedy Algorithms:
+Vantagens:
+
+Simplicidade: Fácil de implementar e entender.
+
+Minimização de Operações: Foca em realizar a melhor escolha local em cada etapa para alcançar uma solução global.
+
+Desvantagens:
+
+Não Garantido Ótimo: Pode não sempre encontrar a solução globalmente ótima.
+
+Uso no push_swap: Pode ser útil para selecionar as operações de movimentação (sa, sb, pa, pb, etc.) que movam a pilha de forma mais eficiente em direção à ordem final.
+
+3. Dynamic Programming:
+Vantagens:
+
+Eficiência: Pode evitar cálculos repetitivos, armazenando resultados intermediários.
+
+Ótimo para Problemas com Subestruturas: Adequado para problemas onde a solução envolve várias etapas interdependentes.
+
+Desvantagens:
+
+Complexidade de Implementação: Pode ser mais difícil de implementar corretamente.
+
+Uso no push_swap: Pode ser usado para memorizar resultados de subproblemas de ordenação e otimizar o processo de ordenação.
+
+Estratégia Combinada:
+Dividir e Conquistar: Utilizar uma combinação de técnicas para dividir a pilha em partes menores, ordená-las separadamente e então combiná-las.
+
+Heurísticas Personalizadas: Desenvolver heurísticas específicas para minimizar o número total de operações, considerando o estado atual da pilha.
+
+Recomendação:
+Para o projeto push_swap, Radix Sort é uma escolha eficiente e popular, pois pode ser adaptado para trabalhar bem com operações de pilha e é capaz de ordenar grandes conjuntos de dados rapidamente. Algoritmos Greedy e Dynamic Programming podem ser usados para otimizar ainda mais o número de operações e garantir uma solução eficiente.
+
+*/
 
 /*
 //#########TESTAR A FUNÇAO = ra = PARA RODAR TODOS OS ELEMENTOS DA PILHA "A" PARA CIMA
