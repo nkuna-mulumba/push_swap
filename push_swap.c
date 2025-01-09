@@ -12,10 +12,8 @@
 
 #include "push_swap.h"
 #include "../printf/ft_printf.h"
-//#include <stdlib.h>
 
-
-////Funçao para verificar DIGITOS
+//Funçao para DIGITOS
 int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
@@ -27,52 +25,29 @@ int	ft_isdigit(int c)
 		return (0);
 	}
 }
-
-//Funçao para validar que esta dentro de rango de inteiro
-int is_valid_integer(char *str, int *value)
+//String valido para DIGITOS
+int	ft_digit_valid(const char *str)
 {
-	int	i;
-	int sign;
-	long result;
-
-    // Ignorar espaços em branco
-	i = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-        i++;
-    // Verificar sinal
-	sign = 1;
-	if (str[i] == '-' || str[i] == '+')
+	if (*str == '-' || *str == '+')
 	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
+		str++;
 	}
-    // Verificar se o primeiro caractere após o sinal é um dígito
-	if (!ft_isdigit(str[i]))
-		return 0; // Não é um inteiro válido
-    // Converter a string para um número inteiro e verificar os limites
-	result = 0;
-	while (str[i] != '\0')
+	while (*str)
 	{
-		if (!ft_isdigit(str[i]))
-			return 0; // Não é um inteiro válido
-		result = result * 10 + (str[i] - '0');
-		if ((sign == 1 && result > INT_MAX) || (sign == -1 && -result < INT_MIN))
-			return 0; // Fora do intervalo permitido
-		i++;
+		if (!ft_isdigit(*str))
+		{
+			return (0);
+		}
+		str++;
 	}
-	*value = (int)(sign * result);
-	return 1; // É um inteiro válido
+	return (1);
 }
-
-
-
-//Convert Alpa to Integre
-int	ft_atoi(const char *nptr)
+//Convert Alpa to Integre com long
+long	ft_atoi(const char *nptr)
 {
 	size_t	i;
 	int		sign;
-	int		convert;
+	long	convert;
 
 	i = 0;
 	while (((unsigned char)nptr[i] >= 9 && (unsigned char)nptr[i] <= 13)
@@ -86,37 +61,25 @@ int	ft_atoi(const char *nptr)
 		i++;
 	}
 	convert = 0;
-	while ((unsigned char)nptr[i] >= 48 && (unsigned char)nptr[i] <= 57)
+	while (ft_isdigit((unsigned char)nptr[i]))
 	{
 		convert = (convert * 10) + ((unsigned char)nptr[i] - 48);
 		i++;
 	}
 	return (sign * convert);
 }
-//Funçao para inicializar os Stacks
-void	init_stacks(int *top_a, int *top_b)
-{
-	*top_a = -1;
-	*top_b = -1;
-}
-//Funçao para inicializar Stack com valore de ARGV convertidos
-void	init_stack(int stack[], int *top, int argc, char **argv)
-{
-	int	i = 1;
-	*top = -1;
-	while(i < argc)
+//Validar limites de inteiros
+int	ft_valid_integer(const char *str)
+{	
+	long	value = ft_atoi(str);
+	if (value > INT_MAX || value < INT_MIN)
 	{
-		if (!is_valid_integer(argv[i]))
-		{
-			ft_printf("ERROR 'VALOR INVÁLIDO: %s'\n", argv[i]);
-			exit (1);
-		}
-		stack[++(*top)] = ft_atoi(argv[i]);
-		i++;
+		return (0); // Fora do intervalo permitido
 	}
+    return (1); // É um inteiro válido
 }
 //Funçao para CHEQUEAR elementos UNICO
-int	check_element(int stack[], int top)
+int	ft_check_element(int stack[], int top)
 {
 	int	i;
 	int	j;
@@ -137,6 +100,46 @@ int	check_element(int stack[], int top)
 	}
 	return (1);
 }
+//Funçao para validar e converter strings para long
+long	ft_validate_and_convert(const char *arg)
+{
+	if (!ft_digit_valid(arg))
+	{
+		ft_printf("ERROR 'VALOR CONTÉM CARACTERES NÃO NUMÉRICOS'\n");
+		exit (1);
+	}
+	if (!ft_valid_integer(arg))
+	{
+		ft_printf("ERROR 'VALOR INVÁLIDO: %s'\n", arg);
+		exit (1);
+	}
+	return (ft_atoi(arg));
+}
+//Funçao para inicializar os Stacks
+void	init_stacks(int *top_a, int *top_b)
+{
+	*top_a = -1;
+	*top_b = -1;
+}
+
+//Funçao para inicializar Stack com valores de ARGV convertidos e validos
+void	init_stack(int stack[], int *top, int argc, char **argv)
+{
+	int	i;
+
+	i = 1; // Começamos do índice 1 para ignorar o nome do programa
+	*top = -1; // *top é inicializado para -1 para indicar que a pilha está vazia.
+	while(i < argc)
+	{
+		stack[++(*top)] = (int)ft_validate_and_convert(argv[i]); //Inserir valor na Pila convertido para INT
+		if (!ft_check_element(stack, *top)) // Verifica a unicidade dos elementos na pilha stack_a
+		{
+			ft_printf("ERROR 'VALORES DUPLICADOS'\n");
+			exit (1);
+		}
+		i++;
+	}
+}
 // Setup de Inicialização de Stacks e sua conversão
 void	setup_stacks(int stack_a[], int *top_a, int *top_b, int argc, char **argv)
 {
@@ -146,20 +149,10 @@ void	setup_stacks(int stack_a[], int *top_a, int *top_b, int argc, char **argv)
 		exit (1);
 	}
 
-	init_stacks(top_a, top_b);
-	init_stack(stack_a, top_a, argc, argv);
-	
-	// Verifica a unicidade dos elementos na pilha stack_a
-	if (!check_element(stack_a, *top_a))
-	{
-		ft_printf("ERROR 'VALORES DUPLICADOS'\n");
-		exit (1);
-	}
-	
+	init_stacks(top_a, top_b); // Inicializa as variáveis top_a e top_b	
+	init_stack(stack_a, top_a, argc, argv);// Inicializa a pilha A com os valores fornecidos
 }
 
-//-2.147.483.648 a 2.147.483.647
-//-2147483648 a 2147483647
 
 //Funçao para imprimir a pilha (para depuraçao)
 void	print_stack(int stack[], int top)
@@ -303,6 +296,72 @@ void	rrr(int stack_a[], int top_a, int stack_b[], int top_b)
 	rra(stack_a, top_a);
 	rrb(stack_b, top_b);
 }
+
+
+
+
+/*
+	Implementaçao de algoritimo de ordeçao Radix Sort
+	Adaptado para numeros negativos e positivos
+*/
+//Obter maior elemento da pila.
+int	get_max(int stack[], int top)
+{
+	int	max;
+	int	i;
+	
+	i = 1; //Iciar com valor da segunda posiçao da pila
+	max = stack[0]; //Primeiro valor da pila
+
+	while (i <= top)
+	{
+		if (stack[i] > max)
+		{
+			max = stack[i];
+		} 
+		i++;
+	}
+	return max; //Retornar o maior valor
+}
+//Contagem ordenada
+void	count_sort(int stack[], int top, int exp)
+{
+	int	output[MAX_SIZE]; //armazenar resultados ordenados temporariamente
+	int	count[10] = {0}; //Contagem de digitos
+	int	i = 0;
+
+	// Passo 1: Contar as ocorrências de cada dígito
+	while (i <= top)
+	{
+		count[(stack[i] / exp) % 10]++;
+		i++;
+	}
+
+	i = 1;
+	while (i < 10)
+	{
+		count[i] += count[i - 1];
+		i++;
+	}
+
+	i = top;
+	while (i >= 0)
+	{
+		output[count[(stack[i] / exp) % 10] - 1] = stack[i];
+		count[(stack[i] / exp) % 10]--;
+		i--;
+	}
+
+	i = 0;
+	while (i <= top)
+	{
+		stack[i] = output[i];
+		i++;
+	}
+}
+
+
+
 int main(int argc,	char **argv)
 {
 	int	stack_a[MAX_SIZE];
@@ -313,7 +372,22 @@ int main(int argc,	char **argv)
 	// Setup de Inicialização de Stacks e sua conversão
 	setup_stacks(stack_a, &top_a, &top_b, argc, argv);
 	
+
+	/**
+	 * Indexar -> 
+	 * 
+	 * Primero verifico si el tamaño de elementos es 3
+	 * 
+	 * Segundo si es menor a 7 elementos y mayor a 3 elementos
+	 * { }
+	 * y ultimo si es mayor a 7
+	 * { Voy a aplicar un algorimo de ordenacion para push_swapX }
+	 */
 	// Imprimir elementos de [A] e [B] vazio
+
+
+
+	
 	ft_printf("\nStack [A] com elementos\n");
 	print_stack(stack_a, top_a);
 	ft_printf("\nStack [B] vazio:\n");

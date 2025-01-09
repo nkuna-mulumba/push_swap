@@ -14,22 +14,46 @@
 # define PUSH_SWAP_H
 
 # include <limits.h>
+# include <stdlib.h>
 
-#  ifndef MAX_SIZE
-#   define MAX_SIZE 1000
-#  endif 
+#  ifndef MAX_SIZE //Inicio de tamanho de pilas
+#   define MAX_SIZE 1024 //1000
+#  endif //fim de tamanho de pilas
+
+/*
+typedef struct t_stack
+{
+	int data;
+	int index;
+	// data
+};
+
+int **data; // [0] -> key : [0][0] -> valor
+*/
+
+//Funçao para verificar DIGITOS
+int		ft_isdigit(int c);
+
+//String valido para DIGITOS
+int		ft_digit_valid(const char *str);
+
+//Convert Alpa to Integre com long
+long	ft_atoi(const char *nptr);
+
+//Validar limites de inteiros
+int		ft_valid_integer(const char *str);
+
+//Funçao para CHEQUEAR elementos UNICO
+int		ft_check_element(int stack[], int top);
+
+//Funçao para validar e converter strings para long
+long	ft_validate_and_convert(const char *arg);
 
 //Funçao para inicializar Stacks
 void	init_stacks(int *top_a, int *top_b);
 
 //Funçao para inicializar Stack com valore de ARGV convertidos
 void	init_stack(int stack[], int *top, int argc, char **argv);
-
-//Funçao para CHEQUEAR elementos UNICO
-int	check_element(int stack[], int top);
-
-//Funçao para verificar DIGITOS
-int	ft_isdigit(int c);
 
 // Setup de Inicialização de Stacks e sua conversão
 void	setup_stacks(int stack_a[], int *top_a, int *top_b, int argc, char **argv);
