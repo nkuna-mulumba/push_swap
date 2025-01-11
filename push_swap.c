@@ -304,15 +304,14 @@ void	rrr(int stack_a[], int top_a, int stack_b[], int top_b)
 	Implementaçao de algoritimo de ordeçao Radix Sort
 	Adaptado para numeros negativos e positivos
 */
-//Obter maior elemento da pila.
+//Obter maior elemento da pila e identificar sua magnitude.
 int	get_max(int stack[], int top)
 {
 	int	max;
 	int	i;
 	
-	i = 1; //Iciar com valor da segunda posiçao da pila
 	max = stack[0]; //Primeiro valor da pila
-
+	i = 1; //Iciar com valor da segunda posiçao da pila
 	while (i <= top)
 	{
 		if (stack[i] > max)
@@ -324,19 +323,21 @@ int	get_max(int stack[], int top)
 	return max; //Retornar o maior valor
 }
 //Contagem ordenada
-void	count_sort(int stack[], int top, int exp)
+void	count_sort(int stack[], int output[], int top, int exp)
 {
-	int	output[MAX_SIZE]; //armazenar resultados ordenados temporariamente
 	int	count[10] = {0}; //Contagem de digitos
-	int	i = 0;
+	int	i;
+	int	digit;
 
-	// Passo 1: Contar as ocorrências de cada dígito
+	// Primeiro Loop: Conta os dígitos na posição `exp`
+	i = 0;
 	while (i <= top)
 	{
 		count[(stack[i] / exp) % 10]++;
 		i++;
 	}
 
+	// Segundo Loop: Ajusta as posições acumuladas no array `count`
 	i = 1;
 	while (i < 10)
 	{
@@ -344,14 +345,16 @@ void	count_sort(int stack[], int top, int exp)
 		i++;
 	}
 
+	// Terceiro Loop: Constrói o array `output` colocando os números na posição correta
 	i = top;
 	while (i >= 0)
 	{
-		output[count[(stack[i] / exp) % 10] - 1] = stack[i];
-		count[(stack[i] / exp) % 10]--;
+		digit = (stack[i] / exp) % 10;
+		output[count[digit] - 1] = stack[i];
+		count[digit]--;
 		i--;
 	}
-
+	// Copia os números ordenados de volta para `stack`
 	i = 0;
 	while (i <= top)
 	{
@@ -359,7 +362,81 @@ void	count_sort(int stack[], int top, int exp)
 		i++;
 	}
 }
+// Função para separar números positivos e negativos
+void separate_numbers(int stack[], int top, int pos_stack[], int *pos_top, int neg_stack[], int *neg_top)
+{
+	int i;
 
+	*pos_top = -1;
+	*neg_top = -1;
+	i = 0;
+
+	while (i <= top)
+	{
+		if (stack[i] >= 0)
+		{
+			pos_stack[++(*pos_top)] = stack[i];
+		}
+		else
+		{
+			neg_stack[++(*neg_top)] = -stack[i]; // Armazena o valor absoluto
+		}
+		i++;
+	}
+}
+//Funçao principal controlar o proceso de ordenaçao e definir expoente
+void	radix_sort(int stack[], int n)
+{
+	int	output[n];
+	int	max;
+	int	exp;
+
+	// Aplica count_sort para cada posição decimal (unidades, dezenas, centenas, etc.)
+	max = get_max(stack, n - 1);
+	exp = 1;
+	while (max / exp > 0)
+	{
+		count_sort(stack, output, n - 1, exp);
+		exp *= 10; // Atualiza exp para a próxima posição dos dígitos
+	}
+}
+// Função para ordenar e combinar números positivos e negativos
+void	combined_radix_sort(int stack[], int n)
+{
+	int	pos_stack[n];
+	int	neg_stack[n];
+	int	pos_top;
+	int	neg_top;
+	int	i;
+	int j;
+	
+	separate_numbers(stack, n - 1, pos_stack, &pos_top, neg_stack, &neg_top);
+	
+	if (pos_top >= 0)
+	{
+		radix_sort(pos_stack, pos_top + 1);
+	}
+	if (neg_top >= 0)
+	{
+		radix_sort(neg_stack, neg_top + 1);
+		i = 0;
+		while (i <= neg_top)
+		{
+			neg_stack[i] = -neg_stack[i]; // Converte de volta para negativo
+			i++;
+		}
+	}
+	i = 0;
+	while (neg_top >= 0)
+	{
+		stack[i++] = neg_stack[neg_top--];
+	}
+	j = 0;
+	while (j <= pos_top)
+	{
+		stack[i++] = pos_stack[j++];
+	}
+}
 
 
 int main(int argc,	char **argv)

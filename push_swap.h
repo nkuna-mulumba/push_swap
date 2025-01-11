@@ -96,4 +96,23 @@ void	rrb(int stack_b[], int top_b);
 //Função para rodar os elementos da pilha "A" e "B" para baixo simultaneamente
 void	rrr(int stack_a[], int top_a, int stack_b[], int top_b);
 
+/*
+	Implementaçao de algoritimo de ordeçao Radix Sort
+	Adaptado para numeros negativos e positivos
+*/
+//Obter maior elemento da pila e identificar sua magnitude.
+int	get_max(int stack[], int top);
+
+//Contagem ordenada
+void	count_sort(int stack[], int output[], int top, int exp);
+
+// Função para separar números positivos e negativos
+void separate_numbers(int stack[], int top, int pos_stack[], int *pos_top, int neg_stack[], int *neg_top);
+
+//Funçao principal controlar o proceso de ordenaçao e definir expoente
+void	radix_sort(int stack[], int n);
+
+// Função para ordenar e combinar números positivos e negativos
+void	combined_radix_sort(int stack[], int n);
+
 #endif
