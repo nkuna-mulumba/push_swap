@@ -1,0 +1,265 @@
+VALOR ABSOLUTO:
+Valor Absoluto: É a magnitude de um número sem considerar o seu sinal.
+Em termos simples, é o valor numérico sem o sinal negativo.
+Por exemplo, o valor absoluto de -45 é 45.
+
+Por que Usamos o Valor Absoluto Inicialmente:
+Quando separamos os números positivos e negativos na função 
+separate_numbers, armazenamos os números negativos como valores 
+absolutos (sem o sinal negativo) inicialmente. Isso simplifica a 
+ordenação, já que o Radix Sort é projetado para funcionar com números 
+não negativos.
+
+Passos Detalhados:
+Separação de Números Positivos e Negativos:
+
+Durante a separação, números positivos são armazenados diretamente.
+Números negativos são convertidos para seus valores absolutos e armazenados na pilha de negativos (neg_stack).
+Ordenação dos Valores Absolutos:
+Usamos Radix Sort para ordenar a pilha de valores absolutos dos números negativos (neg_stack). Isso ordena os números independentemente do sinal.
+Reconversão para Números Negativos:
+Após a ordenação, reconvertemos os valores absolutos de volta para números negativos, restaurando o sinal negativo original.
+
+Exemplo Ilustrativo:
+Vamos considerar um array com alguns números positivos e negativos:
+c
+int stack[] = {170, -45, 75, -90, 802, 24, -2, 66};
+Separação de Números:
+Positivos: pos_stack = {170, 75, 802, 24, 66}
+Negativos (Valores Absolutos): neg_stack = {45, 90, 2}
+Ordenação com Radix Sort:
+Positivos (Ordenados): pos_stack = {24, 66, 75, 170, 802}
+Negativos (Ordenados como Valores Absolutos): neg_stack = {2, 45, 90}
+Reconversão dos Valores Absolutos:
+Negativos (Reconvertidos): neg_stack = {-2, -45, -90}
+Combinação dos Resultados:
+Final Ordenado: stack = {-90, -45, -2, 24, 66, 75, 170, 802}
+
+
+
+
+
+###Função para separar números positivos e negativos:
+*Objetivo: Separar números positivos e negativos em duas pilhas diferentes.
+*stacks->pos_top = -1; stacks->neg_top = -1;: Inicializa os índices do topo das pilhas.
+*while (i <= top): Loop através de todos os elementos da pilha.
+  - if (stack[i] >= 0): Adiciona números positivos à pilha pos_stack.
+  - else: Adiciona números negativos (como valores absolutos) à pilha neg_stack.
+void separate_numbers(int stack[], int top, Stacks *stacks) @@@@@@@@@@@@@@@@@@@@@@@@@
+{
+    //stacks aponta para uma instância de Stacks que foi passada para a função.
+    stacks->pos_top = -1;
+    stacks->neg_top = -1;
+    int i = 0;
+    while (i <= top)
+    {
+        if (stack[i] >= 0)
+        {
+            /*
+                Adicionar desde o último valor negativo 
+                já ordenado para o início de stack[]
+            */
+            stacks->pos_stack[++(stacks->pos_top)] = stack[i];
+        }
+        else
+        {
+            /*
+                Adicionar onde finalizou (i) com o primeiro loop, 
+                copiando os valores positivos já ordenados da base ao topo
+            */ 
+            stacks->neg_stack[++(stacks->neg_top)] = -stack[i];
+        }
+        i++;
+    }
+}
+
+###Função para obter o maior número no array:
+*Objetivo: Encontrar o maior valor no array stack.
+*int max = stack[0]: Inicializa max com o primeiro elemento da pilha.
+*while (i <= top): Loop através de todos os elementos da pilha.
+  - if (stack[i] > max): Atualiza max se encontrar um elemento maior.
+*return max: Retorna o maior valor encontrado.
+int get_max(int stack[], int top) @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+{
+    int max = stack[0];
+    int i = 1;
+    while (i <= top) {
+        if (stack[i] > max) {
+            max = stack[i];
+        }
+        i++;
+    }
+    return max;
+}
+
+###Função count_digits:
+*Objetivo: Contar os dígitos na posição exp.
+*int i = 0; while (i <= top): Loop através de todos os elementos da pilha.
+  - count[(stack[i] / exp) % 10]++: Conta a ocorrência de cada dígito na posição exp.
+    POSICAO CORRECTA PARA DIGITO ISOLADA NO ARRAY count COM 10 (0 - 9) POSIÇOES
+    count = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    digito isolada de {170, 75, 802, 24, 66}: 0 5 2 4 6
+    count = {1, 0, 1, 0, 1, 1, 1, 0, 0, 0}; 
+void count_digits(int stack[], int top, int exp, int count[])@@@@@@@@@@@@@@@@@@@@@@
+{
+    int i = 0;
+    while (i <= top)
+    {
+        count[(stack[i] / exp) % 10]++;
+        i++;
+    }
+}
+
+###Função adjust_positions:
+*Objetivo: Ajustar as posições acumuladas e organizar os números no array output.
+*while (i < 10): Ajusta as posições acumuladas.
+  - count[i] += count[i - 1]: Atualiza count com posições acumuladas.
+*while (i >= 0): Coloca os números na posição correta em output.
+  - int digit = (stack[i] / exp) % 10: Calcula o dígito relevante.
+  - output[count[digit] - 1] = stack[i]: Coloca o número na posição correta em output.
+  - count[digit]--: Decrementa a contagem.
+*while (i <= top): Copia os números ordenados de output para stack.
+void adjust_positions(int stack[], int output[], int top, int exp, int count[]) @@@@@@@
+{
+    int i = 1;
+    while (i < 10)
+    {
+        /*
+            Ajustar das posições no array count, somando o valor da posição 
+            atual ao valor da posição anterior. Criando um efeito de acumulação
+            que nos ajuda a determinar as posições corretas dos dígitos no array ordenado.
+        */
+        count[i] += count[i - 1];
+        i++;
+    }
+
+    i = top;
+    while (i >= 0)
+    {
+        int digit = (stack[i] / exp) % 10;
+        /*
+			ajustar índice baseado no valor ajustado de "count", 
+			subtrai 1 para obter o índice correto no output, 
+			coloca o elemento na posição correta
+		*/
+        output[count[digit] - 1] = stack[i];
+        count[digit]--;
+        i--;
+    }
+
+    i = 0;
+    while (i <= top)
+    {
+        stack[i] = output[i];
+        i++;
+    }
+}
+
+###Função principal do Radix Sort:
+*Objetivo: Ordenar os números na pilha usando Radix Sort.
+*int max = get_max(stack, n - 1): Encontra o maior valor na pilha.
+*while (max / exp > 0): Loop através de cada posição decimal (unidades,
+dezenas, centenas, etc.).
+    - count_digits: Conta os dígitos na posição exp.
+    - adjust_positions: Ajusta as posições e organiza os números.
+void radix_sort(int stack[], int n) @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+{
+    int output[n]; //Array de saida para armazenar resultado ordenado
+    //Ajustando index com "n-1" para ter valor maximo de stack
+    int max = get_max(stack, n - 1);
+    /*
+		Inicializar 'exp' com 1, representando a posição decimal atual (unidades).
+		'exp' é usado para extrair o dígito específico de cada elemento do array 
+		durante a iteração.
+	*/
+    int exp = 1;
+    while (max / exp > 0)
+    {
+        /*
+			Inicializar array de contagem em cada iteraçao com 0 em cada posiçao 
+			para armazenar a contagem dos dígitos (0-9)
+		*/
+        int count[10] = {0};
+        // Contar dígitos na posição decimal atual (exp)
+        count_digits(stack, n - 1, exp, count);
+        // Ajustar posições e organizar os elementos
+        adjust_positions(stack, output, n - 1, exp, count);
+        /*
+			Atualizar "exp" multiplicando por 10 para passar 
+			para a próxima posição decimal (dezenas, centenas, etc.)
+		*/
+        exp *= 10;
+    }
+}
+
+###Função para ordenar números positivos:
+*Objetivo: Ordenar os números positivos.
+*if (stacks->pos_top >= 0): Verifica se há números positivos na pilha.
+  - radix_sort: Ordena a pilha de números positivos.
+void sort_positives(Stacks *stacks)@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+{
+    if (stacks->pos_top >= 0)
+    {
+        radix_sort(stacks->pos_stack, stacks->pos_top + 1);
+    }
+}
+
+###Função para ordenar números negativos:
+*Objetivo: Ordenar os números negativos e convertê-los de volta para valores negativos.
+*if (stacks->neg_top >= 0): Verifica se há números negativos na pilha.
+  - radix_sort: Ordena a pilha de números negativos.
+  - while (i <= stacks->neg_top): Converte os valores absolutos de volta para negativos.
+void sort_negatives(Stacks *stacks)@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+{
+    if (stacks->neg_top >= 0)
+    {
+        radix_sort(stacks->neg_stack, stacks->neg_top + 1);
+        int i = 0;
+        while (i <= stacks->neg_top)
+        {
+            stacks->neg_stack[i] = -stacks->neg_stack[i];
+            i++;
+        }
+    }
+}
+
+###Função combinada para ordenar e combinar resultados:
+*Objetivo: Combinar todos os passos anteriores para ordenar o array 
+ stack com números positivos e negativos.
+*separate_numbers: Separa os números em positivos e negativos.
+*sort_positives: Ordena a pilha de números positivos.
+*sort_negatives: Ordena a pilha de números negativos.
+*Combinar Resultados: Combina as pilhas ordenadas de volta no array stack.
+void combined_radix_sort(int stack[], int n)@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+{
+    Stacks stacks;
+    separate_numbers(stack, n - 1, &stacks);
+    sort_positives(&stacks);
+    sort_negatives(&stacks);
+
+    int i = 0;
+    while (stacks.neg_top >= 0)
+    {
+        stack[i++] = stacks.neg_stack[stacks.neg_top--];
+    }
+    int j = 0;
+    while (j <= stacks.pos_top)
+    {
+        stack[i++] = stacks.pos_stack[j++];
+    }
+}
+
+
+
+
+Estrutura do Código:
+"JA" Estrutura Stacks: Para armazenar números positivos e negativos. 
+"JA" Função (separate_numbers): Para separar os números positivos e negativos da pilha original.
+"JA" Funçao (get_max): Encontra o maior valor nas pilhas de positivos e negativos, levando em conta apenas os valores convertidos para absolutos.
+"JA" Função (count_digits): Para contar os dígitos em uma determinada posição decimal (exp) na pilha.
+"JA" Função (adjust_positions): Para ajustar as posições acumuladas e organizar os números no array output.
+"JA" Função (radix_sort): Para ordenar a pilha usando Radix Sort.
+"JA" Funções (sort_positives) e (sort_negatives): Para ordenar números positivos e negativos separadamente.
+"JA" Função combined_radix_sort: Para combinar todos os passos anteriores e ordenar a pilha original.
+"" Função print_array: Para imprimir os elementos da pilha.
+Função main: Para executar o código e verificar a ordenação.
