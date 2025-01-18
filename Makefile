@@ -60,4 +60,5 @@ fclean: clean
 # Regra para reconstruir tudo do zero
 re: fclean all
 
+# Declarar alvos que não são arquivos para evitar conflitos
 .PHONY: all clean fclean re
