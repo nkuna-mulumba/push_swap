@@ -1,5 +1,6 @@
 // incluir header do projecto
 #include "push_swap.h"
+#include <string.h>
 
 //Contador para operadores
 int	count_pb = 0;
@@ -19,7 +20,7 @@ char	*operation[] = {"pb", "pa", "sa", "sb", "ss", "ra", "rb", "rr", "rra", "rrb
 int		num_operation = sizeof(operation) / sizeof(operation[0]);
 int		i = 0;
 
-//FUnçao para decidir operaçao beseada no array
+//Funçao para decidir operaçao beseada no array
 char	*decide_next_operation()
 {
 	if (i < num_operation)
@@ -44,74 +45,79 @@ int main(int argc,	char **argv)
 
 
 
-
-	
-	/*
-	// Mover elemento do top[A] para top[B]
-	pb(stack_a, &top_a, stack_b, &top_b);
-	ft_printf("pb\n");
-	count_pb++;
-	pb(stack_a, &top_a, stack_b, &top_b);
-	ft_printf("pb\n");
-	count_pb++;
-	pb(stack_a, &top_a, stack_b, &top_b);
-	ft_printf("pb\n");
-	count_pb++;
-	// Trocar os 2 primeiro elementos de [A] e [B] TENHO QUE VER ISSO
-	ss(stack_a, top_a, stack_b, top_b);
-	ft_printf("ss\n");
-	count_ss++;
-	//Rodar elementos de [A] e [B] para CIMA
-	rr(stack_a, top_a, stack_b, top_b);
-	ft_printf("rr\n");
-	count_rr++;
-	// Mover elemento do top[B] para top[A]
-	pa(stack_a,&top_a, stack_b, &top_b);
-	ft_printf("pa\n");
-	count_pa++;
-	//Rodar elementos de [A] para BAIXO
-	rra(stack_a,top_a);
-	ft_printf("rra\n");
-	count_rra++;
-	// Mover elemento do top[A] para top[B]
-	pb(stack_a, &top_a, stack_b, &top_b);
-	ft_printf("pb\n");
-	count_pb++;
-	//Rodar elementos de [A] e [B] para BAIXO
-	rrr(stack_a, top_a, stack_b, top_b);
-	ft_printf("rrr\n");
-	count_rrr++;
-	// Mover elemento do top[A] para top[B]
-	pb(stack_a, &top_a, stack_b, &top_b);
-	ft_printf("pb\n");
-	count_pb++;
-	// Trocar os 2 primeiro elementos de [B]
-	sb(stack_b, top_b);
-	ft_printf("sb\n");
-	count_sb++;
-	// Trocar os 2 primeiro elementos de [A]
-	sa(stack_a, top_a);
-	ft_printf("sa\n");
-	count_sa++;
-	// Mover elemento do top[B] para top[A]
-	pa(stack_a, &top_a, stack_b, &top_b);
-	ft_printf("pa\n");
-	count_pa++;
-
-	//Imprimir o numero total de operaçoes realizada:
-	ft_printf("Total de operaçoes realizada:\n");
-	ft_printf("sa: %d\n", count_sa);
-	ft_printf("sb: %d\n", count_sb);
-	ft_printf("ss: %d\n", count_ss);
-	ft_printf("pa: %d\n", count_pa);
-	ft_printf("pb: %d\n", count_pb);
-	ft_printf("ra: %d\n", count_ra);
-	ft_printf("rb: %d\n", count_rb);
-	ft_printf("rr: %d\n", count_rr);
-	ft_printf("rra: %d\n", count_rra);
-	ft_printf("rrb: %d\n", count_rrb);
-	ft_printf("rrr: %d\n", count_rrr);
-	*/
+	//Loop para realizar as operaçoes e incrementar os contadores
+	char	*operation; // Variável para armazenar a próxima operação a ser executada
+	while ((operation = decide_next_operation()) != NULL)
+	{
+		if (strcmp(operation, "sa") == 0)
+		{
+			sa(stack_a, top_a); //Correcto
+			ft_printf("sa\n");
+			count_sa++;
+		}
+		else if (strcmp(operation, "sb") == 0)
+		{
+			sb(stack_b, top_b); //Correcto
+			ft_printf("sb\n");
+			count_sb++;
+		}
+		else if (strcmp(operation, "ss") == 0)
+		{
+			ss(stack_a, top_a, stack_b, top_b);//Correcto
+			ft_printf("ss\n");
+			count_ss++;
+		}
+		else if (strcmp(operation, "pa") == 0)
+		{
+			pa(stack_a, &top_a, stack_b, &top_b); //Correcto
+			ft_printf("pa\n");
+			count_pa++;
+		}
+		else if (strcmp(operation, "pb") == 0)
+		{
+			pb(stack_a, &top_a, stack_b, &top_b); //Correcto
+			ft_printf("pb\n");
+			count_pb++;
+		}
+		else if (strcmp(operation, "ra") == 0)
+		{
+			ra(stack_a, top_a);
+			ft_printf("ra\n");
+			count_ra++;
+		}
+		else if (strcmp(operation, "rb") == 0)
+		{
+			rb(stack_b, top_b);
+			ft_printf("rb\n");
+			count_rb++;
+		}
+		else if (strcmp(operation, "rr") == 0) //Correcto
+		{
+			rr(stack_a, top_a, stack_b, top_b);
+			ft_printf("rr\n");
+			count_rr++;
+		}
+		else if (strcmp(operation, "rra") == 0)
+		{
+			rra(stack_a, top_a); //Correcto
+			ft_printf("rra\n");
+			count_rra++;
+		}
+		else if (strcmp(operation, "rrb") == 0)
+		{
+			rrb(stack_b, top_b); 
+			ft_printf("rrb\n");
+			count_rrb++;
+		}
+		else if (strcmp(operation, "rrr") == 0)
+		{
+			rrr(stack_a, top_a, stack_b, top_b); //Correcto
+			ft_printf("rrr\n");
+			count_rrr++;
+		}
+	}
+	combined_radix_sort(stack_a, top_a + 1);
+//	combined_radix_sort(stack_b, top_b + 1);
 
 	// //Bucle hasta ordenar el stack a y b, while(has_sorted())
 	// combined_radix_sort(stack_a, top_a + 1);
