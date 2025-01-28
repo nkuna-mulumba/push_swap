@@ -54,47 +54,52 @@ void	setup_stacks(int stack_a[], int *top_a, int *top_b, int argc, char **argv)
 //Funçao para imprimir a pilha (para depuraçao)
 void	print_stack(int stack[], int top)
 {
-	while (top >= 0)
+	int	i = top - 1;
+	while (i >= 0)
 	{
-		ft_printf("%d\n", stack[top]);
-		top--;
+		ft_printf("%d\n", stack[i]);
+		i--;
 	}
 }
-void	sort_stack_a(int stack_a[], int *top_a, int stack_b[], int *top_b)
+void	sort_stack_a(int stack_a[], int *top_a)
 {
 	if (*top_a == 2)
 	{
-		// 0 1 2 ORDENADAS 0 1 2
+		// 0 1 2 op: (Nao retorna nada porque ja esta ordenadas)
 		if (stack_a[2] > stack_a[1] && stack_a[1] > stack_a[0])
 		{
 			return;
 		}
-		// 0 2 1 op: ('sa'             0 1 2)
-		if (stack_a[2] < stack_a[1] && stack_a[0] < stack_a[2])
+		// 2 0 1 op: 
+		if (stack_a[2] > stack_a[1] && stack_a[1] < stack_a[0] && stack_a[0] > stack_a[2])
 		{
-			sa(stack_a, *top_a);
+			sa(stack_a, *top_a); // 2 1 0
+    		ra(stack_a, *top_a); // 1 0 2
+    		sa(stack_a, *top_a); // 0 1 2
 		}
-		// 1 0 2 op: ('rra' 021) ('sa' 0 1 2) 
-		else if (stack_a[2] > stack_a[1] && stack_a[0] > stack_a[1])
+		// 2 1 0 op: 
+		else if (stack_a[2] > stack_a[1] && stack_a[1] > stack_a[0])
 		{
-			rra(stack_a, *top_a);
-			sa(stack_a, *top_a);
+			ra(stack_a, *top_a); //021
+			sa(stack_a, *top_a); //012
+
 		}
-		// 1 2 0 op: ('ra'             0 1 2)
-		else if (stack_a[2] < stack_a[1] && stack_a[0] > stack_a[2])
+		// 1 0 2 op:
+		else if (stack_a[2] < stack_a[1] && stack_a[1] < stack_a[0])
 		{
-			ra(stack_a, *top_a);
+			rra(stack_a, *top_a); //021
+			sa(stack_a, *top_a); //012
 		}
-		// 2 1 0 op: ('sa' 201) ('rra' 0 1 2)
-		else if (stack_a[2] < stack_a[1] && stack_a[0] > stack_a[1])
+		
+		// 1 2 0 op:
+		else if (stack_a[2] < stack_a[1] && stack_a[0] < stack_a[1] && stack_a[2] < stack_a[0])
 		{
-			sa(stack_a, *top_a);
-			rra(stack_a, *top_a);
+			ra(stack_a, *top_a); // 120
 		}
-		// 2 0 1 op: ('rra'            0 1 2)
-		else if (stack_a[2] > stack_a[1] && stack_a[0] > stack_a[2])
+		// 0 2 1 op:
+		else if (stack_a[2] < stack_a[1] && stack_a[2] > stack_a[0] && stack_a[1] > stack_a[0])
 		{
-			rra(stack_a, *top_a);
+			sa(stack_a, *top_a); // 021
 		}
 	}
 }
@@ -102,15 +107,13 @@ void	sort_stack_a(int stack_a[], int *top_a, int stack_b[], int *top_b)
 //Funçao para imprimir as dois pilhas A e B
 void	print_stacks(int stack_a[], int top_a, int stack_b[], int top_b)
 {
-	// Ordenar as pilhas antes de imprimir
-	//combined_radix_sort(stack_a, top_a + 1);
-	//combined_radix_sort(stack_b, top_b + 1);
-
 	// Imprimir as pilhas ordenadas
 	ft_printf("Stack[A]:\n");
-	print_stack(stack_a, top_a);
+	print_stack(stack_a, top_a + 1);
 	ft_printf("\n");
 	ft_printf("Stack[B]:\n");
-	print_stack(stack_b, top_b);
+	print_stack(stack_b, top_b + 1);
 }
-
+// Ordenar as pilhas antes de imprimir
+//combined_radix_sort(stack_a, top_a + 1);
+//combined_radix_sort(stack_b, top_b + 1);

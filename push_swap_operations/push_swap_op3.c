@@ -15,4 +15,5 @@ void	rrr(int stack_a[], int top_a, int stack_b[], int top_b)
 {
 	rra(stack_a, top_a);
 	rrb(stack_b, top_b);
+	ft_printf("rrr\n"); // Imprime a operação "rrr"
 }
