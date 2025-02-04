@@ -77,11 +77,9 @@ void	free_stack(t_stack *stack);
 //long ft_is_valid_number(const char *str);
 long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b);
 //Função para verificar se um número já está presente na pilha
-void check_duplicate(t_stack *stack, int num);
-
+void	check_duplicate(t_stack *stack, int num);
 
 // Função para inicializar e validar as pilhas
-void initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack_b);
-
+void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack_b);
 
 #endif

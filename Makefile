@@ -2,8 +2,13 @@
 NAME = push_swap
 
 # Arquivos fonte do projeto
-SRC = stack_operations.c \
-      main.c
+SRC = ft_stack.c\
+	ft_utils.c\
+	ft_swap.c\
+	ft_push.c\
+	ft_rotate_up.c\
+	ft_rotate_down.c\
+    main.c
 
 # Arquivos objeto gerados a partir dos arquivos fonte.
 OBJ = $(SRC:.c=.o)

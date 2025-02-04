@@ -450,6 +450,11 @@ int main(int argc, char **argv)
 	pb(stack_b, stack_a);
 	display(stack_a);
 
+	// 30 20 10 7
+	// rra 20 10 7 30
+	// sa 20 10 30 7
+	// ra 7 20 10 30
+	//
 	ft_printf("\nPilha B depois das seguintes operações:\n");
 	rrb(stack_b, 1);
 	sb(stack_b);
