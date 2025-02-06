@@ -130,9 +130,9 @@ void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack
 		exit(1);
 	}
 
-	i = 1;
+	i = argc - 1; //Iniciar do ultimo argumento
 	// Empilhar os valores convertidos na pilha A
-	while (i < argc)
+	while (i > 0)
 	{
 		// Validação do número
 		num = ft_is_valid_number(argv[i], *stack_a, *stack_b);
@@ -143,6 +143,13 @@ void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack
 		// Empilha o valor validado na pilha A
 		push(*stack_a, num);
 
-		i++;
+		i--;
 	}
 }
+
+
+
+
+// pb -38 10 7  A   B = 42
+// sa -38 7 10  A
+// pa -38 7 10 42
