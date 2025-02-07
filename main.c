@@ -425,56 +425,120 @@ int main(int argc, char **argv)
 }
 */
 
+
+/*
+	// Testar preparaçao das pilha e validaçao de valores
+	int main(int argc, char **argv)
+	{
+		t_stack	*stack_a;
+		t_stack	*stack_b;
+
+		// Inicializar e validar as pilhas
+		initialize_stacks(argc, argv, &stack_a, &stack_b);
+
+		// Imprime a pilha antes das operações
+		ft_printf("Pilha A antes das operações:\n");
+		display(stack_a);
+		// ft_printf("Pilha B antes das operações:\n");
+		// display(stack_b);
+		ft_printf("______________________________\n");
+
+		// Executa algumas operações nas pilhas (exemplo de operações)
+		ft_printf("\nPilha A depois das seguintes operações:\n");
+		sa(stack_a);
+		display(stack_a);
+		ra(stack_a, 1);
+		display(stack_a);
+		rra(stack_a, 1);
+		display(stack_a);
+		pb(stack_b, stack_a);
+		display(stack_a);
+		display(stack_b);
+		pb(stack_b, stack_a);
+		display(stack_a);
+		display(stack_b);
+		pb(stack_b, stack_a);
+		display(stack_a);
+		display(stack_b);
+
+		ft_printf("\nPilha B depois das seguintes operações:\n");
+		rrb(stack_b, 1);
+		display(stack_b);
+		sb(stack_b);
+		display(stack_b);
+		rb(stack_b, 1);
+		display(stack_b);
+		ft_printf("______________________________\n");
+
+		// Executa mais operações nas pilhas (exemplo de operações)
+		ft_printf("\nPilha A depois das seguintes operações:\n");
+		pa(stack_a, stack_b);
+		display(stack_a);
+		display(stack_b);
+		ft_printf("\nPilha A e B:\n");
+		pb(stack_b, stack_a);
+		display(stack_a);
+		display(stack_b);
+		ft_printf("\nPilha A e B:\n");
+		rr(stack_a, stack_b);
+		display(stack_a);
+		display(stack_b);
+		ft_printf("\nPilha A e B:\n");
+		rrr(stack_a, stack_b);
+		display(stack_a);
+		display(stack_b);
+		ft_printf("\nPilha A e B:\n");
+		ss(stack_a, stack_b);
+		display(stack_a);
+		display(stack_b);
+		ft_printf("______________________________\n");
+
+		free_stack(stack_a);
+		free_stack(stack_b);
+
+		return 0;
+	}
+*/
+
+
+
+
+
+// Função principal para testar a função sort_three
+#include "push_swap.h"
+
 int main(int argc, char **argv)
 {
-	t_stack	*stack_a;
-	t_stack	*stack_b;
+	t_stack *stack_a;
+	t_stack *stack_b;
 
-	// Inicializar e validar as pilhas
 	initialize_stacks(argc, argv, &stack_a, &stack_b);
 
-	// Imprime a pilha antes das operações
+	// Exibir a pilha A antes das operações
 	ft_printf("Pilha A antes das operações:\n");
 	display(stack_a);
-	ft_printf("Pilha B antes das operações:\n");
-	display(stack_b);
 	ft_printf("______________________________\n");
 
-	// Executa algumas operações nas pilhas (exemplo de operações)
-	ft_printf("\nPilha A depois das seguintes operações:\n");
-	rra(stack_a, 1);
-	sa(stack_a);
-	ra(stack_a, 1);
-	pb(stack_b, stack_a);
-	pb(stack_b, stack_a);
-	pb(stack_b, stack_a);
+	// Chamar a função de ordenação adequada com base no número de elementos
+	if (argc == 3) // Garantir que temos exatamente 2 elementos
+	{
+		sort_two(stack_a);
+	}
+	// Testar operação sort_three
+	else if (argc == 4) // Garantir que temos exatamente 3 elementos
+	{
+		sort_three(stack_a);
+	}
+
+	// Exibir a pilha A depois das operações
+	ft_printf("Pilha A depois das operações:\n");
 	display(stack_a);
-
-	// 30 20 10 7
-	// rra 20 10 7 30
-	// sa 20 10 30 7
-	// ra 7 20 10 30
-	//
-	ft_printf("\nPilha B depois das seguintes operações:\n");
-	rrb(stack_b, 1);
-	sb(stack_b);
-	rb(stack_b, 1);
-	display(stack_b);
 	ft_printf("______________________________\n");
 
-	// Executa mais operações nas pilhas (exemplo de operações)
-	ft_printf("\nPilha A depois das seguintes operações:\n");
-	pa(stack_a, stack_b);
-	rr(stack_a, stack_b);
-	rrr(stack_a, stack_b);
-	display(stack_a);
-
-	ft_printf("\nPilha B depois das seguintes operações:\n");
-	display(stack_b);
-	ft_printf("______________________________\n");
-
+	// Limpar a memória das pilhas
 	free_stack(stack_a);
 	free_stack(stack_b);
 
 	return 0;
 }
+

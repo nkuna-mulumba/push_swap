@@ -58,33 +58,59 @@ int	is_empty(t_stack *stack)
 */
 void	display(t_stack *stack)
 {
-	// Declarar variável local que vai receber o valor do topo da pilha
-	t_node	*current;
+	t_node *current;
+	int		count;
+	t_node	*temp;
+	int 	*values;
+	int 	i;
 
-	// Verifica se a pilha está vazia
+	current = stack->top;
+	ft_printf("Elementos da pilha: ");
+	//Verifica se a pilha está vazia
 	if (is_empty(stack))
 	{
 		ft_printf("Pilha vazia\n");
 		return;
 	}
-
-	// Inicializa a variável local 'current' com o valor do topo da pilha
-	current = stack->top;
-	
-	ft_printf("Elementos da pilha: ");
-	// Percorre a pilha e imprime cada valor
-	while (current != NULL)
+	// Contar o número de elementos na pilha
+	count = 0;
+	temp = current;
+	while (temp)
 	{
-		ft_printf("%d ", current->value);
-		// Avança para o próximo nó na pilha
+		count++;
+		temp = temp->next;
+	}
+	// Alocar memória dinamicamente com base no número de elementos
+	values = (int *)malloc(count * sizeof(int));
+	if (!values)
+	{
+		ft_printf("Erro ao alocar memória\n");
+		return;
+	}
+	// Armazenar os valores em uma lista temporária
+	i = 0;
+	while (current)
+	{
+		values[i++] = current->value;
 		current = current->next;
 	}
+	// Exibir os valores da lista temporária do topo para a base
+	i = count - 1;
+	while (i >= 0)
+	{
+		ft_printf("%d ", values[i]);
+		i--;
+	}
 	ft_printf("\n");
+	// Liberar a memória alocada
+	free(values);
 }
+
+
 
 /*
 	Função para liberar a memória de uma pilha.
-    Percorre cada nó da pilha e libera a memória alocada.
+	Percorre cada nó da pilha e libera a memória alocada.
 */
 void	free_stack(t_stack *stack)
 {
@@ -130,9 +156,9 @@ void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack
 		exit(1);
 	}
 
-	i = argc - 1; //Iniciar do ultimo argumento
+	i = 1; //Iniciar do ultimo argumento
 	// Empilhar os valores convertidos na pilha A
-	while (i > 0)
+	while (i < argc)
 	{
 		// Validação do número
 		num = ft_is_valid_number(argv[i], *stack_a, *stack_b);
@@ -143,13 +169,6 @@ void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack
 		// Empilha o valor validado na pilha A
 		push(*stack_a, num);
 
-		i--;
+		i++;
 	}
 }
-
-
-
-
-// pb -38 10 7  A   B = 42
-// sa -38 7 10  A
-// pa -38 7 10 42

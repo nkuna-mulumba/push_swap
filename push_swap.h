@@ -82,4 +82,10 @@ void	check_duplicate(t_stack *stack, int num);
 // Função para inicializar e validar as pilhas
 void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack_b);
 
+
+//Funçao para ordenar dois elementos na pilha
+void	sort_two(t_stack *stack);
+// Função para ordenar três elementos na pilha
+void sort_three(t_stack *stack);
+
 #endif

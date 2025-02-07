@@ -26,9 +26,7 @@ void	push(t_stack *stack, int value)
 	new_node = malloc(sizeof(t_node));
 	// Verifica se a alocação de memória falhou
 	if (!new_node)
-	{
 		return;
-	}
 	/*
 		Atribuir valor do parâmetro 'value' para 
 		o campo 'value' do novo nó

@@ -16,7 +16,7 @@
 	Função para acessar (peek) o valor no topo da pilha
     Retorna o valor do nó no topo da pilha sem removê-lo
 */
-//(OBS) Depois ver se é necessario continuar com funçoes (peek)
+//(OBS) Depois ver se é necessario continuar com a funçao (peek)
 int	peek(t_stack *stack)
 {
 	// Verifica se a pilha está vazia
@@ -31,8 +31,8 @@ int	peek(t_stack *stack)
 }
 
 /*
-    Função para verificar se a string representa um 
-    número válido dentro do intervalo de int e retornar o valor convertido
+	Função para verificar se a string representa um 
+	número válido dentro do intervalo de int e retornar o valor convertido
 */
 long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
 {
