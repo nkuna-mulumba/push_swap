@@ -86,6 +86,11 @@ void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack
 //Funçao para ordenar dois elementos na pilha
 void	sort_two(t_stack *stack);
 // Função para ordenar três elementos na pilha
-void sort_three(t_stack *stack);
+void	sort_three(t_stack *stack);
+
+//Funçao auxiliar para encontrar indice de menor valor no STACK_A
+int	find_min_position(t_stack *stack);
+//Funçao para ordenar cinco elelementos na pilha
+void	sort_four(t_stack *stack_a, t_stack *stack_b);
 
 #endif

@@ -529,7 +529,11 @@ int main(int argc, char **argv)
 	{
 		sort_three(stack_a);
 	}
-
+	else if (argc == 5)
+	{
+		sort_four(stack_a, stack_b);
+	}
+	
 	// Exibir a pilha A depois das operações
 	ft_printf("Pilha A depois das operações:\n");
 	display(stack_a);

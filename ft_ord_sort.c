@@ -20,7 +20,9 @@
 // 2 1 SA
 // -1 -2 SA
 
-
+/*
+	Funçao para ordenara dois valor no stack_a
+*/
 void	sort_two(t_stack *stack)
 {
 	int a;
@@ -29,10 +31,6 @@ void	sort_two(t_stack *stack)
 	a = stack->top->value;
 	b = stack->top->next->value;
 	if (a > b)
-	{
-		return;
-	}
-	else if (a < b)
 	{
 		sa(stack);
 		display(stack);
@@ -69,13 +67,15 @@ void	sort_two(t_stack *stack)
 //1.5 2 3
 
 
-
+/*
+	Funçao para ordenara tres valor no stack_a
+*/
 void	sort_three(t_stack *stack)
 {
 	int	a;
 	int	b;
 	int	c;
-
+	
 	a = stack->top->value;
 	b = stack->top->next->value;
 	c = stack->top->next->next->value;
@@ -127,3 +127,75 @@ void	sort_three(t_stack *stack)
 		display(stack);
 	}
 }
+
+/*
+	Função auxiliar de (sort_four) para 
+    encontrar o índice do menor valor na stack_a
+*/
+int	find_min_position(t_stack *stack)
+{
+	t_node	*currente;
+	int		min;
+	int		min_pos;
+	int		i;
+
+	currente = stack->top; //apunta ao topo da pilha
+	min = currente->value; //Armazena o valor do topo como o mínimo inicial
+	min_pos = 0; //Inicializa a posição do mínimo
+	i = 0; //Inicializa o índice
+	while (currente)// Percorre a pilha até o final
+	{
+		if (currente->value < min)//Verifica se o valor atual é menor que o mínimo
+		{
+			min = currente->value;//Atualiza o mínimo
+			min_pos = i;//Atualiza a posição do mínimo
+		}
+		currente = currente->next;//Avança para o próximo elemento da pilha
+		i++;//Incrementa o índice 1, 2, 3
+	}
+	return (min_pos);//Retorna a posição do menor valor (3)
+}
+//1 4 2 3
+/*
+	Funçao para ordenara quatro valores no stack_a
+*/
+void	sort_four(t_stack *stack_a, t_stack *stack_b)
+{
+    int	min_pos;
+	
+	min_pos = find_min_position(stack_a); // Encontra a posição do menor elemento
+
+    // Mover o menor elemento para stack_b
+	if (min_pos == 1)//Se o índice do valor mínimo é igual a 1
+	{
+		ra(stack_a, 1);
+		display(stack_a);
+	}
+	else if (min_pos == 2)//Se o índice do valor mínimo é igual a 2
+	{
+		ra(stack_a, 1);
+		display(stack_a);
+		ra(stack_a, 1);
+		display(stack_a);
+	}
+	else if (min_pos == 3)//Se o índice do valor mínimo é igual a 3
+	{
+		// 1 4 2 3
+		rra(stack_a, 1); // 4 2 3 1 
+		display(stack_a);
+	}
+	pb(stack_b, stack_a);//Move o menor elemento para stack_b
+	display(stack_a); // 4 2 3
+	display(stack_b); // 1
+
+	// Ordenar os três elementos restantes em stack_a
+	sort_three(stack_a);//Chama a função para ordenar os três elementos restantes em stack_a
+	// Mover o menor elemento de volta para stack_a
+	pa(stack_a, stack_b);//Move o menor elemento de volta para stack_a
+	ra(stack_a, 1);
+	display(stack_a);
+}
+
+
+
+
