@@ -56,54 +56,24 @@ int	is_empty(t_stack *stack)
 /*
     Função para exibir todos os elementos da pilha
 */
-void	display(t_stack *stack)
+void display(t_stack *stack)
 {
-	t_node *current;
-	int		count;
-	t_node	*temp;
-	int 	*values;
-	int 	i;
-
-	current = stack->top;
-	ft_printf("Elementos da pilha: ");
-	//Verifica se a pilha está vazia
-	if (is_empty(stack))
-	{
-		ft_printf("Pilha vazia\n");
-		return;
-	}
-	// Contar o número de elementos na pilha
-	count = 0;
-	temp = current;
-	while (temp)
-	{
-		count++;
-		temp = temp->next;
-	}
-	// Alocar memória dinamicamente com base no número de elementos
-	values = (int *)malloc(count * sizeof(int));
-	if (!values)
-	{
-		ft_printf("Erro ao alocar memória\n");
-		return;
-	}
-	// Armazenar os valores em uma lista temporária
-	i = 0;
-	while (current)
-	{
-		values[i++] = current->value;
-		current = current->next;
-	}
-	// Exibir os valores da lista temporária do topo para a base
-	i = count - 1;
-	while (i >= 0)
-	{
-		ft_printf("%d ", values[i]);
-		i--;
-	}
-	ft_printf("\n");
-	// Liberar a memória alocada
-	free(values);
+    t_node *current;
+    ft_printf("Elementos da pilha: \n");
+    // Verifica se a pilha está vazia
+    if (is_empty(stack))
+    {
+        ft_printf("Pilha vazia\n");
+        return;
+    }
+    // Exibe os valores diretamente na ordem em que estão na pilha
+    current = stack->top;
+    while (current)
+    {
+        ft_printf("%d \n", current->value);
+        current = current->next;
+    }
+    ft_printf("\n");
 }
 
 
@@ -139,6 +109,31 @@ void	free_stack(t_stack *stack)
 /*
 	Função para inicializar e validar as pilhas, chamando ostras funçoes
 */ 
+
+void initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack_b) {
+    int i;
+    int num;
+
+    *stack_a = init_stack();
+    *stack_b = init_stack();
+
+    if (argc < 2) {
+        ft_printf("Número de argumentos insuficiente\n");
+        free_stack(*stack_a);
+        free_stack(*stack_b);
+        exit(1);
+    }
+
+    i = argc - 1; // Inicia no último argumento (ex: argv[4] para "./push_swap 1 2 3 4")
+    while (i >= 1) { // Processa do último para o primeiro
+        num = ft_is_valid_number(argv[i], *stack_a, *stack_b);
+        check_duplicate(*stack_a, num);
+        push(*stack_a, num);
+        i--;
+    }
+}
+
+/*
 void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack_b)
 {
 	int	i;
@@ -172,3 +167,4 @@ void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack
 		i++;
 	}
 }
+*/

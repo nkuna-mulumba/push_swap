@@ -161,6 +161,7 @@ int	find_min_position(t_stack *stack)
 	return (min_pos);//Retorna a posição do menor valor (3)
 }
 
+/*
 // Função auxiliar para verificar se a pilha está ordenada
 int	is_sorted(t_stack *stack)
 {
@@ -183,6 +184,20 @@ int	is_sorted(t_stack *stack)
 	}
 	return (i);
 }
+*/
+
+int is_sorted(t_stack *stack) {
+    if (!stack || !stack->top) // Pilha não existe ou está vazia
+        return 1;
+
+    t_node *current = stack->top;
+    while (current->next != NULL) { // Pare no último elemento
+        if (current->value > current->next->value)
+            return 0;
+        current = current->next;
+    }
+    return 1;
+}
 
 /*
 	Funçao para ordenara quatro valores na stack_a
@@ -198,9 +213,15 @@ void	sort_four(t_stack *stack_a, t_stack *stack_b)
 		return;// Se já estiver ordenada, retorne sem fazer nada
 
 	min_pos = find_min_position(stack_a); // Encontra a posição do menor elemento
-
+	printf("POSITION %d\n", min_pos);
     // Mover o menor elemento para stack_b
-	if (min_pos == 1)//Se o índice do valor mínimo é igual a 1
+	if (min_pos == 0)
+	{
+		ra(stack_a, 1);
+		display(stack_a);
+		exit (1);
+	}
+	else if (min_pos == 1)//Se o índice do valor mínimo é igual a 1
 	{
 		ra(stack_a, 1);
 		display(stack_a);
@@ -227,16 +248,18 @@ void	sort_four(t_stack *stack_a, t_stack *stack_b)
 	display(stack_a);
 }
 // 1 2 3 4 Ordenada
-// 1 3 2 4 ## 6
-// 1 3 4 2 ## 5
+// 1 2 4 3 ## 5 ra 3 1 2 4 pb 3 1 2 rra 1 2 3 pa 1 2 3 4 (4)
+// 1 4 3 2 ## 6 rra 4 3 2 1 rra 3 2 1 4 pb 3 2 1 ra 1 3 2 sa 1 2 3 pa 1 2 3 4 (6)
+// 1 4 2 3 ## 5 rra 4 2 3 1 rra 2 3 1 4 pb 2 3 1 ra 1 2 3 pa 1 2 3 4 (5)
+// 1 3 2 4 ## 6 pb 1 3 2 sa 1 2 3 pa 1 2 3 4 (3)
+// 1 3 4 2 ## 5 
 // 1 4 3 2 ## 6
-// 1 4 2 3 ## 5
 // 2 3 1 4 ## 5
-// 2 3 4 1 ## 3
-// 2 4 3 1 ## 4
+// 2 3 4 1 ## 3  ra 1 2 3 4(1)
+// 2 4 3 1 ## 4 
 // 2 4 1 3 ## 6
 // 2 1 3 4 ## 6
-// 2 1 4 3 ## 7
+// 2 1 4 3 ## 7  ra 3 2 1 4 pb 3 2 1 ra 1 3 2 sa 1 2 3 pa 1 2 3 4 (5)
 // 3 1 2 4 ## 6
 // 3 1 4 2 ## 6
 // 3 4 1 2 ## 4
@@ -252,7 +275,7 @@ void	sort_four(t_stack *stack_a, t_stack *stack_b)
 
 // -1 2 -2 1 ## 6
 // -1 2 1 -2 ## 4
-// -1 -2 2 1 ## 7
+// -1 -2 2 1 ## 7  ra 1 -1 -2 2 pb 1 -1 -2 ra -2 1 -1 sa -2 -1 1 pa -2 -1 1 2 (5)
 // -1 -2 1 2 ## 5
 // 2 -1 -2 1 ## 5
 // 2 -1 1 -2 ## 4
