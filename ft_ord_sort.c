@@ -32,6 +32,11 @@ void	sort_two(t_stack *stack)
 	b = stack->top->next->value;
 	if (a > b)
 	{
+		return;
+		display(stack);
+	}
+	else if (a < b)
+	{
 		sa(stack);
 		display(stack);
 	}
@@ -82,7 +87,7 @@ void	sort_three(t_stack *stack)
 	// Caso já ordenado: 1 2 3 (nenhuma operação necessária)
 	if (a > b && a > c && b > c) // 3 > 2 && 3 > 1 && 2 > 1
 		return;
-	//-2 -3 -1 SA -2 -1 -3 RA -3 -2 -1 (2) suficiente
+	//-2 -3 -1 SA -2 -1 -3 RA -3 -2 -1 (2) suficiente #####
 	else if (a > b && a > c && c > b)
 	{
 		sa(stack);
@@ -104,9 +109,9 @@ void	sort_three(t_stack *stack)
 		display(stack);
 	}
 	//2 1 3 RRA 1 3 2 -> SA 1 2 3 (2) suficiente
-	else if (a > b && a > c && b < c) // 3 > 1 && 3 > 2 && 1 < 2
+	else if (a > b && a > c && b < c) // 3 > 1 && 3 > 2 && 1 < 2 #####
 	{
-		rra(stack, 1); //####
+		rra(stack, 1);
 		display(stack);
 		sa(stack);
 		display(stack);
@@ -155,14 +160,43 @@ int	find_min_position(t_stack *stack)
 	}
 	return (min_pos);//Retorna a posição do menor valor (3)
 }
-//1 4 2 3
+
+// Função auxiliar para verificar se a pilha está ordenada
+int	is_sorted(t_stack *stack)
+{
+	t_node *current;
+	int	i;
+
+	current = stack->top;
+	if (current->value > current->next->value // 4 > 3 
+		&& current->value > current->next->next->value // 4 > 2
+		&& current->value > current->next->next->next->value // 4 > 1
+		&& current->next->value > current->next->next->value // 3 > 2
+		&& current ->next->value > current->next->next->next->value // 3 > 1
+		&& current->next->next->value > current->next->next->next->value) // 2 > 1
+	{
+		i = 1; // A pilha está ordenada
+	}
+	else
+	{
+		i = 0; // A pilha não está ordenada
+	}
+	return (i);
+}
+
 /*
-	Funçao para ordenara quatro valores no stack_a
+	Funçao para ordenara quatro valores na stack_a
 */
 void	sort_four(t_stack *stack_a, t_stack *stack_b)
 {
     int	min_pos;
 	
+	int	sim = is_sorted(stack_a);
+	printf("\nVALOR: ##(%d)##\n", sim);
+
+	if (is_sorted(stack_a))//Verifica se a pilha está ordenada
+		return;// Se já estiver ordenada, retorne sem fazer nada
+
 	min_pos = find_min_position(stack_a); // Encontra a posição do menor elemento
 
     // Mover o menor elemento para stack_b
@@ -180,22 +214,62 @@ void	sort_four(t_stack *stack_a, t_stack *stack_b)
 	}
 	else if (min_pos == 3)//Se o índice do valor mínimo é igual a 3
 	{
-		// 1 4 2 3
-		rra(stack_a, 1); // 4 2 3 1 
+		rra(stack_a, 1);
 		display(stack_a);
 	}
 	pb(stack_b, stack_a);//Move o menor elemento para stack_b
-	display(stack_a); // 4 2 3
-	display(stack_b); // 1
-
-	// Ordenar os três elementos restantes em stack_a
+	display(stack_a);
+	display(stack_b);
 	sort_three(stack_a);//Chama a função para ordenar os três elementos restantes em stack_a
-	// Mover o menor elemento de volta para stack_a
+	display(stack_a);
 	pa(stack_a, stack_b);//Move o menor elemento de volta para stack_a
-	ra(stack_a, 1);
+	ra(stack_a, 1); //Ordenar o menor elemento na posição correta
 	display(stack_a);
 }
+// 1 2 3 4 Ordenada
+// 1 3 2 4 ## 6
+// 1 3 4 2 ## 5
+// 1 4 3 2 ## 6
+// 1 4 2 3 ## 5
+// 2 3 1 4 ## 5
+// 2 3 4 1 ## 3
+// 2 4 3 1 ## 4
+// 2 4 1 3 ## 6
+// 2 1 3 4 ## 6
+// 2 1 4 3 ## 7
+// 3 1 2 4 ## 6
+// 3 1 4 2 ## 6
+// 3 4 1 2 ## 4
+// 3 4 2 1 ## 4
+// 3 2 1 4 ## 6
+// 3 2 4 1 ## 5
+// 4 1 3 2 ## 7
+// 4 1 2 3 ## 5
+// 4 3 1 2 ## 5
+// 4 3 2 1 ## 5
+// 4 2 1 3 ## 5
+// 4 2 3 1 ## 4
 
-
-
+// -1 2 -2 1 ## 6
+// -1 2 1 -2 ## 4
+// -1 -2 2 1 ## 7
+// -1 -2 1 2 ## 5
+// 2 -1 -2 1 ## 5
+// 2 -1 1 -2 ## 4
+// 2 -2 -1 1 ## 5
+// 2 -2 1 -1 ## 7
+// 2 1 -2 -1 ## 5
+// 2 1 -1 -2 ## 5
+// -2 -1 2 1 ## 5
+// -2 -1 1 2 ## Pilha ordenada
+// -2 2 -1 1 ## 6
+// -2 2 1 -1 ## 6
+// -2 1 -1 2 ## 6
+// -2 1 2 -1 ## 5
+// 1 -1 2 -2 ## 5
+// 1 -1 -2 2 ## 6
+// 1 2 -1 -2 ## 4
+// 1 2 -2 -1 ## 4
+// 1 -2 2 -1 ## 6
+// 1 -2 -1 2 ## 6
 
