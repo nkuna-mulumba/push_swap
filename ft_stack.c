@@ -59,7 +59,7 @@ int	is_empty(t_stack *stack)
 void display(t_stack *stack)
 {
     t_node *current;
-    ft_printf("Elementos da pilha: \n");
+    //ft_printf("Elementos da pilha: \n");
     // Verifica se a pilha está vazia
     if (is_empty(stack))
     {
@@ -73,7 +73,6 @@ void display(t_stack *stack)
         ft_printf("%d \n", current->value);
         current = current->next;
     }
-    ft_printf("\n");
 }
 
 
@@ -125,7 +124,8 @@ void initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack
     }
 
     i = argc - 1; // Inicia no último argumento (ex: argv[4] para "./push_swap 1 2 3 4")
-    while (i >= 1) { // Processa do último para o primeiro
+    while (i >= 1)
+	{ // Processa do último para o primeiro
         num = ft_is_valid_number(argv[i], *stack_a, *stack_b);
         check_duplicate(*stack_a, num);
         push(*stack_a, num);

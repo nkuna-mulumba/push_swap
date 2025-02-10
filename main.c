@@ -505,10 +505,10 @@ int main(int argc, char **argv)
 
 
 
-// Função principal para testar a função sort_three
-#include "push_swap.h"
-
 /*
+*/
+// Main para testa algoritimo de ordenaçao
+#include "push_swap.h"
 int main(int argc, char **argv)
 {
 	t_stack *stack_a;
@@ -517,16 +517,15 @@ int main(int argc, char **argv)
 	initialize_stacks(argc, argv, &stack_a, &stack_b);
 
 	// Exibir a pilha A antes das operações
-	ft_printf("Pilha A antes das operações:\n");
+	//ft_printf("Pilha A antes das operações:\n");
 	display(stack_a);
-	ft_printf("______________________________\n");
-
+	//ft_printf("______________________________\n");
 
 	if (is_sorted(stack_a))
 	{
 		free_stack(stack_a);
 		free_stack(stack_b);
-    return 0;
+		return 0;
 	}
 	
 	// Chamar a função de ordenação adequada com base no número de elementos
@@ -543,10 +542,12 @@ int main(int argc, char **argv)
 	{
 		sort_four(stack_a, stack_b);
 	}
-	Exibir a pilha A depois das operações
+	/*
+	//Exibir a pilha A depois das operações
 	ft_printf("Pilha A depois das operações:\n");
 	display(stack_a);
 	ft_printf("______________________________\n");
+	*/
 
 	// Limpar a memória das pilhas
 	free_stack(stack_a);
@@ -555,28 +556,5 @@ int main(int argc, char **argv)
 	return 0;
 	
 }
-*/
 
-int main(int argc, char **argv) {
-    t_stack *stack_a;
-    t_stack *stack_b;
-
-    initialize_stacks(argc, argv, &stack_a, &stack_b);
-
-    ft_printf("Pilha A antes das operações:\n");
-    display(stack_a);
-    ft_printf("______________________________\n");
-
-    if (is_sorted(stack_a)) {
-        free_stack(stack_a);
-        free_stack(stack_b); // Libera a pilha B também!
-        return 0;
-    }
-
-    // Se houver código de ordenação aqui, ele não será executado se a pilha já estiver ordenada.
-
-    free_stack(stack_a);
-    free_stack(stack_b);
-    return 0;
-}
 
