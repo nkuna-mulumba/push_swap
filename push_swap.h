@@ -95,7 +95,9 @@ void	sort_three(t_stack *stack);
 
 //Funçao auxiliar para encontrar indice de menor valor no STACK_A
 int	find_min_position(t_stack *stack);
-//Funçao para ordenar cinco elelementos na pilha
+//Funçao para ordenar quatro elelementos na pilha
 void	sort_four(t_stack *stack_a, t_stack *stack_b);
+//FUnçao para ordenar cinco elementos na pilha
+void	sort_five(t_stack *stack_a, t_stack *stack_b);
 
 #endif

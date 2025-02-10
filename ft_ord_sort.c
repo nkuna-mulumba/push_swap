@@ -253,6 +253,12 @@ void	sort_four(t_stack *stack_a, t_stack *stack_b)
 // -1 2 1 -2 ## 5
 // -1 -2 2 1 ## 5
 // -1 -2 1 2 ## 4
+// 1 -1 2 -2 ## 4
+// 1 -1 -2 2 ## 6
+// 1 -2 -1 2 ## 5
+// 1 -2 2 -1 ## 4
+// 1 2 -1 -2 ## 4
+// 1 2 -2 -1 ## 4
 // 2 -1 -2 1 ## 5
 // 2 -1 1 -2 ## 4
 // 2 -2 -1 1 ## 1
@@ -265,34 +271,127 @@ void	sort_four(t_stack *stack_a, t_stack *stack_b)
 // -2 2 1 -1 ## 4
 // -2 1 -1 2 ## 3
 // -2 1 2 -1 ## 3
-// 1 -1 2 -2 ## 4
-// 1 -1 -2 2 ## 6
-// 1 2 -1 -2 ## 4
-// 1 2 -2 -1 ## 4
-// 1 -2 2 -1 ## 4
-// 1 -2 -1 2 ## 5
 
 /*
-// Função auxiliar para verificar se a pilha está ordenada
-int	is_sorted(t_stack *stack)
+    Função para ordenar cinco valores na stack_a 
+*/
+void	sort_five(t_stack *stack_a, t_stack *stack_b)
 {
-	t_node *current;
-	int	i;
+	int	min_pos;
 
-	current = stack->top;
-	if (current->value > current->next->value // 4 > 3 
-		&& current->value > current->next->next->value // 4 > 2
-		&& current->value > current->next->next->next->value // 4 > 1
-		&& current->next->value > current->next->next->value // 3 > 2
-		&& current ->next->value > current->next->next->next->value // 3 > 1
-		&& current->next->next->value > current->next->next->next->value) // 2 > 1
+	// Encontra a posição do menor valor na pilha A e move para B
+	min_pos = find_min_position(stack_a);
+	if (min_pos == 1)
 	{
-		i = 1; // A pilha está ordenada
+		ra(stack_a, 1);
+		display(stack_a);
 	}
-	else
+	else if (min_pos == 2)
 	{
-		i = 0; // A pilha não está ordenada
+		ra(stack_a, 1);
+		display(stack_a);
+		ra(stack_a, 1);
+		display(stack_a);
 	}
-	return (i);
+	else if (min_pos == 3)
+	{
+		rra(stack_a, 1);
+		display(stack_a);
+		rra(stack_a, 1);
+		display(stack_a);
+	}
+	else if (min_pos == 4)
+	{
+		rra(stack_a, 1);
+		display(stack_a);
+	}
+	// Verifica se a pilha está ordenada após mover o menor elemento para o topo
+	if (!is_sorted(stack_a))
+	{
+		pb(stack_b, stack_a);
+		display(stack_a);
+		ft_printf("Pilha B:\n");
+		display(stack_b);
+	}
+	// Encontra a posição do novo menor valor na pilha A e move para B, se necessário
+	
+	min_pos = find_min_position(stack_a);
+	if (min_pos == 1)
+	{
+		ra(stack_a, 1);
+		display(stack_a);
+	}
+	else if (min_pos == 2)
+	{
+		ra(stack_a, 1);
+		display(stack_a);
+		ra(stack_a, 1);
+		display(stack_a);
+	}
+	else if (min_pos == 3)
+	{
+		rra(stack_a, 1);
+		display(stack_a);
+	}
+	// Verifica se a pilha está ordenada após mover o segundo menor elemento para o topo
+	if (!is_sorted(stack_a))
+	{
+		pb(stack_b, stack_a);
+		display(stack_a);
+		ft_printf("Pilha B:\n");
+		display(stack_b);
+	}
+	// Ordena os 3 elementos restantes em A
+	sort_three(stack_a);
+	// Move os menores elementos de volta para A
+	if (!is_empty(stack_b))
+	{
+		pa(stack_a, stack_b);
+		display(stack_a);
+	}
+	if (!is_empty(stack_b))
+	{
+		pa(stack_a, stack_b);
+		display(stack_a);
+	}
 }
+//ELIMINAR 47 linhas desnecessarias
+//teste 5:
+// 2 3 4 5 1 ## (1)rra 1 2 3 4 5
+// 2 3 4 1 5 ## (5)rra 5 2 3 4 1 rra 1 5 2 3 4 pb 5 2 3 4 ra 2 3 4 5 pa 12345
+// 2 3 1 4 5 ## (6)ra 3 1 4 5 2 ra 1 4 5 2 3 pb 4 5 2 3 ra 5 2 3 4 ra 2 3 4 5 pa 1 2 3 4 5
+// 2 1 3 4 5 ## (4)ra 1 3 4 5 2 pb 3 4 5 2 rra 2 3 4 5 pa 1 2 3 4 5
+/*
+	Conjuntos de Teste:
+	Valores Crescentes:
+	1 2 3 4 5 (já ordenado)
+	2 3 4 5 1
+	Valores Decrescentes:
+	5 4 3 2 1
+	4 3 2 1 5
+	Mistos:
+	3 1 4 5 2
+	2 5 3 1 4
+	1 3 5 2 4
+	4 2 5 3 1
+	3 5 1 4 2
+	Valores Negativos e Positivos:
+	-1 2 -2 3 1
+	2 -1 3 -2 1
+	1 -1 2 -2 3
+	-2 -1 1 2 3
+	Valores com Zero:
+	0 1 2 3 4
+	2 1 0 -1 -2
+	-1 0 1 -2 2
+	1 0 -1 2 -2
+	Teste Extra:
+	Valores Máximos e Mínimos Inteiros:
+	2147483647 -2147483648 0 1 -1
+	Teste de Valores Repetidos (Caso de Erro):
+	1 2 2 3 4 (deve ser tratado como erro)
+	Teste de Valores Aleatórios:
+	4 2 5 3 1
+	3 4 1 5 2
+	5 1 3 4 2
 */

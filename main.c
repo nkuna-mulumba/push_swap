@@ -534,14 +534,19 @@ int main(int argc, char **argv)
 		sort_two(stack_a);
 	}
 	// Testar operação sort_three
-	else if (argc == 4) // Garantir que temos exatamente 3 elementos
+	else if (argc == 4)// Garantir que temos exatamente 3 elementos
 	{
 		sort_three(stack_a);
 	}
-	else if (argc == 5)
+	else if (argc == 5)// Garantir que temos exatamente 4 elementos
 	{
 		sort_four(stack_a, stack_b);
 	}
+	else if (argc == 6)// Garantir que temos exatamente 5 elementos
+	{
+		sort_five(stack_a, stack_b);
+	}
+	
 	/*
 	//Exibir a pilha A depois das operações
 	ft_printf("Pilha A depois das operações:\n");
