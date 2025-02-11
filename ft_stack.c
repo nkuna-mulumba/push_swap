@@ -114,7 +114,6 @@ void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack
 
 	if (argc < 2)
 	{
-		ft_printf("Número de argumentos insuficiente\n");
 		free_stack(*stack_a);
 		free_stack(*stack_b);
 		exit(1);
