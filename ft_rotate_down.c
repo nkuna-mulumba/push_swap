@@ -24,25 +24,21 @@ void	rra(t_stack *stack_a, int print)
 	// Verifica se a pilha está vazia ou tem apenas um elemento
 	if (is_empty(stack_a) || stack_a->top->next == NULL)
 		return;
-
 	// Inicializar last e second_last
 	last = stack_a->top;
 	second_last = NULL;
-
 	// Percorrer a pilha até o último elemento, iterando subsequente no while:
 	while (last->next != NULL)//Verificar se nó anterior é diferente ao NULL
 	{
 		second_last = last; // second_last aponta para o nó atual
 		last = last->next; // last avança para o próximo nó da pilha
 	}
-
 	last->next = stack_a->top; // Conecta o último nó ao antigo topo da pilha
 	stack_a->top = last; // Atualiza o topo da pilha para o último nó percorrido no while
 	second_last->next = NULL; // Penúltimo nó (second_last) agora é o último nó
-
 	// Imprimir a operação realizada se print for diferente de zero
 	if (print != 0)
-		ft_printf("Op:[rra]\n");
+		ft_printf("rra\n");
 }
 
 /*
@@ -71,7 +67,7 @@ void	rrb(t_stack *stack_b, int print)
 	second_last->next = NULL; // Penúltimo nó (second_last) agora é o último nó
 	// Imprimir a operação realizada se print for diferente de zero
 	if (print != 0)
-		ft_printf("Op:[rrb]\n");
+		ft_printf("rrb\n");
 	
 }
 
@@ -93,6 +89,6 @@ void	rrr(t_stack *stack_a, t_stack *stack_b)
 	{
 		rra(stack_a, 0); // Rotacionar a pilha [A] ao contrario
 		rrb(stack_b, 0); // Rotacionar a pilha [B] ao contrario
-		ft_printf("Op: [rrr]\n"); // Imprime a operação realizada para os dois
+		ft_printf("rrr\n"); // Imprime a operação realizada para os dois
 	}
 }

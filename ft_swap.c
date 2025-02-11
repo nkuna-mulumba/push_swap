@@ -21,13 +21,10 @@ void	swap(t_stack *stack)
 	t_node	*first;
 	t_node	*second;
 
-	// Inicializa os ponteiros para os dois primeiros nós
 	// `first`aponta ou armazena o valor do nó do topo da pilha 
 	first = stack->top;
 	// `second` aponta ou armazena o valor do nó logo abaixo do topo da pilha 
 	second = stack->top->next;
-
-	// Realiza a troca dos nós
 	// `first` agora aponta para o nó que estava originalmente depois de `second`
 	first->next = second->next;
 	// Atualiza o topo da pilha para `second`, que agora é o novo topo
@@ -52,11 +49,10 @@ int	sa(t_stack *stack_a)
 		// Não há elementos suficientes para trocar
 		return (0);
 	}
-	
 	// Chamar 'swap' para trocar as posições dos dois primeiros valores de [A]
 	swap(stack_a);
 	// Imprime a operação realizada
-	ft_printf("Op:[sa]\n");
+	ft_printf("sa\n");
 	return (1);
 }
 
@@ -72,7 +68,7 @@ int	sb(t_stack *stack_b)
 	// Chamar 'swap' para trocar as posições dos dois primeiros valores de [B]
 	swap(stack_b);
 	// Imprime a operação realizada
-	ft_printf("Op:[sb]\n");
+	ft_printf("sb\n");
 	return (1);
 }
 
@@ -94,22 +90,16 @@ void	ss(t_stack *stack_a, t_stack *stack_b)
 		valores na pilha chama (swap) para trocar as posiçoes
 	*/
 	if (can_swap_a)
-	{
 		//chamar (swap) para trocar as posiçoes
 		swap(stack_a);
-	}
 	/*
 		Validar se na pilha B foi encontrada pelomenos dois 
 		valores na pilha chama (swap) para trocar as posiçoes
 	*/
-    if (can_swap_b)
-	{
+	if (can_swap_b)
 		//chamar (swap) para trocar as posiçoes
 		swap(stack_b);
-	}	
 	//Se as duas pilha contem pelomenos dois valor é imprimido a operaçao
-    if (can_swap_a && can_swap_b)
-	{
-		ft_printf("Op:[ss]\n");
-	}
+	if (can_swap_a && can_swap_b)
+		ft_printf("ss\n");
 }

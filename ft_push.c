@@ -26,7 +26,7 @@ void	push(t_stack *stack, int value)
 	new_node = malloc(sizeof(t_node));
 	// Verifica se a alocação de memória falhou
 	if (!new_node)
-		return;
+		return ;
 	/*
 		Atribuir valor do parâmetro 'value' para 
 		o campo 'value' do novo nó
@@ -40,14 +40,14 @@ void	push(t_stack *stack, int value)
 }
 
 /*
-    Função para desempilhar (pop) um valor da pilha
-    ou Remove o nó do topo da pilha e retorna o valor desse nó
+	Função para desempilhar (pop) um valor da pilha
+	ou Remove o nó do topo da pilha e retorna o valor desse nó
 	(usado em PA e PB)
 */
 int	pop(t_stack *stack)
 {
 	// Declarar variáveis locais que vão armazenar o valor do topo e o nó temporário
-	t_node *temp;
+	t_node	*temp;
 	int	value;
 
 	// Verifica se a pilha está vazia
@@ -59,16 +59,12 @@ int	pop(t_stack *stack)
 	}
 	// Armazena o nó atual no topo da pilha em uma variável temporária
 	temp = stack->top;
-
 	// Armazena o valor do nó a ser removido
 	value = temp->value;
-
  	// Atualiza o topo da pilha para o próximo nó
 	stack->top = stack->top->next;
-
 	// Libera a memória do nó removido
 	free(temp);
-
 	 // Retorna o valor do nó removido
 	return (value);
 }
@@ -85,14 +81,13 @@ void	pa(t_stack *stack_a, t_stack *stack_b)
 	if (is_empty(stack_b))
 	{
 		ft_printf("Pilha B está vazia, não é possível empilhar para A\n");
-		return;
 	}
 	// Armazenar o valor do nó movido
 	value = pop(stack_b);
 	// Adicionar o nó movido no topo da pilha A
 	push(stack_a, value);
 	//Imprimir a operaçao
-	ft_printf("Op:[pa]\n");
+	ft_printf("pa\n");
 }
 
 /*
@@ -108,12 +103,11 @@ void	pb(t_stack *stack_b, t_stack *stack_a)
 	if (is_empty(stack_a))
 	{
 		ft_printf("Pilha A está vazia, não é possível empilhar para B\n");
-		return;
 	}
 	// Armazenar o valor do nó movido
 	value = pop(stack_a);
 	// Adicionar o nó movido no topo da pilha B
 	push(stack_b, value);
 	//Imprimir a operaçao
-	ft_printf("Op:[pb]\n");
+	ft_printf("pb\n");
 }

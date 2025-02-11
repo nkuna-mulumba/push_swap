@@ -518,7 +518,7 @@ int main(int argc, char **argv)
 
 	// Exibir a pilha A antes das operações
 	//ft_printf("Pilha A antes das operações:\n");
-	display(stack_a);
+	//display(stack_a);
 	//ft_printf("______________________________\n");
 
 	if (is_sorted(stack_a))
@@ -544,7 +544,7 @@ int main(int argc, char **argv)
 	}
 	else if (argc == 6)// Garantir que temos exatamente 5 elementos
 	{
-		sort_five(stack_a, stack_b);
+		sort_five(stack_a, stack_b, 0);
 	}
 	
 	/*
@@ -561,5 +561,52 @@ int main(int argc, char **argv)
 	return 0;
 	
 }
+
+
+/*
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% ARG="4 67 3 87 23"; ./push_swap "4 67 3 87 23"
+	Erro: Argumento '4 67 3 87 23' contém caracteres inválidos
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% ARG="4 67 3 87 23"; ./push_swap 4 6 2 | ./checker_linux 4 6 2
+	OK
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% ARG="4 67 3 87 23"; ./push_swap 4 6 2 79 | ./checker_linux 4 6 2 79
+	OK
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% ARG="4 67 3 87 23"; ./push_swap 4 6 2 79 -5 | ./checker_linux 4 6 2 79 -5
+	OK
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% ARG="4 67 3 87 23"; ./push_swap 4 6 2 79 -5 6 | ./checker_linux 4 6 2 79 -5 6
+	Error
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% ARG="4 67 3 87 23"; ./push_swap 4 6 2 79 -5 6 | ./checker_linux 4 6 2 79 -5 6C
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% ./push_swap 45 6 5 6
+	Erro: Número duplicado '6'
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% ./push_swap "55 66 66 444"  44  5
+	Erro: Argumento '55 66 66 444' contém caracteres inválidos
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% ./push_swap "55 66 66 444"       
+	Erro: Argumento '55 66 66 444' contém caracteres inválidos
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% 55
+	zsh: command not found: 55
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% 66
+	zsh: command not found: 66
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% 66
+	zsh: command not found: 66
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% 44
+	zsh: command not found: 44
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% ./push_swap 55 66 66 444 
+	Erro: Número duplicado '66'
+	jcongolo@c2r8s6 ~/Desktop/push_swap
+	% 
+*/
 
 

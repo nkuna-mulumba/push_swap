@@ -25,9 +25,6 @@ typedef struct s_stack
 	t_node	*top; // Campo que aponta para o nó no topo da pilha
 } t_stack;
 
-
-
-
 //###### INICIALIZAÇÃO E MANIPULAÇÃO DA PILHA #####
 // Função para inicializar uma pilha vazia
 t_stack *init_stack();
@@ -98,6 +95,6 @@ int	find_min_position(t_stack *stack);
 //Funçao para ordenar quatro elelementos na pilha
 void	sort_four(t_stack *stack_a, t_stack *stack_b);
 //FUnçao para ordenar cinco elementos na pilha
-void	sort_five(t_stack *stack_a, t_stack *stack_b);
+void	sort_five(t_stack *stack_a, t_stack *stack_b, int count);
 
 #endif

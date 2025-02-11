@@ -35,8 +35,8 @@ t_stack	*init_stack()
 }
 
 /*
-    Função para verificar se a pilha está vazia
-    Retorna 1 se a pilha está vazia, caso contrário retorna 0
+	Função para verificar se a pilha está vazia
+	Retorna 1 se a pilha está vazia, caso contrário retorna 0
 */
 int	is_empty(t_stack *stack)
 {
@@ -56,26 +56,23 @@ int	is_empty(t_stack *stack)
 /*
     Função para exibir todos os elementos da pilha
 */
-void display(t_stack *stack)
+void	display(t_stack *stack)
 {
-    t_node *current;
-    //ft_printf("Elementos da pilha: \n");
-    // Verifica se a pilha está vazia
-    if (is_empty(stack))
-    {
-        ft_printf("Pilha vazia\n");
-        return;
-    }
-    // Exibe os valores diretamente na ordem em que estão na pilha
-    current = stack->top;
-    while (current)
-    {
-        ft_printf("%d \n", current->value);
-        current = current->next;
-    }
+	t_node	*current;
+	
+	// Verifica se a pilha está vazia
+	if (is_empty(stack))
+	{
+		ft_printf("Pilha vazia\n");
+	}
+	// Exibe os valores diretamente na ordem em que estão na pilha
+	current = stack->top;
+	while (current)
+	{
+		ft_printf("%d \n", current->value);
+		current = current->next;
+	}
 }
-
-
 
 /*
 	Função para liberar a memória de uma pilha.
@@ -104,46 +101,18 @@ void	free_stack(t_stack *stack)
 	free(stack);
 }
 
-
 /*
 	Função para inicializar e validar as pilhas, chamando ostras funçoes
 */ 
-
-void initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack_b) {
-    int i;
-    int num;
-
-    *stack_a = init_stack();
-    *stack_b = init_stack();
-
-    if (argc < 2) {
-        ft_printf("Número de argumentos insuficiente\n");
-        free_stack(*stack_a);
-        free_stack(*stack_b);
-        exit(1);
-    }
-
-    i = argc - 1; // Inicia no último argumento (ex: argv[4] para "./push_swap 1 2 3 4")
-    while (i >= 1)
-	{ // Processa do último para o primeiro
-        num = ft_is_valid_number(argv[i], *stack_a, *stack_b);
-        check_duplicate(*stack_a, num);
-        push(*stack_a, num);
-        i--;
-    }
-}
-
-/*
 void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack_b)
 {
-	int	i;
-	int	num;
+	int i;
+	int num;
 
-	// Inicializar as pilhas
 	*stack_a = init_stack();
 	*stack_b = init_stack();
 
-	if (argc < 2) 
+	if (argc < 2)
 	{
 		ft_printf("Número de argumentos insuficiente\n");
 		free_stack(*stack_a);
@@ -151,20 +120,12 @@ void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack
 		exit(1);
 	}
 
-	i = 1; //Iniciar do ultimo argumento
-	// Empilhar os valores convertidos na pilha A
-	while (i < argc)
+	i = argc - 1; // Inicia no último argumento (ex: argv[4] para "./push_swap 1 2 3 4")
+	while (i >= 1)// Processa do último para o primeiro
 	{
-		// Validação do número
 		num = ft_is_valid_number(argv[i], *stack_a, *stack_b);
-
-		// Verifica se o número já está presente na pilha e gera mensagem de erro se necessário
 		check_duplicate(*stack_a, num);
-
-		// Empilha o valor validado na pilha A
 		push(*stack_a, num);
-
-		i++;
+		i--;
 	}
 }
-*/

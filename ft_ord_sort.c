@@ -17,18 +17,18 @@
 */
 int	is_sorted(t_stack *stack)
 {
-	t_node *current;
+	t_node	*current;
 
 	if (is_empty(stack) || stack->top == NULL)// Pilha não existe ou não possui pelo menos dois valores
-		return 1;
-	current = stack->top; // Aponta para o topo da pilha
+		return (1);
+	current = stack->top;// Aponta para o topo da pilha
 	while (current->next != NULL)// Para no último elemento
 	{
-		if (current->value > current->next->value) // Verifica se o valor atual é maior que o próximo
-			return 0; // Pilha não está ordenada
+		if (current->value > current->next->value)// Verifica se o valor atual é maior que o próximo
+			return (0);// Pilha não está ordenada
 		current = current->next;// Avança para o próximo elemento
-    }
-    return 1; // Pilha está ordenada
+	}
+	return (1);// Pilha está ordenada
 }
 
 //com dois valores:
@@ -44,17 +44,16 @@ int	is_sorted(t_stack *stack)
 */
 void	sort_two(t_stack *stack)
 {
-	int a;
-	int b;
+	int	a;
+	int	b;
 
+	// Verifica se a pilha tem pelo menos dois elementos
+	if (!stack || !stack->top || !stack->top->next)
+		return;// Retorna sem fazer nada se não houver pelo menos 2 elementos
 	a = stack->top->value; //Aponta para o topo da pilha
-	b = stack->top->next->value; //Aponta para o segundo elemento da pilha
-	if (a > b) //Verifica se o primeiro elemento é maior que o segundo
-	{
-		sa(stack); //Chama a função swap
-		display(stack); //Exibe a pilha
-		return;
-	}
+	b = stack->top->next->value;//Aponta para o segundo elemento da pilha
+	if (a > b)//Verifica se o primeiro elemento é maior que o segundo
+		sa(stack);//Chama a função swap
 }
 
 //TESTE COM 3 VALORES:
@@ -98,55 +97,32 @@ void	sort_three(t_stack *stack)
 	int	b;
 	int	c;
 
-	a = stack->top->value; // Aponta para o topo da pilha
-	b = stack->top->next->value; // Aponta para o segundo elemento da pilha
-	c = stack->top->next->next->value; // Aponta para o terceiro elemento da pilha
-
-	// Caso já ordenado: 1 2 3 (0)
-	if (a < b && b < c) // 1 < 2 && 2 < 3
-		return;
-    // Caso 3 2 1: (2) 
-	if (a > b && b > c) // 3 > 2 && 2 > 1
+	if (!stack || !stack->top || !stack->top->next || !stack->top->next->next)
+		return ;//Retorna se a pilha não tiver pelo menos 3 elementos
+	a = stack->top->value;// Aponta para o topo da pilha
+	b = stack->top->next->value;// Aponta para o segundo elemento da pilha
+	c = stack->top->next->next->value;// Aponta para o terceiro elemento da pilha
+	if (a < b && b < c)// 1 < 2 && 2 < 3
+		return ;
+	if (a > b && b > c)// 3 > 2 && 2 > 1
 	{
-		sa(stack); // Troca os dois primeiros
-		display(stack);
-		rra(stack, 1); // Rotaciona para ajustar a ordem
-		display(stack);
+		(sa(stack), rra(stack, 1));
 	}
-	// Caso 2 3 1: (1)
 	else if (a < b && b > c && a > c) // 2 < 3 && 3 > 1 && 2 > 1
-	{
-		rra(stack, 1); // Rotaciona para ajustar a ordem
-		display(stack);
-	}
-	// Caso 2 1 3: (1)
-	else if (a > b && b < c && a < c) // 2 > 1 && 1 < 3 && 2 < 3 
-	{
-		sa(stack); // Troca os dois primeiros
-		display(stack);
-	}
-	// Caso 1 3 2: (2)
+		rra(stack, 1);
+	else if (a > b && b < c && a < c)// 2 > 1 && 1 < 3 && 2 < 3 
+		sa(stack);
 	else if (a < b && b > c && a < c) 
 	{
-		sa(stack); // Troca os dois primeiros
-		display(stack);
-		ra(stack, 1); // Rotaciona para ajustar a ordem
-		display(stack);
+		(sa(stack), ra(stack, 1));
 	}
-	// Caso 3 1 2: (1)
-	else if (a > b && b < c && a > c) // 3 > 1 && 1 < 2 && 3 > 2 
-	{
-		ra(stack, 1); // Rotaciona para ajustar a ordem
-		display(stack);
-	}
+	else if (a > b && b < c && a > c)// 3 > 1 && 1 < 2 && 3 > 2 
+		ra(stack, 1);
 }
-
-
-
 
 /*
 	Função auxiliar de (sort_four) para 
-    encontrar o índice do menor valor na stack_a
+	encontrar o índice do menor valor na stack_a
 */
 int	find_min_position(t_stack *stack)
 {
@@ -155,10 +131,12 @@ int	find_min_position(t_stack *stack)
 	int		min_pos;
 	int		i;
 
-	currente = stack->top; //apunta ao topo da pilha
-	min = currente->value; //Armazena o valor do topo como o mínimo inicial
-	min_pos = 0; //Inicializa a posição do mínimo
-	i = 0; //Inicializa o índice
+	if (!stack || !stack->top)
+		return (-1);// Retorna -1 se a pilha estiver vazia
+	currente = stack->top;//apunta ao topo da pilha
+	min = currente->value;//Armazena o valor do topo como o mínimo inicial
+	min_pos = 0;//Inicializa a posição do mínimo
+	i = 0;//Inicializa o índice
 	while (currente)// Percorre a pilha até o final
 	{
 		if (currente->value < min)//Verifica se o valor atual é menor que o mínimo
@@ -172,7 +150,6 @@ int	find_min_position(t_stack *stack)
 	return (min_pos);//Retorna a posição do menor valor (3)
 }
 
-
 /*
 	Funçao para ordenara quatro valores na stack_a
 */
@@ -180,42 +157,21 @@ void	sort_four(t_stack *stack_a, t_stack *stack_b)
 {
 	int	min_pos;
 
-	// Encontra a posição do menor valor na pilha A
-    min_pos = find_min_position(stack_a);
-
-	// Move o menor elemento para o topo de A
-	if (min_pos == 1)// Posição 1: Faz 1 rotação para cima (RA)
+	min_pos = find_min_position(stack_a);//Encontra a posição do menor valor na pilha A
+	if (min_pos == 1)
+		ra(stack_a, 1);
+	else if (min_pos == 2)
 	{
 		ra(stack_a, 1);
-		display(stack_a);
+		ra(stack_a, 1);
 	}
-	else if (min_pos == 2)// Posição 2: Faz 2 rotações inversas (RRA)
-	{
-		ra(stack_a, 1);
-		display(stack_a);
-		ra(stack_a, 1);
-		display(stack_a);
-	}
-	else if (min_pos == 3) // Posição 3: Faz 1 rotação inversa (RRA)
-	{
+	else if (min_pos == 3)
 		rra(stack_a, 1);
-		display(stack_a);
-	}
-	// Verifica se a pilha está ordenada após mover o menor elemento para o topo
 	if (!is_sorted(stack_a))
 	{
-		// Move o menor elemento para B (PB)
 		pb(stack_b, stack_a);
-		display(stack_a);
-		ft_printf("Pilha B:\n");
-		display(stack_b);
-
-		// Ordena os 3 elementos restantes em A
 		sort_three(stack_a);
-
-		// Traz o elemento de volta para A (PA)
 		pa(stack_a, stack_b);
-		display(stack_a);
 	}
 }
 
@@ -275,87 +231,36 @@ void	sort_four(t_stack *stack_a, t_stack *stack_b)
 /*
     Função para ordenar cinco valores na stack_a 
 */
-void	sort_five(t_stack *stack_a, t_stack *stack_b)
+void	sort_five(t_stack *stack_a, t_stack *stack_b, int count)
 {
 	int	min_pos;
 
-	// Encontra a posição do menor valor na pilha A e move para B
-	min_pos = find_min_position(stack_a);
-	if (min_pos == 1)
+	while (count++ < 2)
 	{
-		ra(stack_a, 1);
-		display(stack_a);
+		min_pos = find_min_position(stack_a);//Posiçao menor da pilgha A
+		if (min_pos == 1)
+			ra(stack_a, 1);
+		else if (min_pos == 2)
+		{
+			ra(stack_a, 1);
+			ra(stack_a, 1);
+		}
+		else if (min_pos == 3)
+		{
+			rra(stack_a, 1);
+			rra(stack_a, 1);
+		}
+		else if (min_pos == 4)
+			rra(stack_a, 1);
+		if (!is_sorted(stack_a))
+			pb(stack_b, stack_a);
 	}
-	else if (min_pos == 2)
-	{
-		ra(stack_a, 1);
-		display(stack_a);
-		ra(stack_a, 1);
-		display(stack_a);
-	}
-	else if (min_pos == 3)
-	{
-		rra(stack_a, 1);
-		display(stack_a);
-		rra(stack_a, 1);
-		display(stack_a);
-	}
-	else if (min_pos == 4)
-	{
-		rra(stack_a, 1);
-		display(stack_a);
-	}
-	// Verifica se a pilha está ordenada após mover o menor elemento para o topo
-	if (!is_sorted(stack_a))
-	{
-		pb(stack_b, stack_a);
-		display(stack_a);
-		ft_printf("Pilha B:\n");
-		display(stack_b);
-	}
-	// Encontra a posição do novo menor valor na pilha A e move para B, se necessário
-	
-	min_pos = find_min_position(stack_a);
-	if (min_pos == 1)
-	{
-		ra(stack_a, 1);
-		display(stack_a);
-	}
-	else if (min_pos == 2)
-	{
-		ra(stack_a, 1);
-		display(stack_a);
-		ra(stack_a, 1);
-		display(stack_a);
-	}
-	else if (min_pos == 3)
-	{
-		rra(stack_a, 1);
-		display(stack_a);
-	}
-	// Verifica se a pilha está ordenada após mover o segundo menor elemento para o topo
-	if (!is_sorted(stack_a))
-	{
-		pb(stack_b, stack_a);
-		display(stack_a);
-		ft_printf("Pilha B:\n");
-		display(stack_b);
-	}
-	// Ordena os 3 elementos restantes em A
 	sort_three(stack_a);
-	// Move os menores elementos de volta para A
-	if (!is_empty(stack_b))
-	{
+	while (stack_b->top != NULL)
 		pa(stack_a, stack_b);
-		display(stack_a);
-	}
-	if (!is_empty(stack_b))
-	{
-		pa(stack_a, stack_b);
-		display(stack_a);
-	}
 }
-//ELIMINAR 47 linhas desnecessarias
+
+//ELIMINAR 4 linhas desnecessarias
 //teste 5:
 // 2 3 4 5 1 ## (1)rra 1 2 3 4 5
 // 2 3 4 1 5 ## (5)rra 5 2 3 4 1 rra 1 5 2 3 4 pb 5 2 3 4 ra 2 3 4 5 pa 12345

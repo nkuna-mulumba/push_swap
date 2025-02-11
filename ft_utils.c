@@ -19,7 +19,7 @@
 //(OBS) Depois ver se é necessario continuar com a funçao (peek)
 int	peek(t_stack *stack)
 {
-	// Verifica se a pilha está vazia
+	//Verifica se a pilha está vazia
 	if (is_empty(stack))
 	{
 		ft_printf("Pilha vazia.\n");
@@ -36,7 +36,7 @@ int	peek(t_stack *stack)
 */
 long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
 {
-	long num; // Variável para armazenar o número convertido
+	long	num; // Variável para armazenar o número convertido
 
 	// Verifica se a string contém apenas dígitos válidos
 	if (!ft_digit_valid(str))
@@ -46,10 +46,8 @@ long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
 		free_stack(stack_b);
 		exit(1); // Encerra o programa se a string não for válida
 	}
-
 	// Converte a string para número usando ft_atoi
 	num = ft_atol(str);
-
 	// Verifica se o número está dentro dos limites de int
 	if (num > INT_MAX || num < INT_MIN)
 	{
@@ -58,7 +56,6 @@ long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
 		free_stack(stack_b);
 		exit(1); // Encerra o programa se o número estiver fora dos limites de int
 	}
-
 	//return (num); // Retorna o número convertido se for válido
 	return (int)num; // Retorna o número convertido se for válido
 }
@@ -69,14 +66,13 @@ long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
 */ 
 void	check_duplicate(t_stack *stack, int num)
 {
-	t_node *current; //Declarar variavel que vai receber ńo do topo da pilha
+	t_node	*current; //Declarar variavel que vai receber ńo do topo da pilha
 	
 	 // O nó do topo da pilha é armazenado em 'current'
 	current = stack->top;
-
 	// Percorre a pilha até encontrar o final (NULL)
 	while (current != NULL)
-    {
+	{
 		// Verifica se o valor do nó atual é igual ao número fornecido
 		if (current->value == num)
 		{
