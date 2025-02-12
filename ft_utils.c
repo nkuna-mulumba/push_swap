@@ -39,6 +39,7 @@ long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
 	long	num; // Variável para armazenar o número convertido
 
 	// Verifica se a string contém apenas dígitos válidos
+	/*
 	if (!ft_digit_valid(str))
 	{
 		ft_printf("Erro: Argumento '%s' contém caracteres inválidos\n", str);
@@ -46,6 +47,7 @@ long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
 		free_stack(stack_b);
 		exit(1); // Encerra o programa se a string não for válida
 	}
+	*/
 	// Converte a string para número usando ft_atoi
 	num = ft_atol(str);
 	// Verifica se o número está dentro dos limites de int
@@ -82,3 +84,17 @@ void	check_duplicate(t_stack *stack, int num)
 		current = current->next; //Apontar  para seguinte nó
 	}
 }
+
+int stack_size(t_stack *stack)
+{
+    int size = 0;
+    t_node *current = stack->top;
+
+    while (current != NULL)
+    {
+        size++;
+        current = current->next;
+    }
+    return size;
+}
+

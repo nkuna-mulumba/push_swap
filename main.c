@@ -508,59 +508,115 @@ int main(int argc, char **argv)
 /*
 */
 // Main para testa algoritimo de ordenaçao
-#include "push_swap.h"
+// int main(int argc, char **argv)
+// {
+// 	t_stack *stack_a;
+// 	t_stack *stack_b;
+
+// 	initialize_stacks(argc, argv, &stack_a, &stack_b);
+
+// 	// Exibir a pilha A antes das operações
+// 	//ft_printf("Pilha A antes das operações:\n");
+// 	//display(stack_a);
+// 	//ft_printf("______________________________\n");
+
+// 	if (is_sorted(stack_a))
+// 	{
+// 		free_stack(stack_a);
+// 		free_stack(stack_b);
+// 		return 0;
+// 	}
+	
+// 	// Chamar a função de ordenação adequada com base no número de elementos
+// 	if (argc == 3) // Garantir que temos exatamente 2 elementos
+// 	{
+// 		sort_two(stack_a);
+// 	}
+// 	// Testar operação sort_three
+// 	else if (argc == 4)// Garantir que temos exatamente 3 elementos
+// 	{
+// 		sort_three(stack_a);
+// 	}
+// 	else if (argc == 5)// Garantir que temos exatamente 4 elementos
+// 	{
+// 		sort_four(stack_a, stack_b);
+// 	}
+// 	else if (argc == 6)// Garantir que temos exatamente 5 elementos
+// 	{
+// 		sort_five(stack_a, stack_b, 0);
+// 	}
+	
+// 	/*
+// 	//Exibir a pilha A depois das operações
+// 	ft_printf("Pilha A depois das operações:\n");
+// 	display(stack_a);
+// 	ft_printf("______________________________\n");
+// 	*/
+
+// 	// Limpar a memória das pilhas
+// 	free_stack(stack_a);
+// 	free_stack(stack_b);
+
+// 	return 0;
+	
+// }
+
+
+
 int main(int argc, char **argv)
 {
-	t_stack *stack_a;
-	t_stack *stack_b;
+    t_stack *stack_a;
+    t_stack *stack_b;
+    int total_elements;
 
-	initialize_stacks(argc, argv, &stack_a, &stack_b);
+    (void)argc; // Evitar aviso de parâmetro não utilizado
 
-	// Exibir a pilha A antes das operações
-	//ft_printf("Pilha A antes das operações:\n");
-	//display(stack_a);
-	//ft_printf("______________________________\n");
+    initialize_stacks(argv, &stack_a, &stack_b);
 
-	if (is_sorted(stack_a))
-	{
-		free_stack(stack_a);
-		free_stack(stack_b);
-		return 0;
-	}
-	
-	// Chamar a função de ordenação adequada com base no número de elementos
-	if (argc == 3) // Garantir que temos exatamente 2 elementos
-	{
-		sort_two(stack_a);
-	}
-	// Testar operação sort_three
-	else if (argc == 4)// Garantir que temos exatamente 3 elementos
-	{
-		sort_three(stack_a);
-	}
-	else if (argc == 5)// Garantir que temos exatamente 4 elementos
-	{
-		sort_four(stack_a, stack_b);
-	}
-	else if (argc == 6)// Garantir que temos exatamente 5 elementos
-	{
-		sort_five(stack_a, stack_b, 0);
-	}
-	
-	/*
-	//Exibir a pilha A depois das operações
-	ft_printf("Pilha A depois das operações:\n");
-	display(stack_a);
-	ft_printf("______________________________\n");
-	*/
+    // Exibir a pilha A antes das operações
+    ft_printf("Pilha A antes das operações:\n");
+    display(stack_a);
+    ft_printf("______________________________\n");
 
-	// Limpar a memória das pilhas
-	free_stack(stack_a);
-	free_stack(stack_b);
+    // Verificar se a pilha já está ordenada
+    if (is_sorted(stack_a))
+    {
+        free_stack(stack_a);
+        free_stack(stack_b);
+        return 0;
+    }
 
-	return 0;
-	
+    // Calcular o número total de elementos na pilha
+    total_elements = stack_size(stack_a);
+
+    // Chamar a função de ordenação adequada com base no número de elementos
+    if (total_elements == 2)
+    {
+        sort_two(stack_a);
+    }
+    else if (total_elements == 3)
+    {
+        sort_three(stack_a);
+    }
+    else if (total_elements == 4)
+    {
+        sort_four(stack_a, stack_b);
+    }
+    else if (total_elements == 5)
+    {
+        sort_five(stack_a, stack_b, 0);
+    }
+
+    // Limpar a memória das pilhas
+    free_stack(stack_a);
+    free_stack(stack_b);
+
+    return 0;
 }
+
+
+
+
 
 
 /*

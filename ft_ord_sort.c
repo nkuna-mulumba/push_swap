@@ -53,7 +53,10 @@ void	sort_two(t_stack *stack)
 	a = stack->top->value; //Aponta para o topo da pilha
 	b = stack->top->next->value;//Aponta para o segundo elemento da pilha
 	if (a > b)//Verifica se o primeiro elemento é maior que o segundo
+	{
 		sa(stack);//Chama a função swap
+		display(stack);
+	}
 }
 
 //TESTE COM 3 VALORES:

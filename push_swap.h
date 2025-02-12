@@ -77,7 +77,9 @@ long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b);
 void	check_duplicate(t_stack *stack, int num);
 
 // Função para inicializar e validar as pilhas
-void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack_b);
+// void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack_b);
+void    initialize_stacks(char *argv[], t_stack **stack_a, t_stack **stack_b);
+int stack_size(t_stack *stack);
 
 
 /*
