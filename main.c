@@ -563,55 +563,55 @@ int main(int argc, char **argv)
 
 
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    t_stack *stack_a;
-    t_stack *stack_b;
-    int total_elements;
+	t_stack	*stack_a;
+	t_stack	*stack_b;
+	int	total_elements;
 
-    (void)argc; // Evitar aviso de parâmetro não utilizado
+	(void)argc; // Evitar aviso de parâmetro não utilizado
 
-    initialize_stacks(argv, &stack_a, &stack_b);
+	initialize_stacks(argv, &stack_a, &stack_b);
 
-    // Exibir a pilha A antes das operações
-    ft_printf("Pilha A antes das operações:\n");
-    display(stack_a);
-    ft_printf("______________________________\n");
+	// Exibir a pilha A antes das operações
+	ft_printf("Pilha A antes das operações:\n");
+	display(stack_a);
+	ft_printf("______________________________\n");
 
-    // Verificar se a pilha já está ordenada
-    if (is_sorted(stack_a))
-    {
-        free_stack(stack_a);
-        free_stack(stack_b);
-        return 0;
-    }
+	// Verificar se a pilha já está ordenada
+	if (is_sorted(stack_a))
+	{
+		free_stack(stack_a);
+		free_stack(stack_b);
+		return (0);
+	}
 
-    // Calcular o número total de elementos na pilha
-    total_elements = stack_size(stack_a);
+	// Calcular o número total de elementos na pilha
+	total_elements = stack_size(stack_a);
 
-    // Chamar a função de ordenação adequada com base no número de elementos
-    if (total_elements == 2)
-    {
-        sort_two(stack_a);
-    }
-    else if (total_elements == 3)
-    {
-        sort_three(stack_a);
-    }
-    else if (total_elements == 4)
-    {
-        sort_four(stack_a, stack_b);
-    }
-    else if (total_elements == 5)
-    {
-        sort_five(stack_a, stack_b, 0);
-    }
+	// Chamar a função de ordenação adequada com base no número de elementos
+	if (total_elements == 2)
+	{
+		sort_two(stack_a);
+	}
+	else if (total_elements == 3)
+	{
+		sort_three(stack_a);
+	}
+	else if (total_elements == 4)
+	{
+		sort_four(stack_a, stack_b);
+	}
+	else if (total_elements == 5)
+	{
+		sort_five(stack_a, stack_b, 0);
+	}
 
-    // Limpar a memória das pilhas
-    free_stack(stack_a);
-    free_stack(stack_b);
+	// Limpar a memória das pilhas
+	free_stack(stack_a);
+	free_stack(stack_b);
 
-    return 0;
+	return 0;
 }
 
 

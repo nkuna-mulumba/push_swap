@@ -102,104 +102,82 @@ void	free_stack(t_stack *stack)
 }
 
 /*
-	Função para inicializar e validar as pilhas, chamando ostras funçoes
-*/ 
-// void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack_b)
-// {
-// 	int i;
-// 	int num;
-// 	int	j;
-
-// 	*stack_a = init_stack();
-// 	*stack_b = init_stack();
-// 	if (argc < 2)
-// 	{
-// 		free_stack(*stack_a);
-// 		free_stack(*stack_b);
-// 		exit(1);
-// 	}
-// 	// Verifica se os argumentos são válidos
-// 	j = 1;
-// 	while (j < argc)
-// 	{
-// 		if (!ft_valid_argument(argv[j]))
-// 		{
-// 			ft_printf("Erro: Argumento '%s' contém caracteres inválidos\n", argv[j]);
-// 			free_stack(*stack_a);
-// 			free_stack(*stack_b);
-// 			exit(1);
-// 		}
-// 		j++;
-// 	}
-// 	i = argc - 1; // Inicia no último argumento (ex: argv[4] para "./push_swap 1 2 3 4")
-// 	while (i >= 1)// Processa do último para o primeiro
-// 	{
-// 		num = ft_is_valid_number(argv[i], *stack_a, *stack_b);
-// 		check_duplicate(*stack_a, num);
-// 		push(*stack_a, num);
-// 		i--;
-// 	}
-// }
-
-
-void    initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b)
+	Função para validar os valores e empilhá-los
+*/
+void	validate_and_push(char **args, t_stack *temp_stack, t_stack *stack_a, t_stack *stack_b)
 {
-    int i;
-    int j;
-    int num;
-    char **args;
-    t_stack *temp_stack;
+	int	j;
+	int	num;
 
-    *stack_a = init_stack();
-    *stack_b = init_stack();
-    temp_stack = init_stack();
+	j = 0;
+	while (args[j] != NULL) // Validar números
+	{
+		if (!ft_digit_valid(args[j]))
+		{
+			ft_printf("Erro: Caractere '%s' é um dígito inválido\n", args[j]);
+			ft_freememoria(args);
+			free_stack(stack_a);
+			free_stack(stack_b);
+			exit(1);
+		}
+		num = ft_is_valid_number(args[j], stack_a, stack_b);
 
-    i = 1;
-    while (argv[i] != NULL)
-    {
-        // Divide cada argumento em substrings
-        args = ft_split(argv[i], ' ');
-        if (!args) // Verifica se a divisão falhou
-        {
-            ft_printf("Erro: Argumento '%s' contém caracteres inválidos\n", argv[i]);
-            free_stack(*stack_a);
-            free_stack(*stack_b);
-            exit(1);
-        }
-
-        j = 0;
-        while (args[j] != NULL)
-        {
-            if (!ft_digit_valid(args[j]))
-            {
-                ft_printf("Erro: Argumento '%s' contém caracteres inválidos\n", args[j]);
-                ft_freememoria(args);
-                free_stack(*stack_a);
-                free_stack(*stack_b);
-                exit(1);
-            }
-            num = ft_is_valid_number(args[j], *stack_a, *stack_b);
-            check_duplicate(*stack_a, num);
-
-            // Armazenar temporariamente os valores na ordem correta
-            push(temp_stack, num);
-
-            j++;
-        }
-        ft_freememoria(args);
-        i++;
-    }
-
-    // Empilhar os valores da pilha temporária na pilha original
-    while (!is_empty(temp_stack))
-    {
-        push(*stack_a, pop(temp_stack));
-    }
-
-    free_stack(temp_stack);
+		// Verificar duplicatas antes de empilhar
+		check_duplicate(temp_stack, num);
+		// Armazenar temporariamente os valores na ordem correta
+		push(temp_stack, num);
+		j++;
+	}
 }
 
+/*
+	Função para dividir a string em substrings e 
+	validar os valores
+*/
+void	process_arguments(char *arg, t_stack *temp_stack, t_stack *stack_a, t_stack *stack_b)
+{
+	char	**args;
 
+	// Divide cada argumento em substrings
+	args = ft_split(arg, ' ');
+	if (!args || args[0] == NULL) // Verifica se a divisão falhou
+	{
+		ft_printf("Erro: Delimitador '%s' sem dígitos\n", arg);
+		free_stack(stack_a);
+		free_stack(stack_b);
+		exit(1);
+	}
+	// Validar e empilhar números
+	validate_and_push(args, temp_stack, stack_a, stack_b);
+	ft_freememoria(args);
+}
 
+/*
+	Função para inicializar chamando outras funções
+*/ 
+void	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b)
+{
+	int		i;
+	t_stack *temp_stack;
 
-
+	*stack_a = init_stack();
+	*stack_b = init_stack();
+	temp_stack = init_stack();
+	i = 1;
+	while (argv[i] != NULL)
+	{
+		// Verificação de Argumentos Vazios
+		if (ft_strlen(argv[i]) == 0)
+		{
+			i++;
+			continue;
+		}
+		// Chama a função de processamento de argumentos
+		process_arguments(argv[i], temp_stack, *stack_a, *stack_b);
+		i++;
+	}
+	// Empilhar os valores da pilha temporária na pilha original
+	while (!is_empty(temp_stack))
+		push(*stack_a, pop(temp_stack));
+	free_stack(temp_stack);
+}

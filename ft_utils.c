@@ -27,7 +27,7 @@ int	peek(t_stack *stack)
 		return (-1);
 	}
 	// Retorna o valor do nó no topo da pilha
-	return (stack->top->value);	
+	return (stack->top->value);
 }
 
 /*
@@ -38,16 +38,6 @@ long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
 {
 	long	num; // Variável para armazenar o número convertido
 
-	// Verifica se a string contém apenas dígitos válidos
-	/*
-	if (!ft_digit_valid(str))
-	{
-		ft_printf("Erro: Argumento '%s' contém caracteres inválidos\n", str);
-		free_stack(stack_a);
-		free_stack(stack_b);
-		exit(1); // Encerra o programa se a string não for válida
-	}
-	*/
 	// Converte a string para número usando ft_atoi
 	num = ft_atol(str);
 	// Verifica se o número está dentro dos limites de int
@@ -68,7 +58,7 @@ long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
 */ 
 void	check_duplicate(t_stack *stack, int num)
 {
-	t_node	*current; //Declarar variavel que vai receber ńo do topo da pilha
+	t_node	*current;
 	
 	 // O nó do topo da pilha é armazenado em 'current'
 	current = stack->top;
@@ -85,16 +75,48 @@ void	check_duplicate(t_stack *stack, int num)
 	}
 }
 
-int stack_size(t_stack *stack)
+/*
+	Função auxiliar de (sort_four) para 
+	encontrar o índice do menor valor na stack_a
+*/
+int	find_min_position(t_stack *stack)
 {
-    int size = 0;
-    t_node *current = stack->top;
+	t_node	*currente;
+	int		min;
+	int		min_pos;
+	int		i;
 
-    while (current != NULL)
-    {
-        size++;
-        current = current->next;
-    }
-    return size;
+	if (!stack || !stack->top)
+		return (-1);// Retorna -1 se a pilha estiver vazia
+	currente = stack->top;//apunta ao topo da pilha
+	min = currente->value;//Armazena o valor do topo como o mínimo inicial
+	min_pos = 0;//Inicializa a posição do mínimo
+	i = 0;//Inicializa o índice
+	while (currente)// Percorre a pilha até o final
+	{
+		if (currente->value < min)//Verifica se o valor atual é menor que o mínimo
+		{
+			min = currente->value;//Atualiza o mínimo 
+			min_pos = i;//Atualiza a posição do mínimo 1
+		}
+		currente = currente->next;//Avança para o próximo elemento da pilha
+		i++;//Incrementa o índice
+	}
+	return (min_pos);//Retorna a posição do menor valor (3)
+}
+/*
+	Função para contar o número de elementos na stack_a
+*/
+int	stack_size(t_stack *stack)
+{
+	int	size = 0;
+	t_node *current = stack->top;
+
+	while (current != NULL)
+	{
+		size++;
+		current = current->next;
+	}
+	return (size);
 }
 

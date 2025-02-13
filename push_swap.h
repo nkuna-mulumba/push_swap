@@ -69,31 +69,35 @@ void	rrr(t_stack *stack_a, t_stack *stack_b);
 // Função para liberar a memória de uma pilha
 void	free_stack(t_stack *stack);
 
-//## VALIDAR ARGUMENTOS
+//## VALIDAR ARGUMENTOS E INICIALIZAR STACKS
 // Função para verificar se a string representa um número válido dentro do intervalo de int
 //long ft_is_valid_number(const char *str);
 long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b);
 //Função para verificar se um número já está presente na pilha
 void	check_duplicate(t_stack *stack, int num);
 
-// Função para inicializar e validar as pilhas
-// void	initialize_stacks(int argc, char **argv, t_stack **stack_a, t_stack **stack_b);
-void    initialize_stacks(char *argv[], t_stack **stack_a, t_stack **stack_b);
-int stack_size(t_stack *stack);
+//Função para validar os valores e empilhá-los
+void	validate_and_push(char **args, t_stack *temp_stack, t_stack *stack_a, t_stack *stack_b);
+//Função para dividir a string em substrings e validar os valores
+void	process_arguments(char *arg, t_stack *temp_stack, t_stack *stack_a, t_stack *stack_b);
+// Função para inicializar chamando outras funções
+void	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b);
+// Função para contar o número de elementos na stack_a
+int		stack_size(t_stack *stack);
 
 
 /*
 	ALGORITMO DE ORDENAÇÃO
 */
 // Funçao auxiliar para verificar se a pilha está ordenada
-int	is_sorted(t_stack *stack);
+int		is_sorted(t_stack *stack);
 //Funçao para ordenar dois elementos na pilha
 void	sort_two(t_stack *stack);
 // Função para ordenar três elementos na pilha
 void	sort_three(t_stack *stack);
 
 //Funçao auxiliar para encontrar indice de menor valor no STACK_A
-int	find_min_position(t_stack *stack);
+int		find_min_position(t_stack *stack);
 //Funçao para ordenar quatro elelementos na pilha
 void	sort_four(t_stack *stack_a, t_stack *stack_b);
 //FUnçao para ordenar cinco elementos na pilha

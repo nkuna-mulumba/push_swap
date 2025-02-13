@@ -53,10 +53,7 @@ void	sort_two(t_stack *stack)
 	a = stack->top->value; //Aponta para o topo da pilha
 	b = stack->top->next->value;//Aponta para o segundo elemento da pilha
 	if (a > b)//Verifica se o primeiro elemento é maior que o segundo
-	{
 		sa(stack);//Chama a função swap
-		display(stack);
-	}
 }
 
 //TESTE COM 3 VALORES:
@@ -121,36 +118,6 @@ void	sort_three(t_stack *stack)
 	}
 	else if (a > b && b < c && a > c)// 3 > 1 && 1 < 2 && 3 > 2 
 		ra(stack, 1);
-}
-
-/*
-	Função auxiliar de (sort_four) para 
-	encontrar o índice do menor valor na stack_a
-*/
-int	find_min_position(t_stack *stack)
-{
-	t_node	*currente;
-	int		min;
-	int		min_pos;
-	int		i;
-
-	if (!stack || !stack->top)
-		return (-1);// Retorna -1 se a pilha estiver vazia
-	currente = stack->top;//apunta ao topo da pilha
-	min = currente->value;//Armazena o valor do topo como o mínimo inicial
-	min_pos = 0;//Inicializa a posição do mínimo
-	i = 0;//Inicializa o índice
-	while (currente)// Percorre a pilha até o final
-	{
-		if (currente->value < min)//Verifica se o valor atual é menor que o mínimo
-		{
-			min = currente->value;//Atualiza o mínimo 
-			min_pos = i;//Atualiza a posição do mínimo 1
-		}
-		currente = currente->next;//Avança para o próximo elemento da pilha
-		i++;//Incrementa o índice
-	}
-	return (min_pos);//Retorna a posição do menor valor (3)
 }
 
 /*
