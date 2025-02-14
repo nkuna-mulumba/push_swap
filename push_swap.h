@@ -81,7 +81,7 @@ void	validate_and_push(char **args, t_stack *temp_stack, t_stack *stack_a, t_sta
 //Função para dividir a string em substrings e validar os valores
 void	process_arguments(char *arg, t_stack *temp_stack, t_stack *stack_a, t_stack *stack_b);
 // Função para inicializar chamando outras funções
-void	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b);
+int		initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b);
 // Função para contar o número de elementos na stack_a
 int		stack_size(t_stack *stack);
 

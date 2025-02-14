@@ -68,6 +68,7 @@ int	pop(t_stack *stack)
 	 // Retorna o valor do nó removido
 	return (value);
 }
+
 /*
     Função para empilhar (push) elemento da pilha B para a pilha A
 	com paramtero de tipo local ou membros
@@ -110,4 +111,22 @@ void	pb(t_stack *stack_b, t_stack *stack_a)
 	push(stack_b, value);
 	//Imprimir a operaçao
 	ft_printf("pb\n");
+}
+
+/*
+	Função para acessar (peek) o valor no topo da pilha
+    Retorna o valor do nó no topo da pilha sem removê-lo
+*/
+//(OBS) Depois ver se é necessario continuar com a funçao (peek)
+int	peek(t_stack *stack)
+{
+	//Verifica se a pilha está vazia
+	if (is_empty(stack))
+	{
+		ft_printf("Pilha vazia.\n");
+		// Retorna um valor indicador de erro (pode ser ajustado conforme necessário)
+		return (-1);
+	}
+	// Retorna o valor do nó no topo da pilha
+	return (stack->top->value);
 }

@@ -9,6 +9,7 @@ SRC = ft_stack.c\
 	ft_rotate_up.c\
 	ft_rotate_down.c\
 	ft_ord_sort.c\
+	ft_ord_sort_util.c\
     main.c
 
 # Arquivos objeto gerados a partir dos arquivos fonte.

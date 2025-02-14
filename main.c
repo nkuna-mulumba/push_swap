@@ -426,243 +426,56 @@ int main(int argc, char **argv)
 */
 
 
-/*
-	// Testar preparaçao das pilha e validaçao de valores
-	int main(int argc, char **argv)
-	{
-		t_stack	*stack_a;
-		t_stack	*stack_b;
-
-		// Inicializar e validar as pilhas
-		initialize_stacks(argc, argv, &stack_a, &stack_b);
-
-		// Imprime a pilha antes das operações
-		ft_printf("Pilha A antes das operações:\n");
-		display(stack_a);
-		// ft_printf("Pilha B antes das operações:\n");
-		// display(stack_b);
-		ft_printf("______________________________\n");
-
-		// Executa algumas operações nas pilhas (exemplo de operações)
-		ft_printf("\nPilha A depois das seguintes operações:\n");
-		sa(stack_a);
-		display(stack_a);
-		ra(stack_a, 1);
-		display(stack_a);
-		rra(stack_a, 1);
-		display(stack_a);
-		pb(stack_b, stack_a);
-		display(stack_a);
-		display(stack_b);
-		pb(stack_b, stack_a);
-		display(stack_a);
-		display(stack_b);
-		pb(stack_b, stack_a);
-		display(stack_a);
-		display(stack_b);
-
-		ft_printf("\nPilha B depois das seguintes operações:\n");
-		rrb(stack_b, 1);
-		display(stack_b);
-		sb(stack_b);
-		display(stack_b);
-		rb(stack_b, 1);
-		display(stack_b);
-		ft_printf("______________________________\n");
-
-		// Executa mais operações nas pilhas (exemplo de operações)
-		ft_printf("\nPilha A depois das seguintes operações:\n");
-		pa(stack_a, stack_b);
-		display(stack_a);
-		display(stack_b);
-		ft_printf("\nPilha A e B:\n");
-		pb(stack_b, stack_a);
-		display(stack_a);
-		display(stack_b);
-		ft_printf("\nPilha A e B:\n");
-		rr(stack_a, stack_b);
-		display(stack_a);
-		display(stack_b);
-		ft_printf("\nPilha A e B:\n");
-		rrr(stack_a, stack_b);
-		display(stack_a);
-		display(stack_b);
-		ft_printf("\nPilha A e B:\n");
-		ss(stack_a, stack_b);
-		display(stack_a);
-		display(stack_b);
-		ft_printf("______________________________\n");
-
-		free_stack(stack_a);
-		free_stack(stack_b);
-
-		return 0;
-	}
+/* 
 */
-
-
-
-
-
-
-/*
-*/
-// Main para testa algoritimo de ordenaçao
-// int main(int argc, char **argv)
-// {
-// 	t_stack *stack_a;
-// 	t_stack *stack_b;
-
-// 	initialize_stacks(argc, argv, &stack_a, &stack_b);
-
-// 	// Exibir a pilha A antes das operações
-// 	//ft_printf("Pilha A antes das operações:\n");
-// 	//display(stack_a);
-// 	//ft_printf("______________________________\n");
-
-// 	if (is_sorted(stack_a))
-// 	{
-// 		free_stack(stack_a);
-// 		free_stack(stack_b);
-// 		return 0;
-// 	}
-	
-// 	// Chamar a função de ordenação adequada com base no número de elementos
-// 	if (argc == 3) // Garantir que temos exatamente 2 elementos
-// 	{
-// 		sort_two(stack_a);
-// 	}
-// 	// Testar operação sort_three
-// 	else if (argc == 4)// Garantir que temos exatamente 3 elementos
-// 	{
-// 		sort_three(stack_a);
-// 	}
-// 	else if (argc == 5)// Garantir que temos exatamente 4 elementos
-// 	{
-// 		sort_four(stack_a, stack_b);
-// 	}
-// 	else if (argc == 6)// Garantir que temos exatamente 5 elementos
-// 	{
-// 		sort_five(stack_a, stack_b, 0);
-// 	}
-	
-// 	/*
-// 	//Exibir a pilha A depois das operações
-// 	ft_printf("Pilha A depois das operações:\n");
-// 	display(stack_a);
-// 	ft_printf("______________________________\n");
-// 	*/
-
-// 	// Limpar a memória das pilhas
-// 	free_stack(stack_a);
-// 	free_stack(stack_b);
-
-// 	return 0;
-	
-// }
-
-
-
-int	main(int argc, char **argv)
+// Testar preparaçao das pilha e validaçao de valores
+int main(int argc, char **argv)
 {
 	t_stack	*stack_a;
 	t_stack	*stack_b;
-	int	total_elements;
+	int		length_elements;
 
-	(void)argc; // Evitar aviso de parâmetro não utilizado
+	stack_a = NULL;
+	stack_b = NULL;
+	(void)argc;// Ignorar o parâmetro argc para evitar avisos
 
-	initialize_stacks(argv, &stack_a, &stack_b);
+	length_elements = initialize_stacks(argv, &stack_a, &stack_b);
 
-	// Exibir a pilha A antes das operações
-	ft_printf("Pilha A antes das operações:\n");
-	display(stack_a);
-	ft_printf("______________________________\n");
-
-	// Verificar se a pilha já está ordenada
-	if (is_sorted(stack_a))
+	if (length_elements <= 0)
 	{
+		ft_printf("Error\n");
 		free_stack(stack_a);
 		free_stack(stack_b);
-		return (0);
 	}
 
-	// Calcular o número total de elementos na pilha
-	total_elements = stack_size(stack_a);
+	if (!is_sorted(stack_a))
+	{
+		if (length_elements == 2)
+			sort_two(stack_a);
+		else if (length_elements == 3)
+			sort_three(stack_a);
+		else if (length_elements == 4)
+			sort_four(stack_a, stack_b);
+		else if (length_elements == 5)
+			sort_five(stack_a, stack_b, 0);
+	}
+	if (stack_a) // Verifica se stack_a não é NULL antes de liberar
+		free_stack(stack_a);
+	if (stack_b) // Verifica se stack_b não é NULL antes de liberar
+		free_stack(stack_b);
 
-	// Chamar a função de ordenação adequada com base no número de elementos
-	if (total_elements == 2)
-	{
-		sort_two(stack_a);
-	}
-	else if (total_elements == 3)
-	{
-		sort_three(stack_a);
-	}
-	else if (total_elements == 4)
-	{
-		sort_four(stack_a, stack_b);
-	}
-	else if (total_elements == 5)
-	{
-		sort_five(stack_a, stack_b, 0);
-	}
-
-	// Limpar a memória das pilhas
-	free_stack(stack_a);
-	free_stack(stack_b);
-
-	return 0;
+	return (0);
 }
 
 
 
-
-
-
 /*
-	jcongolo@c2r8s6 ~/Desktop/push_swap
+	CHEQUEAR
+	% ARG="1 99 3 4 0"; ./push_swap $ARG | ./checker_linux $ARG
 	% ARG="4 67 3 87 23"; ./push_swap "4 67 3 87 23"
 	Erro: Argumento '4 67 3 87 23' contém caracteres inválidos
 	jcongolo@c2r8s6 ~/Desktop/push_swap
 	% ARG="4 67 3 87 23"; ./push_swap 4 6 2 | ./checker_linux 4 6 2
-	OK
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% ARG="4 67 3 87 23"; ./push_swap 4 6 2 79 | ./checker_linux 4 6 2 79
-	OK
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% ARG="4 67 3 87 23"; ./push_swap 4 6 2 79 -5 | ./checker_linux 4 6 2 79 -5
-	OK
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% ARG="4 67 3 87 23"; ./push_swap 4 6 2 79 -5 6 | ./checker_linux 4 6 2 79 -5 6
-	Error
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% ARG="4 67 3 87 23"; ./push_swap 4 6 2 79 -5 6 | ./checker_linux 4 6 2 79 -5 6C
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% ./push_swap 45 6 5 6
-	Erro: Número duplicado '6'
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% ./push_swap "55 66 66 444"  44  5
-	Erro: Argumento '55 66 66 444' contém caracteres inválidos
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% ./push_swap "55 66 66 444"       
-	Erro: Argumento '55 66 66 444' contém caracteres inválidos
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% 55
-	zsh: command not found: 55
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% 66
-	zsh: command not found: 66
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% 66
-	zsh: command not found: 66
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% 44
-	zsh: command not found: 44
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% ./push_swap 55 66 66 444 
-	Erro: Número duplicado '66'
-	jcongolo@c2r8s6 ~/Desktop/push_swap
-	% 
 */
 
 

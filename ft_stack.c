@@ -78,84 +78,28 @@ void	display(t_stack *stack)
 	Função para liberar a memória de uma pilha.
 	Percorre cada nó da pilha e libera a memória alocada.
 */
-void	free_stack(t_stack *stack)
+void free_stack(t_stack *stack)
 {
-	//Declarar a variavel que vai armazenar valor de top da pilha
-	t_node	*current;
-	// Declara a variável que armazenará o próximo nó
-	t_node	*next_node;
-	
-	// Atribui o valor do topo da pilha à variável (current)
+	t_node *current;
+	t_node *next_node;
+
+	if (!stack) // Verifica se a pilha é nula
+		return;
 	current = stack->top;
-	// Percorre a pilha enquanto o nó atual não for NULL
 	while (current != NULL)
 	{
-		// Armazena o próximo nó para continuar a iteração após liberar o nó atual
 		next_node = current->next;
-		 // Libera a memória do nó atual
 		free(current);
-		// Avança para o próximo nó
 		current = next_node;
 	}
-	// Libera a estrutura da pilha
-	free(stack);
+	stack->top = NULL; // Define o topo da pilha como NULL após liberar os nós
+	free(stack); // Libera a estrutura principal da pilha
 }
 
 /*
-	Função para validar os valores e empilhá-los
-*/
-void	validate_and_push(char **args, t_stack *temp_stack, t_stack *stack_a, t_stack *stack_b)
-{
-	int	j;
-	int	num;
-
-	j = 0;
-	while (args[j] != NULL) // Validar números
-	{
-		if (!ft_digit_valid(args[j]))
-		{
-			ft_printf("Erro: Caractere '%s' é um dígito inválido\n", args[j]);
-			ft_freememoria(args);
-			free_stack(stack_a);
-			free_stack(stack_b);
-			exit(1);
-		}
-		num = ft_is_valid_number(args[j], stack_a, stack_b);
-
-		// Verificar duplicatas antes de empilhar
-		check_duplicate(temp_stack, num);
-		// Armazenar temporariamente os valores na ordem correta
-		push(temp_stack, num);
-		j++;
-	}
-}
-
-/*
-	Função para dividir a string em substrings e 
-	validar os valores
-*/
-void	process_arguments(char *arg, t_stack *temp_stack, t_stack *stack_a, t_stack *stack_b)
-{
-	char	**args;
-
-	// Divide cada argumento em substrings
-	args = ft_split(arg, ' ');
-	if (!args || args[0] == NULL) // Verifica se a divisão falhou
-	{
-		ft_printf("Erro: Delimitador '%s' sem dígitos\n", arg);
-		free_stack(stack_a);
-		free_stack(stack_b);
-		exit(1);
-	}
-	// Validar e empilhar números
-	validate_and_push(args, temp_stack, stack_a, stack_b);
-	ft_freememoria(args);
-}
-
-/*
-	Função para inicializar chamando outras funções
+    Função para inicializar chamando outras funções
 */ 
-void	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b)
+int	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b)
 {
 	int		i;
 	t_stack *temp_stack;
@@ -166,18 +110,19 @@ void	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b)
 	i = 1;
 	while (argv[i] != NULL)
 	{
-		// Verificação de Argumentos Vazios
-		if (ft_strlen(argv[i]) == 0)
-		{
-			i++;
-			continue;
-		}
-		// Chama a função de processamento de argumentos
+		if (ft_strlen(argv[i]) != 0) // Ignorar argumentos vazios
 		process_arguments(argv[i], temp_stack, *stack_a, *stack_b);
 		i++;
 	}
-	// Empilhar os valores da pilha temporária na pilha original
 	while (!is_empty(temp_stack))
 		push(*stack_a, pop(temp_stack));
 	free_stack(temp_stack);
+
+	if (*stack_a && stack_size(*stack_a) <= 0) // Verifica se *stack_a não é NULL antes de chamar stack_size
+	{
+		free_stack(*stack_a); // Libera stack_a imediatamente se nenhum elemento válido for fornecido
+		*stack_a = NULL; // Define *stack_a como NULL após liberação
+		return (-1);
+	}
+	return (stack_size(*stack_a));
 }

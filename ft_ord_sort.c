@@ -31,14 +31,6 @@ int	is_sorted(t_stack *stack)
 	return (1);// Pilha está ordenada
 }
 
-//com dois valores:
-// 1 2 Ordenada
-// -1 1 Ordenada
-// -2 -1 Ordenada
-// -2 2  Ordenada
-// 2 1 SA
-// -1 -2 SA
-
 /*
 	Funçao para ordenara dois valor no stack_a
 */
@@ -55,38 +47,6 @@ void	sort_two(t_stack *stack)
 	if (a > b)//Verifica se o primeiro elemento é maior que o segundo
 		sa(stack);//Chama a função swap
 }
-
-//TESTE COM 3 VALORES:
-//1 2 3 NEHUMA OPERAÇAO DEVE SER FEITA
-//1 3 2 SA 3 1 2 rra 1 2 3 (2)suficiente
-//2 3 1 RRA 1 2 3 (1) suficiente
-//2 1 3 SA 1 2 3 (1) suficiente
-//3 1 2 RA 1 2 3 (1) suficiente
-//3 2 1 SA 2 3 1 RRA 1 2 3 (2) suficiente
-//1 -1 0 RA -1 0 1 (1) suficiente
-
-
-//Testes adicional:
-//1 1 2
-//-1 -1 -2
-//2 2 2
-
-//Misto positivo e negativo:
-//1 -2 3 SA 
-//-1 2 -3 RA
-//2 -1 1 RA
-
-//Minimo e maximo INT :
-//-2147483648 2147483647 0 SA RA
-//2147483647 -2147483648 1 RA
-//-2147483647 2147483646 0 RA
-
-
-//invalidos:
-//1 2 a
-//-1 b 3
-//1.5 2 3
-
 
 /*
 	Função para ordenar três valores na stack_a
@@ -121,82 +81,34 @@ void	sort_three(t_stack *stack)
 }
 
 /*
-	Funçao para ordenara quatro valores na stack_a
+	Função auxiliar de (sort_four) para 
+	encontrar o índice do menor valor na stack_a
 */
-void	sort_four(t_stack *stack_a, t_stack *stack_b)
+int	find_min_position(t_stack *stack)
 {
-	int	min_pos;
+	t_node	*currente;
+	int		min;
+	int		min_pos;
+	int		i;
 
-	min_pos = find_min_position(stack_a);//Encontra a posição do menor valor na pilha A
-	if (min_pos == 1)
-		ra(stack_a, 1);
-	else if (min_pos == 2)
+	if (!stack || !stack->top)
+		return (-1);// Retorna -1 se a pilha estiver vazia
+	currente = stack->top;//apunta ao topo da pilha
+	min = currente->value;//Armazena o valor do topo como o mínimo inicial
+	min_pos = 0;//Inicializa a posição do mínimo
+	i = 0;//Inicializa o índice
+	while (currente)// Percorre a pilha até o final
 	{
-		ra(stack_a, 1);
-		ra(stack_a, 1);
+		if (currente->value < min)//Verifica se o valor atual é menor que o mínimo
+		{
+			min = currente->value;//Atualiza o mínimo 
+			min_pos = i;//Atualiza a posição do mínimo 1
+		}
+		currente = currente->next;//Avança para o próximo elemento da pilha
+		i++;//Incrementa o índice
 	}
-	else if (min_pos == 3)
-		rra(stack_a, 1);
-	if (!is_sorted(stack_a))
-	{
-		pb(stack_b, stack_a);
-		sort_three(stack_a);
-		pa(stack_a, stack_b);
-	}
+	return (min_pos);//Retorna a posição do menor valor (3)
 }
-
-// ra(stack_a, 1); //Ordenar o menor elemento na posição correta
-// display(stack_a);
-
-
-// 1 2 3 4 Ordenada
-// 1 2 4 3 ## 4 pb 2 4 3 sort_three sa 4 2 3 ra 2 3 4 pa 1 2 3 4 (4)
-// 1 4 3 2 ## 4 
-// 1 4 2 3 ## 3
-// 1 3 2 4 ## 3
-// 1 3 4 2 ## 3
-// 1 4 3 2 ## 4
-// 2 3 1 4 ## 5
-// 2 3 4 1 ## 1
-// 2 4 3 1 ## 5
-// 2 4 1 3 ## 5
-// 2 1 3 4 ## 4
-// 2 1 4 3 ## 5
-// 3 1 2 4 ## 5
-// 3 1 4 2 ## 4
-// 3 4 1 2 ## 2
-// 3 4 2 1 ## 4
-// 3 2 1 4 ## 6
-// 3 2 4 1 ## 4
-// 4 1 3 2 ## 4
-// 4 1 2 3 ## 1
-// 4 3 1 2 ## 6
-// 4 3 2 1 ## 5
-// 4 2 1 3 ## 5
-// 4 2 3 1 ## 4
-
-// -1 2 -2 1 ## 5
-// -1 2 1 -2 ## 5
-// -1 -2 2 1 ## 5
-// -1 -2 1 2 ## 4
-// 1 -1 2 -2 ## 4
-// 1 -1 -2 2 ## 6
-// 1 -2 -1 2 ## 5
-// 1 -2 2 -1 ## 4
-// 1 2 -1 -2 ## 4
-// 1 2 -2 -1 ## 4
-// 2 -1 -2 1 ## 5
-// 2 -1 1 -2 ## 4
-// 2 -2 -1 1 ## 1
-// 2 -2 1 -1 ## 4
-// 2 1 -2 -1 ## 6
-// 2 1 -1 -2 ## 5
-// -2 -1 2 1 ## 4
-// -2 -1 1 2 ## Pilha ordenada
-// -2 2 -1 1 ## 3
-// -2 2 1 -1 ## 4
-// -2 1 -1 2 ## 3
-// -2 1 2 -1 ## 3
 
 /*
     Função para ordenar cinco valores na stack_a 
@@ -229,6 +141,7 @@ void	sort_five(t_stack *stack_a, t_stack *stack_b, int count)
 	while (stack_b->top != NULL)
 		pa(stack_a, stack_b);
 }
+
 
 //ELIMINAR 4 linhas desnecessarias
 //teste 5:

@@ -13,24 +13,6 @@
 #include "push_swap.h"
 
 /*
-	Função para acessar (peek) o valor no topo da pilha
-    Retorna o valor do nó no topo da pilha sem removê-lo
-*/
-//(OBS) Depois ver se é necessario continuar com a funçao (peek)
-int	peek(t_stack *stack)
-{
-	//Verifica se a pilha está vazia
-	if (is_empty(stack))
-	{
-		ft_printf("Pilha vazia.\n");
-		// Retorna um valor indicador de erro (pode ser ajustado conforme necessário)
-		return (-1);
-	}
-	// Retorna o valor do nó no topo da pilha
-	return (stack->top->value);
-}
-
-/*
 	Função para verificar se a string representa um 
 	número válido dentro do intervalo de int e retornar o valor convertido
 */
@@ -76,34 +58,59 @@ void	check_duplicate(t_stack *stack, int num)
 }
 
 /*
-	Função auxiliar de (sort_four) para 
-	encontrar o índice do menor valor na stack_a
+	Função para validar os valores e empilhá-los
 */
-int	find_min_position(t_stack *stack)
+void	validate_and_push(char **args, t_stack *temp_stack, t_stack *stack_a, t_stack *stack_b)
 {
-	t_node	*currente;
-	int		min;
-	int		min_pos;
-	int		i;
+	int	i;
+	int	num;
 
-	if (!stack || !stack->top)
-		return (-1);// Retorna -1 se a pilha estiver vazia
-	currente = stack->top;//apunta ao topo da pilha
-	min = currente->value;//Armazena o valor do topo como o mínimo inicial
-	min_pos = 0;//Inicializa a posição do mínimo
-	i = 0;//Inicializa o índice
-	while (currente)// Percorre a pilha até o final
+	i = 0;
+	while (args[i] != NULL) // Validar números
 	{
-		if (currente->value < min)//Verifica se o valor atual é menor que o mínimo
+		if (!ft_digit_valid(args[i]))
 		{
-			min = currente->value;//Atualiza o mínimo 
-			min_pos = i;//Atualiza a posição do mínimo 1
+			ft_printf("Erro: Caractere '%s' é um dígito inválido\n", args[i]);
+			//ft_freememoria(args);
+			free_stack(stack_a);
+			free_stack(stack_b);
+			return;
 		}
-		currente = currente->next;//Avança para o próximo elemento da pilha
-		i++;//Incrementa o índice
+		num = ft_is_valid_number(args[i], stack_a, stack_b);
+
+		// Verificar duplicatas antes de empilhar
+		check_duplicate(temp_stack, num);
+		// Armazenar temporariamente os valores na ordem correta
+		push(temp_stack, num);
+		i++;
 	}
-	return (min_pos);//Retorna a posição do menor valor (3)
+	//ft_freememoria(args);
 }
+
+/*
+	Função para dividir a string em substrings e 
+	validar os valores
+*/
+void	process_arguments(char *arg, t_stack *temp_stack, t_stack *stack_a, t_stack *stack_b)
+{
+	char	**args;
+
+	// Divide cada argumento em substrings
+	args = ft_split(arg, ' ');
+	if (!args || args[0] == NULL) // Verifica se a divisão falhou
+	{
+		ft_printf("Erro: Delimitador '%s' sem dígitos\n", arg);
+		ft_freememoria(args);
+		free_stack(stack_a);
+		free_stack(stack_b);
+		return;
+	}
+	// Validar e empilhar números
+	validate_and_push(args, temp_stack, stack_a, stack_b);
+	ft_freememoria(args);
+}
+
+
 /*
 	Função para contar o número de elementos na stack_a
 */
