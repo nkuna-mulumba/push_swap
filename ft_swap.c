@@ -17,7 +17,6 @@
 */
 void	swap(t_stack *stack)
 {
-	// Declarar membros que vão armazenar valor do topo e do nó abaixo do topo
 	t_node	*first;
 	t_node	*second;
 

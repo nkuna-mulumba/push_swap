@@ -17,21 +17,16 @@
 */
 t_stack	*init_stack()
 {
-	// Declarar variável local para a estrutura da pilha
 	t_stack	*stack;
 	
 	// Aloca memória para a estrutura de dados da pilha (membro stack)
 	stack = (t_stack *)malloc(sizeof(t_stack));
-	//Em caso que alocaçao da memoria do membro falhar, retorna NULL
 	if (!stack)
-	{
-		// Retorna NULL em caso de falha na alocação de memória
 		return (NULL);
-	}
 	// Inicializa o membro com o topo da pilha como NULL, indicando que a pilha está vazia
 	stack->top = NULL;
 	// Retornar o membro apontada para a estrutura da pilha recém-criada
-	return stack;
+	return (stack);
 }
 
 /*
@@ -40,21 +35,19 @@ t_stack	*init_stack()
 */
 int	is_empty(t_stack *stack)
 {
+	if (!stack) // Verifica se stack é nulo
+		return (1);
 	//Verificar se a pilha esta vazia
 	if (stack->top == NULL)
-	{
 		//Retornar 1 se nao tiver valor
 		return (1);
-	}
 	else
-	{
 		//Retornar 0 se tiver valor
-		return(0);
-	}
+		return(stack->top == NULL);
 }
 
 /*
-    Função para exibir todos os elementos da pilha
+	Função para exibir todos os elementos da pilha
 */
 void	display(t_stack *stack)
 {
@@ -92,17 +85,16 @@ void free_stack(t_stack *stack)
 		free(current);
 		current = next_node;
 	}
-	stack->top = NULL; // Define o topo da pilha como NULL após liberar os nós
-	free(stack); // Libera a estrutura principal da pilha
+	free(stack);// Libera a estrutura principal da pilha
 }
 
 /*
-    Função para inicializar chamando outras funções
+	Função para inicializar chamando outras funções
 */ 
 int	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b)
 {
 	int		i;
-	t_stack *temp_stack;
+	t_stack	*temp_stack;
 
 	*stack_a = init_stack();
 	*stack_b = init_stack();
@@ -121,8 +113,7 @@ int	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b)
 	if (*stack_a && stack_size(*stack_a) <= 0) // Verifica se *stack_a não é NULL antes de chamar stack_size
 	{
 		free_stack(*stack_a); // Libera stack_a imediatamente se nenhum elemento válido for fornecido
-		*stack_a = NULL; // Define *stack_a como NULL após liberação
-		return (-1);
+		exit(1); // Encerra o programa se nenhum elemento válido for fornecido
 	}
 	return (stack_size(*stack_a));
 }

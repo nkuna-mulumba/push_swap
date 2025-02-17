@@ -1,4 +1,3 @@
-//#include <stdio.h>
 #include "push_swap.h"
 
 /*
@@ -426,28 +425,96 @@ int main(int argc, char **argv)
 */
 
 
-/* 
-*/
-// Testar preparaçao das pilha e validaçao de valores
+
+
+
+
+// int main(int argc, char **argv)
+// {
+//     t_stack *stack_a;
+//     t_stack *stack_b;
+//     int length_elements;
+
+//     stack_a = NULL;
+//     stack_b = NULL;
+//     (void)argc;  // Ignora o parâmetro argc para evitar avisos
+
+//     // Inicializa as pilhas com os valores dos argumentos
+//     length_elements = initialize_stacks(argv, &stack_a, &stack_b);
+
+//     // Verifica se a inicialização foi bem-sucedida
+//     if (length_elements <= 0)
+//     {
+//         ft_printf("Error\n");
+//         free_stack(stack_a);  // Libera a pilha A
+//         free_stack(stack_b);  // Libera a pilha B
+//         return (1);
+//     }
+
+//     // Exibe o estado inicial das pilhas
+//     ft_printf("Estado inicial da pilha A:\n");
+//     display(stack_a);
+//     ft_printf("Estado inicial da pilha B:\n");
+//     display(stack_b);
+
+//     // Chama as funções de ordenação com base no número de elementos
+//     if (!is_sorted(stack_a))
+//     {
+//         if (length_elements == 2)
+//             sort_two(stack_a);
+//         else if (length_elements == 3)
+//             sort_three(stack_a);
+//         else if (length_elements == 4)
+//             sort_four(stack_a, stack_b);
+//         else if (length_elements == 5)
+//             sort_five(stack_a, stack_b);
+//     }
+
+//     // Exibe o estado final das pilhas
+//     ft_printf("______________________________\n");
+//     ft_printf("Estado final da pilha A:\n");
+//     display(stack_a);
+//     ft_printf("Estado final da pilha B:\n");
+//     display(stack_b);
+
+//     // Libera a memória alocada para as pilhas
+//     free_stack(stack_a);
+//     free_stack(stack_b);
+
+//     return (0);
+// }
+
+
+
 int main(int argc, char **argv)
 {
-	t_stack	*stack_a;
-	t_stack	*stack_b;
-	int		length_elements;
+	t_stack *stack_a;
+	t_stack *stack_b;
+	int length_elements;
 
 	stack_a = NULL;
 	stack_b = NULL;
-	(void)argc;// Ignorar o parâmetro argc para evitar avisos
+	(void)argc;  // Ignora o parâmetro argc para evitar avisos
 
+	// Inicializa as pilhas com os valores dos argumentos
 	length_elements = initialize_stacks(argv, &stack_a, &stack_b);
 
+	// Verifica se a inicialização foi bem-sucedida
 	if (length_elements <= 0)
 	{
 		ft_printf("Error\n");
-		free_stack(stack_a);
-		free_stack(stack_b);
+		free_stack(stack_a);  // Libera a pilha A
+		free_stack(stack_b);  // Libera a pilha B
+		return (1);
 	}
 
+	// Exibe o estado inicial das pilhas
+	// ft_printf("Estado inicial da pilha A:\n");
+	// display(stack_a);
+	// ft_printf("Estado inicial da pilha B:\n");
+	// display(stack_b);
+
+	// Chama as funções de ordenação com base no número de elementos
 	if (!is_sorted(stack_a))
 	{
 		if (length_elements == 2)
@@ -458,15 +525,23 @@ int main(int argc, char **argv)
 			sort_four(stack_a, stack_b);
 		else if (length_elements == 5)
 			sort_five(stack_a, stack_b, 0);
+		else if (length_elements > 5)
+			sort_large(stack_a, stack_b, length_elements);
 	}
-	if (stack_a) // Verifica se stack_a não é NULL antes de liberar
-		free_stack(stack_a);
-	if (stack_b) // Verifica se stack_b não é NULL antes de liberar
-		free_stack(stack_b);
+
+	// Exibe o estado final das pilhas
+	// ft_printf("______________________________\n");
+	// ft_printf("Estado final da pilha A:\n");
+	// display(stack_a);
+	// ft_printf("Estado final da pilha B:\n");
+	// display(stack_b);
+
+	// Libera a memória alocada para as pilhas
+	free_stack(stack_a);
+	free_stack(stack_b);
 
 	return (0);
 }
-
 
 
 /*

@@ -13,25 +13,6 @@
 #include "push_swap.h"
 
 /*
-	Função auxiliar para verificar se a pilha está ordenada	
-*/
-int	is_sorted(t_stack *stack)
-{
-	t_node	*current;
-
-	if (is_empty(stack) || stack->top == NULL)// Pilha não existe ou não possui pelo menos dois valores
-		return (1);
-	current = stack->top;// Aponta para o topo da pilha
-	while (current->next != NULL)// Para no último elemento
-	{
-		if (current->value > current->next->value)// Verifica se o valor atual é maior que o próximo
-			return (0);// Pilha não está ordenada
-		current = current->next;// Avança para o próximo elemento
-	}
-	return (1);// Pilha está ordenada
-}
-
-/*
 	Funçao para ordenara dois valor no stack_a
 */
 void	sort_two(t_stack *stack)
@@ -81,33 +62,28 @@ void	sort_three(t_stack *stack)
 }
 
 /*
-	Função auxiliar de (sort_four) para 
-	encontrar o índice do menor valor na stack_a
+	Funçao para ordenara quatro valores na stack_a
 */
-int	find_min_position(t_stack *stack)
+void	sort_four(t_stack *stack_a, t_stack *stack_b)
 {
-	t_node	*currente;
-	int		min;
-	int		min_pos;
-	int		i;
+	int	min_pos;
 
-	if (!stack || !stack->top)
-		return (-1);// Retorna -1 se a pilha estiver vazia
-	currente = stack->top;//apunta ao topo da pilha
-	min = currente->value;//Armazena o valor do topo como o mínimo inicial
-	min_pos = 0;//Inicializa a posição do mínimo
-	i = 0;//Inicializa o índice
-	while (currente)// Percorre a pilha até o final
+	min_pos = find_min_position(stack_a);//Encontra a posição do menor valor na pilha A
+	if (min_pos == 1)
+		ra(stack_a, 1);
+	else if (min_pos == 2)
 	{
-		if (currente->value < min)//Verifica se o valor atual é menor que o mínimo
-		{
-			min = currente->value;//Atualiza o mínimo 
-			min_pos = i;//Atualiza a posição do mínimo 1
-		}
-		currente = currente->next;//Avança para o próximo elemento da pilha
-		i++;//Incrementa o índice
+		ra(stack_a, 1);
+		ra(stack_a, 1);
 	}
-	return (min_pos);//Retorna a posição do menor valor (3)
+	else if (min_pos == 3)
+		rra(stack_a, 1);
+	if (!is_sorted(stack_a))
+	{
+		pb(stack_b, stack_a);
+		sort_three(stack_a);
+		pa(stack_a, stack_b);
+	}
 }
 
 /*
@@ -117,7 +93,7 @@ void	sort_five(t_stack *stack_a, t_stack *stack_b, int count)
 {
 	int	min_pos;
 
-	while (count++ < 2)
+	while (count++ < 1)
 	{
 		min_pos = find_min_position(stack_a);//Posiçao menor da pilgha A
 		if (min_pos == 1)
@@ -137,12 +113,34 @@ void	sort_five(t_stack *stack_a, t_stack *stack_b, int count)
 		if (!is_sorted(stack_a))
 			pb(stack_b, stack_a);
 	}
-	sort_three(stack_a);
+	sort_four(stack_a, stack_b);
 	while (stack_b->top != NULL)
 		pa(stack_a, stack_b);
 }
 
+/*
+	Função para ordenar um grande número de elementos na stack_a 
+	utilizando a stack_b como pilha auxiliar.
+	Esta função utiliza uma combinação de divisão e conquista e funções 
+	auxiliares para garantir a ordenação eficiente dos elementos.
+	* stack_a: Pilha principal que contém os elementos a serem ordenados.
+	* stack_b: Pilha auxiliar usada durante o processo de ordenação.
+	* total_elements: Número total de elementos na stack_a.
+*/
+void	sort_large(t_stack *stack_a, t_stack *stack_b, int total_elements)
+{
+	// Mover menores valores para a pilha b
+	move_to_stack_b(stack_a, stack_b, &total_elements);
+	// Ordenação final e mesclagem
+	finalize_sort(stack_a, stack_b, total_elements);
+}
 
+
+
+
+
+// 1 5 4 3 2
+// 4 2 5 1 3
 //ELIMINAR 4 linhas desnecessarias
 //teste 5:
 // 2 3 4 5 1 ## (1)rra 1 2 3 4 5
