@@ -10,7 +10,7 @@ SRC = ft_stack.c\
 	ft_rotate_down.c\
 	ft_ord_sort.c\
 	ft_ord_sort_util.c\
-    main.c
+	main.c
 
 # Arquivos objeto gerados a partir dos arquivos fonte.
 OBJ = $(SRC:.c=.o)
@@ -19,7 +19,7 @@ OBJ = $(SRC:.c=.o)
 CC = cc
 
 # Flags do compilador
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=leak
 
 # Diretórios das bibliotecas LIBFT e PRINTF
 LIBFT_DIR = ../libft

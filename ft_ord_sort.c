@@ -20,13 +20,12 @@ void	sort_two(t_stack *stack)
 	int	a;
 	int	b;
 
-	// Verifica se a pilha tem pelo menos dois elementos
 	if (!stack || !stack->top || !stack->top->next)
-		return;// Retorna sem fazer nada se não houver pelo menos 2 elementos
-	a = stack->top->value; //Aponta para o topo da pilha
-	b = stack->top->next->value;//Aponta para o segundo elemento da pilha
-	if (a > b)//Verifica se o primeiro elemento é maior que o segundo
-		sa(stack);//Chama a função swap
+		return ;
+	a = stack->top->value;
+	b = stack->top->next->value;
+	if (a > b)
+		sa(stack);
 }
 
 /*
@@ -39,25 +38,25 @@ void	sort_three(t_stack *stack)
 	int	c;
 
 	if (!stack || !stack->top || !stack->top->next || !stack->top->next->next)
-		return ;//Retorna se a pilha não tiver pelo menos 3 elementos
-	a = stack->top->value;// Aponta para o topo da pilha
-	b = stack->top->next->value;// Aponta para o segundo elemento da pilha
-	c = stack->top->next->next->value;// Aponta para o terceiro elemento da pilha
-	if (a < b && b < c)// 1 < 2 && 2 < 3
 		return ;
-	if (a > b && b > c)// 3 > 2 && 2 > 1
+	a = stack->top->value;
+	b = stack->top->next->value;
+	c = stack->top->next->next->value;
+	if (a < b && b < c)
+		return ;
+	if (a > b && b > c)
 	{
 		(sa(stack), rra(stack, 1));
 	}
-	else if (a < b && b > c && a > c) // 2 < 3 && 3 > 1 && 2 > 1
+	else if (a < b && b > c && a > c)
 		rra(stack, 1);
-	else if (a > b && b < c && a < c)// 2 > 1 && 1 < 3 && 2 < 3 
+	else if (a > b && b < c && a < c)
 		sa(stack);
-	else if (a < b && b > c && a < c) 
+	else if (a < b && b > c && a < c)
 	{
 		(sa(stack), ra(stack, 1));
 	}
-	else if (a > b && b < c && a > c)// 3 > 1 && 1 < 2 && 3 > 2 
+	else if (a > b && b < c && a > c)
 		ra(stack, 1);
 }
 
@@ -68,7 +67,7 @@ void	sort_four(t_stack *stack_a, t_stack *stack_b)
 {
 	int	min_pos;
 
-	min_pos = find_min_position(stack_a);//Encontra a posição do menor valor na pilha A
+	min_pos = find_min_position(stack_a);
 	if (min_pos == 1)
 		ra(stack_a, 1);
 	else if (min_pos == 2)
@@ -87,7 +86,7 @@ void	sort_four(t_stack *stack_a, t_stack *stack_b)
 }
 
 /*
-    Função para ordenar cinco valores na stack_a 
+	Função para ordenar cinco valores na stack_a 
 */
 void	sort_five(t_stack *stack_a, t_stack *stack_b, int count)
 {
@@ -95,7 +94,7 @@ void	sort_five(t_stack *stack_a, t_stack *stack_b, int count)
 
 	while (count++ < 1)
 	{
-		min_pos = find_min_position(stack_a);//Posiçao menor da pilgha A
+		min_pos = find_min_position(stack_a);
 		if (min_pos == 1)
 			ra(stack_a, 1);
 		else if (min_pos == 2)
@@ -129,55 +128,6 @@ void	sort_five(t_stack *stack_a, t_stack *stack_b, int count)
 */
 void	sort_large(t_stack *stack_a, t_stack *stack_b, int total_elements)
 {
-	// Mover menores valores para a pilha b
 	move_to_stack_b(stack_a, stack_b, &total_elements);
-	// Ordenação final e mesclagem
 	finalize_sort(stack_a, stack_b, total_elements);
 }
-
-
-
-
-
-// 1 5 4 3 2
-// 4 2 5 1 3
-//ELIMINAR 4 linhas desnecessarias
-//teste 5:
-// 2 3 4 5 1 ## (1)rra 1 2 3 4 5
-// 2 3 4 1 5 ## (5)rra 5 2 3 4 1 rra 1 5 2 3 4 pb 5 2 3 4 ra 2 3 4 5 pa 12345
-// 2 3 1 4 5 ## (6)ra 3 1 4 5 2 ra 1 4 5 2 3 pb 4 5 2 3 ra 5 2 3 4 ra 2 3 4 5 pa 1 2 3 4 5
-// 2 1 3 4 5 ## (4)ra 1 3 4 5 2 pb 3 4 5 2 rra 2 3 4 5 pa 1 2 3 4 5
-/*
-	Conjuntos de Teste:
-	Valores Crescentes:
-	1 2 3 4 5 (já ordenado)
-	2 3 4 5 1
-	Valores Decrescentes:
-	5 4 3 2 1
-	4 3 2 1 5
-	Mistos:
-	3 1 4 5 2
-	2 5 3 1 4
-	1 3 5 2 4
-	4 2 5 3 1
-	3 5 1 4 2
-	Valores Negativos e Positivos:
-	-1 2 -2 3 1
-	2 -1 3 -2 1
-	1 -1 2 -2 3
-	-2 -1 1 2 3
-	Valores com Zero:
-	0 1 2 3 4
-	2 1 0 -1 -2
-	-1 0 1 -2 2
-	1 0 -1 2 -2
-	Teste Extra:
-	Valores Máximos e Mínimos Inteiros:
-	2147483647 -2147483648 0 1 -1
-	Teste de Valores Repetidos (Caso de Erro):
-	1 2 2 3 4 (deve ser tratado como erro)
-	Teste de Valores Aleatórios:
-	4 2 5 3 1
-	3 4 1 5 2
-	5 1 3 4 2
-*/

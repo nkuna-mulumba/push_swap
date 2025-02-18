@@ -13,22 +13,42 @@
 #include "push_swap.h"
 
 /*
+	Função para contar o número de elementos na stack_a
+*/
+int	stack_size(t_stack *stack)
+{
+	int		count;
+	t_node	*current;
+
+	if (!stack)
+		return (0);
+	current = stack->top;
+	count = 0;
+	while (current != NULL)
+	{
+		count++;
+		current = current->next;
+	}
+	return (count);
+}
+
+/*
 	Função auxiliar para verificar se a pilha está ordenada	
 */
 int	is_sorted(t_stack *stack)
 {
 	t_node	*current;
 
-	if (is_empty(stack) || stack->top == NULL)// Pilha não existe ou não possui pelo menos dois valores
+	if (is_empty(stack) || stack->top == NULL)
 		return (1);
-	current = stack->top;// Aponta para o topo da pilha
-	while (current->next != NULL)// Para no último elemento
+	current = stack->top;
+	while (current->next != NULL)
 	{
-		if (current->value > current->next->value)// Verifica se o valor atual é maior que o próximo
-			return (0);// Pilha não está ordenada
-		current = current->next;// Avança para o próximo elemento
+		if (current->value > current->next->value)
+			return (0);
+		current = current->next;
 	}
-	return (1);// Pilha está ordenada
+	return (1);
 }
 
 /*
@@ -43,52 +63,57 @@ int	find_min_position(t_stack *stack)
 	int		i;
 
 	if (!stack || !stack->top)
-		return (-1);// Retorna -1 se a pilha estiver vazia
-	currente = stack->top;//apunta ao topo da pilha
-	min = currente->value;//Armazena o valor do topo como o mínimo inicial
-	min_pos = 0;//Inicializa a posição do mínimo
-	i = 0;//Inicializa o índice
-	while (currente)// Percorre a pilha até o final
+		return (-1);
+	currente = stack->top;
+	min = currente->value;
+	min_pos = 0;
+	i = 0;
+	while (currente)
 	{
-		if (currente->value < min)//Verifica se o valor atual é menor que o mínimo
+		if (currente->value < min)
 		{
-			min = currente->value;//Atualiza o mínimo 
-			min_pos = i;//Atualiza a posição do mínimo 1
+			min = currente->value;
+			min_pos = i;
 		}
-		currente = currente->next;//Avança para o próximo elemento da pilha
-		i++;//Incrementa o índice
+		currente = currente->next;
+		i++;
 	}
-	return (min_pos);//Retorna a posição do menor valor (3)
+	return (min_pos);
 }
 
 /*
 	Funçao para mover elementos menores 
 	ate stack_a ter apenas 5 elementos
+	void	move_to_stack_b(t_stack *stack_a, t_stack *stack_b, 
+	int *total_elements)
 */
-void	move_to_stack_b(t_stack *stack_a, t_stack *stack_b, int *total_elements)
+void	move_to_stack_b(t_stack *stack_a, t_stack *stack_b, int *size)
 {
 	int	min_pos;
 
-	while (*total_elements > 5)
+	while (*size > 5)
 	{
 		min_pos = find_min_position(stack_a);
-		if (min_pos <= *total_elements / 2)
+		if (min_pos <= *size / 2)
 		{
 			while (min_pos-- > 0)
 				ra(stack_a, 1);
 		}
 		else
 		{
-			while (++min_pos <= *total_elements)
+			while (++min_pos <= *size)
 				rra(stack_a, 1);
 		}
 		pb(stack_b, stack_a);
-		(*total_elements)--;
+		(*size)--;
 	}
 }
+
 /*
 	Funçao para ordenar e mesclagem de 
 	valores removidos
+	//% ARG=$(seq 1 100 | sort -R | tr '\n' ' '); ./push_swap $ARG | wc -l
+	//1334
 */
 void	finalize_sort(t_stack *stack_a, t_stack *stack_b, int total_elements)
 {
@@ -100,10 +125,10 @@ void	finalize_sort(t_stack *stack_a, t_stack *stack_b, int total_elements)
 		sort_three(stack_a);
 	else if (total_elements == 2)
 		sort_two(stack_a);
-	//Devolver valores removido
 	while (!is_empty(stack_b))
 		pa(stack_a, stack_b);
-	//Ultima verificaçao se esta ordenada
 	while (!is_sorted(stack_a))
 		ra(stack_a, 1);
 }
+
+

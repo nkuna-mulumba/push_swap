@@ -13,111 +13,126 @@
 #include "push_swap.h"
 
 /*
-	Função para contar o número de elementos na stack_a
-*/
-int	stack_size(t_stack *stack)
-{
-	int		count;
-	t_node	*current;
-
-	if (!stack)// Verifica se a pilha é nula
-		return (0);
-	current = stack->top;
-	count = 0;
-	while (current != NULL)
-	{
-		count++;
-		current = current->next;
-	}
-	return (count);
-}
-
-/*
-	Função para verificar se a string representa um 
+	Função para verificar se a string representa um
 	número válido dentro do intervalo de int e retornar o valor convertido
 */
-long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
+long ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
 {
-	long	num;
+	long num;
 
+	(void)stack_a;
+	(void)stack_b;
 	num = ft_atol(str);
 	if (num > INT_MAX || num < INT_MIN)
 	{
-		ft_printf("Erro: Argumento '%s' está fora dos limites de int\n", str);
-		free_stack(stack_a);
-		free_stack(stack_b);
-		exit(1);
+		// ft_printf("Erroryyyy\n");
+		// free_stack(stack_a);
+		// free_stack(stack_b);
+		// exit(1);
+		num = 2147483648;
+		return (num);
 	}
-	return (int)num;
+	return ((int)num);
 }
 
 /*
-	Função para verificar se um número já está presente 
+	Função para verificar se um número já está presente
 	na pilha e gerar mensagem de erro
-*/ 
-void	check_duplicate(t_stack *stack, int num)
+*/
+int check_duplicate(t_stack *stack, int num)
 {
-	t_node	*current;
-	
+	t_node *current;
+
 	current = stack->top;
 	while (current != NULL)
 	{
 		if (current->value == num)
-		{
-			ft_printf("Erro: Número duplicado '%d'\n", num);
-			exit(1);
-		}
+			return (0);
 		current = current->next;
 	}
+	return (1);
 }
 
 /*
 	Função para validar os valores e empilhá-los
+	void	validate_and_push(char **args, t_stack *temp_stack, t_stack
+	*stack_a, t_stack *stack_b)
 */
-void	validate_and_push(char **args, t_stack *temp_stack, t_stack *stack_a, t_stack *stack_b)
+
+static void	free_all(char **args, t_stack *tmp, t_stack *a, t_stack *b)
 {
-	int	i;
-	int	num;
+	ft_printf("Error\n");
+	free_stack(a);
+	free_stack(b);
+	free_stack(tmp);
+	ft_freememoria(args);
+	exit(1);
+}
+
+void validate_and_push(char **args, t_stack *tmp, t_stack *a, t_stack *b)
+{
+	int i;
+	long num;
 
 	i = 0;
-	while (args[i] != NULL) // Validar números
+	while (args[i] != NULL)
 	{
 		if (!ft_digit_valid(args[i]))
-		{
-			ft_printf("Erro: Caractere '%s' é um dígito inválido\n", args[i]);
-			free_stack(stack_a);
-			free_stack(stack_b);
-			exit(1); // Encerra o programa se um dígito inválido for encontrado
-		}
-		num = ft_is_valid_number(args[i], stack_a, stack_b);
-		// Verificar duplicatas antes de empilhar
-		check_duplicate(temp_stack, num);
-		// Armazenar temporariamente os valores na ordem correta
-		push(temp_stack, num);
+			free_all(args, tmp, a, b);
+		num = ft_is_valid_number(args[i], a, b);
+		if (num == 2147483648)
+			free_all(args, tmp, a, b);
+		if (!check_duplicate(tmp, num))
+			free_all(args, tmp, a, b);
+		push(tmp, num);
 		i++;
 	}
 }
 
+/*
+	Função para dividir a string em substrings e
+	validar os valores
+	void	process_arguments(char *arg, t_stack *temp_stack,
+	t_stack *stack_a, t_stack *stack_b)
+*/
+void process_arguments(char *arg, t_stack *tmp, t_stack *a, t_stack *b)
+{
+	char **args;
+
+	args = ft_split(arg, ' ');
+	if (!args || args[0] == NULL)
+	{
+		ft_printf("Error\n");
+		ft_freememoria(args);
+		free_stack(a);
+		free_stack(b);
+		exit(1);
+	}
+	validate_and_push(args, tmp, a, b);
+	ft_freememoria(args);
+}
 
 /*
-	Função para dividir a string em substrings e 
-	validar os valores
+	Funçao para validar argumentos ou parceiro
 */
-void	process_arguments(char *arg, t_stack *temp_stack, t_stack *stack_a, t_stack *stack_b)
+int validate_args(char **argv, t_stack *tmp, t_stack *a, t_stack *b)
 {
-	char	**args;
+	int i;
 
-	// Divide cada argumento em substrings
-	args = ft_split(arg, ' ');
-	if (!args || args[0] == NULL) // Verifica se a divisão falhou
+	i = 1;
+	while (argv[i] != NULL)
 	{
-		ft_printf("Error: Delimitador '%s' sem dígitos\n", arg);
-		ft_freememoria(args);
-		free_stack(stack_a);
-		free_stack(stack_b);
-		exit(1); // Encerra o programa se a divisão falhar
+		if (ft_strlen(argv[i]) == 0)
+		{
+			ft_printf("Error\n");
+			free_stack(a);
+			free_stack(b);
+			free_stack(tmp);
+			return (0);
+			// exit(1);
+		}
+		process_arguments(argv[i], tmp, a, b);
+		i++;
 	}
-	// Validar e empilhar números
-	validate_and_push(args, temp_stack, stack_a, stack_b);
-	ft_freememoria(args);
+	return (1);
 }
