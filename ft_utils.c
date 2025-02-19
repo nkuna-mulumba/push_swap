@@ -13,35 +13,12 @@
 #include "push_swap.h"
 
 /*
-	Função para verificar se a string representa um
-	número válido dentro do intervalo de int e retornar o valor convertido
-*/
-long ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
-{
-	long num;
-
-	(void)stack_a;
-	(void)stack_b;
-	num = ft_atol(str);
-	if (num > INT_MAX || num < INT_MIN)
-	{
-		// ft_printf("Erroryyyy\n");
-		// free_stack(stack_a);
-		// free_stack(stack_b);
-		// exit(1);
-		num = 2147483648;
-		return (num);
-	}
-	return ((int)num);
-}
-
-/*
 	Função para verificar se um número já está presente
 	na pilha e gerar mensagem de erro
 */
-int check_duplicate(t_stack *stack, int num)
+int	check_duplicate(t_stack *stack, int num)
 {
-	t_node *current;
+	t_node	*current;
 
 	current = stack->top;
 	while (current != NULL)
@@ -54,11 +31,8 @@ int check_duplicate(t_stack *stack, int num)
 }
 
 /*
-	Função para validar os valores e empilhá-los
-	void	validate_and_push(char **args, t_stack *temp_stack, t_stack
-	*stack_a, t_stack *stack_b)
+	Função para liberar em caso de erro
 */
-
 static void	free_all(char **args, t_stack *tmp, t_stack *a, t_stack *b)
 {
 	ft_printf("Error\n");
@@ -69,10 +43,13 @@ static void	free_all(char **args, t_stack *tmp, t_stack *a, t_stack *b)
 	exit(1);
 }
 
-void validate_and_push(char **args, t_stack *tmp, t_stack *a, t_stack *b)
+/*
+	Função para validar os valores e empilhá-los
+*/
+void	validate_and_push(char **args, t_stack *tmp, t_stack *a, t_stack *b)
 {
-	int i;
-	long num;
+	int		i;
+	long	num;
 
 	i = 0;
 	while (args[i] != NULL)
@@ -92,12 +69,10 @@ void validate_and_push(char **args, t_stack *tmp, t_stack *a, t_stack *b)
 /*
 	Função para dividir a string em substrings e
 	validar os valores
-	void	process_arguments(char *arg, t_stack *temp_stack,
-	t_stack *stack_a, t_stack *stack_b)
 */
-void process_arguments(char *arg, t_stack *tmp, t_stack *a, t_stack *b)
+void	process_arguments(char *arg, t_stack *tmp, t_stack *a, t_stack *b)
 {
-	char **args;
+	char	**args;
 
 	args = ft_split(arg, ' ');
 	if (!args || args[0] == NULL)
@@ -115,9 +90,9 @@ void process_arguments(char *arg, t_stack *tmp, t_stack *a, t_stack *b)
 /*
 	Funçao para validar argumentos ou parceiro
 */
-int validate_args(char **argv, t_stack *tmp, t_stack *a, t_stack *b)
+int	validate_args(char **argv, t_stack *tmp, t_stack *a, t_stack *b)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (argv[i] != NULL)
@@ -129,7 +104,6 @@ int validate_args(char **argv, t_stack *tmp, t_stack *a, t_stack *b)
 			free_stack(b);
 			free_stack(tmp);
 			return (0);
-			// exit(1);
 		}
 		process_arguments(argv[i], tmp, a, b);
 		i++;

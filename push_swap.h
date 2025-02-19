@@ -48,17 +48,19 @@ int		is_empty(t_stack *stack);
 void	display(t_stack *stack);
 //Desempilhar (Pop)Remove o elemento do topo da pilha e retorna este elemento.
 int		pop(t_stack *stack);
-//Funçao swap para trocar dois primeiros elementos do topo da pilha [A]
 // Função para contar o número de elementos na stack_a
 int		stack_size(t_stack *stack);
 
 //## OPERAÇOES NA PILHA
+//Funçao swap para trocar dois primeiros elementos
 void	swap(t_stack *stack);
-//Funçao swap para trocar dois primeiros elementos do topo da pilha [A] e [B]
+//Função que verifica se a pilha tem pelo menos dois elementos
 int		can_swap(t_stack *stack);
+//Funçao swap para trocar dois primeiros elementos do topo da pilha [A]
 int		sa(t_stack *stack);
 //Funçao swap para trocar dois primeiros elementos do topo da pilha [B]
 int		sb(t_stack *stack);
+//Funçao para trocar simultaneamente 2 primeiro elementos de [A] e [B]
 void	ss(t_stack *stack_a, t_stack *stack_b);
 //Função para empilhar (push) elemento da pilha [B] para a pilha [A]
 void	pa(t_stack *stack_a, t_stack *stack_b);
@@ -109,10 +111,24 @@ void	sort_four(t_stack *stack_a, t_stack *stack_b);
 //FUnçao para ordenar cinco elementos na pilha
 void	sort_five(t_stack *stack_a, t_stack *stack_b, int count);
 //Funçao para mover elementos menores
-void	move_to_stack_b(t_stack *stack_a, t_stack *stack_b, int *size);
+//void	move_to_stack_b(t_stack *stack_a, t_stack *stack_b, int *size);
 // Funçao para ordenar e mesclagem de valores removidos
-void	finalize_sort(t_stack *stack_a, t_stack *stack_b, int total_elements);
+//void	finalize_sort(t_stack *stack_a, t_stack *stack_b, int total_elements);
 //Função para ordenar um grande número
-void	sort_large(t_stack *stack_a, t_stack *stack_b, int total_elements);
+//void	sort_large(t_stack *stack_a, t_stack *stack_b, int total_elements);
+
+void separate_numbers(t_stack *stack_a, t_stack *stack_pos, t_stack *stack_neg);
+
+int get_max(t_stack *stack);
+
+void count_sort(t_stack *stack_a, t_stack *stack_b, int exp);
+
+void count_sort_negatives(t_stack *stack_a, t_stack *stack_b, int exp);
+
+void radix_sort(t_stack *stack_a, t_stack *stack_b);
+
+void sort_large(t_stack *stack_a, t_stack *stack_b, int total_elements);
 
 #endif
+
+

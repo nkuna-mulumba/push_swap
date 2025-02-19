@@ -84,3 +84,22 @@ void	pb(t_stack *stack_b, t_stack *stack_a)
 	push(stack_b, value);
 	ft_printf("pb\n");
 }
+
+/*
+	Função para verificar se a string representa um
+	número válido dentro do intervalo de int e retornar o valor convertido
+*/
+long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b)
+{
+	long	num;
+
+	(void)stack_a;
+	(void)stack_b;
+	num = ft_atol(str);
+	if (num > INT_MAX || num < INT_MIN)
+	{
+		num = 2147483648;
+		return (num);
+	}
+	return ((int)num);
+}

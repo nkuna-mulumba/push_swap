@@ -13,6 +13,25 @@
 #include "push_swap.h"
 
 /*
+	Função auxiliar para verificar se a pilha está ordenada	
+*/
+int	is_sorted(t_stack *stack)
+{
+	t_node	*current;
+
+	if (is_empty(stack) || stack->top == NULL)
+		return (1);
+	current = stack->top;
+	while (current->next != NULL)
+	{
+		if (current->value > current->next->value)
+			return (0);
+		current = current->next;
+	}
+	return (1);
+}
+
+/*
 	Função para contar o número de elementos na stack_a
 */
 int	stack_size(t_stack *stack)
@@ -32,24 +51,7 @@ int	stack_size(t_stack *stack)
 	return (count);
 }
 
-/*
-	Função auxiliar para verificar se a pilha está ordenada	
-*/
-int	is_sorted(t_stack *stack)
-{
-	t_node	*current;
 
-	if (is_empty(stack) || stack->top == NULL)
-		return (1);
-	current = stack->top;
-	while (current->next != NULL)
-	{
-		if (current->value > current->next->value)
-			return (0);
-		current = current->next;
-	}
-	return (1);
-}
 
 /*
 	Função auxiliar de (sort_four) para 
@@ -81,12 +83,12 @@ int	find_min_position(t_stack *stack)
 	return (min_pos);
 }
 
+
+
 /*
 	Funçao para mover elementos menores 
 	ate stack_a ter apenas 5 elementos
-	void	move_to_stack_b(t_stack *stack_a, t_stack *stack_b, 
-	int *total_elements)
-*/
+
 void	move_to_stack_b(t_stack *stack_a, t_stack *stack_b, int *size)
 {
 	int	min_pos;
@@ -108,13 +110,15 @@ void	move_to_stack_b(t_stack *stack_a, t_stack *stack_b, int *size)
 		(*size)--;
 	}
 }
+*/
+
 
 /*
 	Funçao para ordenar e mesclagem de 
 	valores removidos
 	//% ARG=$(seq 1 100 | sort -R | tr '\n' ' '); ./push_swap $ARG | wc -l
 	//1334
-*/
+
 void	finalize_sort(t_stack *stack_a, t_stack *stack_b, int total_elements)
 {
 	if (total_elements == 5)
@@ -130,5 +134,4 @@ void	finalize_sort(t_stack *stack_a, t_stack *stack_b, int total_elements)
 	while (!is_sorted(stack_a))
 		ra(stack_a, 1);
 }
-
-
+*/
