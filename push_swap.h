@@ -23,8 +23,9 @@
 */
 typedef struct s_node
 {
-	int				value;
-	struct s_node	*next;
+	int				value; // Valor armazenado no nó
+	struct s_node	*next; // Ponteiro para o próximo nó na pilha
+	int				index; // Índice associado ao nó
 }	t_node;
 
 /*
@@ -32,8 +33,15 @@ typedef struct s_node
 */
 typedef struct s_stack
 {
-	t_node	*top;
+	t_node	*top; // Ponteiro para o nó no topo da pilha
 }	t_stack;
+
+
+typedef struct s_temp
+{
+	int		value;
+	int		index;
+}	t_temp;
 
 //###### INICIALIZAÇÃO E MANIPULAÇÃO DA PILHA #####
 // Função para inicializar uma pilha vazia
@@ -41,13 +49,16 @@ t_stack	*init_stack(void);
 // Função para inicializar chamando outras funções
 int		initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b);
 //Empilar (Push) : Adiciona um novo elemento ao topo da pilha.
-void	push(t_stack *stack, int value);
+// void	push(t_stack *stack, int value);
+void	push(t_stack *stack, int value, int index);
 //Funçao para verificar se a pilha esta vazia
 int		is_empty(t_stack *stack);
 //Funçao para exibir todos elementos da pilha
 void	display(t_stack *stack);
 //Desempilhar (Pop)Remove o elemento do topo da pilha e retorna este elemento.
 int		pop(t_stack *stack);
+//Nueva pop que retorna valor dde INDEX
+int		pop_index(t_stack *stack, int *index);
 // Função para contar o número de elementos na stack_a
 int		stack_size(t_stack *stack);
 
@@ -110,24 +121,22 @@ int		find_min_position(t_stack *stack);
 void	sort_four(t_stack *stack_a, t_stack *stack_b);
 //FUnçao para ordenar cinco elementos na pilha
 void	sort_five(t_stack *stack_a, t_stack *stack_b, int count);
-//Funçao para mover elementos menores
-//void	move_to_stack_b(t_stack *stack_a, t_stack *stack_b, int *size);
-// Funçao para ordenar e mesclagem de valores removidos
-//void	finalize_sort(t_stack *stack_a, t_stack *stack_b, int total_elements);
-//Função para ordenar um grande número
-//void	sort_large(t_stack *stack_a, t_stack *stack_b, int total_elements);
 
-void separate_numbers(t_stack *stack_a, t_stack *stack_pos, t_stack *stack_neg);
-
-int get_max(t_stack *stack);
-
-void count_sort(t_stack *stack_a, t_stack *stack_b, int exp);
-
-void count_sort_negatives(t_stack *stack_a, t_stack *stack_b, int exp);
-
-void radix_sort(t_stack *stack_a, t_stack *stack_b);
-
-void sort_large(t_stack *stack_a, t_stack *stack_b, int total_elements);
+/*
+	ALGORITIMO DE ORDENAÇAO AVANÇADA (KSORT)
+*/
+//Assignar indice nos nodos
+void	assig_indice(t_stack *stack_a);
+//Calcula a raiz quadrada inteira de um número
+int		ft_sqrt(int	num);
+//count_r - Conta o número de nós até encontrar o índice especificado
+int		count_r(t_node *stack, int index);
+//k_sort1 - Ordena a pilha stack_a transferindo elementos para stack_b
+void	k_sort1(t_stack *stack_a, t_stack *stack_b, int length);
+//k_sort2 - Transfere elementos de stack_b para stack_a em ordem específica
+void	k_sort2(t_stack *stack_a, t_stack *stack_b, int length);
+// ksort - Ordena uma grande pilha usando duas funções de ordenação.
+void	ksort(t_stack *stack_a, t_stack *stack_b);
 
 #endif
 

@@ -61,7 +61,7 @@ void	validate_and_push(char **args, t_stack *tmp, t_stack *a, t_stack *b)
 			free_all(args, tmp, a, b);
 		if (!check_duplicate(tmp, num))
 			free_all(args, tmp, a, b);
-		push(tmp, num);
+		push(tmp, num, i);
 		i++;
 	}
 }

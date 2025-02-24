@@ -13,25 +13,6 @@
 #include "push_swap.h"
 
 /*
-	Função auxiliar para verificar se a pilha está ordenada	
-*/
-int	is_sorted(t_stack *stack)
-{
-	t_node	*current;
-
-	if (is_empty(stack) || stack->top == NULL)
-		return (1);
-	current = stack->top;
-	while (current->next != NULL)
-	{
-		if (current->value > current->next->value)
-			return (0);
-		current = current->next;
-	}
-	return (1);
-}
-
-/*
 	Função para contar o número de elementos na stack_a
 */
 int	stack_size(t_stack *stack)
@@ -51,7 +32,24 @@ int	stack_size(t_stack *stack)
 	return (count);
 }
 
+/*
+	Função auxiliar para verificar se a pilha está ordenada	
+*/
+int	is_sorted(t_stack *stack)
+{
+	t_node	*current;
 
+	if (is_empty(stack) || stack->top == NULL)
+		return (1);
+	current = stack->top;
+	while (current->next != NULL)
+	{
+		if (current->value > current->next->value)
+			return (0);
+		current = current->next;
+	}
+	return (1);
+}
 
 /*
 	Função auxiliar de (sort_four) para 
@@ -82,56 +80,60 @@ int	find_min_position(t_stack *stack)
 	}
 	return (min_pos);
 }
-
-
-
 /*
-	Funçao para mover elementos menores 
-	ate stack_a ter apenas 5 elementos
-
-void	move_to_stack_b(t_stack *stack_a, t_stack *stack_b, int *size)
+	Funçao para assignar indice aos nodos
+*/
+// void	test_ord(t_stack *stack_a)
+void	assig_indice(t_stack *stack_a)
 {
-	int	min_pos;
+	t_node	*i;
+	t_node	*j;
 
-	while (*size > 5)
+	i  = stack_a->top;
+	// ft_printf("VALORES DE [I]%d\n",i->value);
+	// ft_printf("VALORES DE [J]%d\n",j->value);
+
+	// 	 exit(1);
+
+	while (i != NULL)
 	{
-		min_pos = find_min_position(stack_a);
-		if (min_pos <= *size / 2)
+		j = i->next;
+		while (j != NULL)
 		{
-			while (min_pos-- > 0)
-				ra(stack_a, 1);
+			//ft_printf("VALORES DE [I]%d, index %d \n",i->value,i->index);
+			 //ft_printf("VALORES DE [J],  %d,  index %d\n",i->value,j->index);
+			if(i->value > j->value)
+				i->index += 1;	
+			else
+				j->index+= 1;
+			j = j->next;
 		}
-		else
-		{
-			while (++min_pos <= *size)
-				rra(stack_a, 1);
-		}
-		pb(stack_b, stack_a);
-		(*size)--;
+		i = i->next;
 	}
 }
-*/
 
-
-/*
-	Funçao para ordenar e mesclagem de 
-	valores removidos
-	//% ARG=$(seq 1 100 | sort -R | tr '\n' ' '); ./push_swap $ARG | wc -l
-	//1334
-
-void	finalize_sort(t_stack *stack_a, t_stack *stack_b, int total_elements)
+/**
+ * ft_sqrt - Calcula a raiz quadrada inteira de um número.
+ * @num: O número para o qual calcular a raiz quadrada.
+ *
+ * Esta função retorna a raiz quadrada inteira de um número dado.
+ * Se o número não tem uma raiz quadrada inteira, a função retorna 0.
+ *
+ * Retorna: A raiz quadrada inteira de num ou 0 se não for uma raiz quadrada perfeita.
+ */
+int	ft_sqrt(int	num)
 {
-	if (total_elements == 5)
-		sort_five(stack_a, stack_b, 0);
-	else if (total_elements == 4)
-		sort_four(stack_a, stack_b);
-	else if (total_elements == 3)
-		sort_three(stack_a);
-	else if (total_elements == 2)
-		sort_two(stack_a);
-	while (!is_empty(stack_b))
-		pa(stack_a, stack_b);
-	while (!is_sorted(stack_a))
-		ra(stack_a, 1);
+	int	n;
+	
+	n = 1;
+	if (num < 0)
+		return (0);
+	
+	while (n * n <= num)
+	{
+		if (n * n == num)
+			return (n);
+		n++;
+	}
+	return (n);
 }
-*/

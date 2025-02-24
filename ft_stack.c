@@ -28,16 +28,15 @@ t_stack	*init_stack(void)
 
 /*
 	Função para verificar se a pilha está vazia
-	Retorna 1 se a pilha está vazia, caso contrário retorna 0
+	Retorna 1 se a pilha está vazia, caso contrário 
+	retorna 0
 */
 int	is_empty(t_stack *stack)
 {
-	if (!stack)
-		return (1);
-	if (stack->top == NULL)
+	if (!stack || stack->top == NULL)
 		return (1);
 	else
-		return (stack->top == NULL);
+		return (0);
 }
 
 /*
@@ -47,14 +46,11 @@ void	display(t_stack *stack)
 {
 	t_node	*current;
 
-	if (is_empty(stack))
-	{
-		ft_printf("Pilha vazia\n");
-	}
 	current = stack->top;
 	while (current)
 	{
-		ft_printf("%d \n", current->value);
+		//ft_printf("%d  %d \n", current->value, current->index);
+		ft_printf("%d\n", current->value);
 		current = current->next;
 	}
 }
@@ -68,7 +64,7 @@ void	free_stack(t_stack *stack)
 	t_node	*current;
 	t_node	*next_node;
 
-	if (!stack)
+	if (!is_empty(stack))
 		return ;
 	current = stack->top;
 	while (current != NULL)
@@ -86,6 +82,8 @@ void	free_stack(t_stack *stack)
 int	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b)
 {
 	t_stack	*temp_stack;
+	int		temp_index = 0;
+	int		value;// Valor
 
 	*stack_a = init_stack();
 	*stack_b = init_stack();
@@ -93,7 +91,12 @@ int	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b)
 	if (!validate_args(argv, temp_stack, *stack_a, *stack_b))
 		return (-1);
 	while (!is_empty(temp_stack))
-		push(*stack_a, pop(temp_stack));
+	{
+		// value = pop_index(temp_stack, &temp_index);//Valor e índex
+		value = pop(temp_stack);
+		// push(*stack_a, pop(temp_stack));
+		push(*stack_a, value, temp_index);//Passar valor e índex
+	}
 	free_stack(temp_stack);
 	if (*stack_a && stack_size(*stack_a) <= 0)
 	{
