@@ -20,8 +20,7 @@ OBJ = $(SRC:.c=.o)
 CC = cc
 
 # Flags do compilador
-FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=leak
-
+FLAGS = -Wall -Wextra -Werror -g3
 # Diretórios das bibliotecas LIBFT e PRINTF
 LIBFT_DIR = ../libft
 PRINTF_DIR = ../printf

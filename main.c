@@ -12,6 +12,30 @@
 
 #include "push_swap.h"
 
+/*
+	Funçao para assignar indice aos nodos
+*/
+void	assig_indice(t_stack *stack_a)
+{
+	t_node	*i;
+	t_node	*j;
+
+	i = stack_a->top;
+	while (i != NULL)
+	{
+		j = i->next;
+		while (j != NULL)
+		{
+			if (i->value > j->value)
+				i->index += 1;
+			else
+				j->index += 1;
+			j = j->next;
+		}
+		i = i->next;
+	}
+}
+
 /* */
 int main(int argc, char **argv)
 {
@@ -26,14 +50,14 @@ int main(int argc, char **argv)
 
 	// Inicializa as pilhas com os valores dos argumentos
 	length_elements = initialize_stacks(argv, &stack_a, &stack_b);
-// display(stack_a);
-// 	 	 ft_printf("____________________\n");
+	//display(stack_a);
+	//ft_printf("____________________\n");
 	// Verifica se a inicialização foi bem-sucedida
 	if (length_elements <= 0)
 	{
-		ft_printf("Error\n");
-		free_stack(stack_a);  // Libera a pilha A
-		free_stack(stack_b);  // Libera a pilha B
+		// ft_printf("Error\n");
+		// free_stack(stack_a);  // Libera a pilha A
+		// free_stack(stack_b);  // Libera a pilha B
 		return (1);
 	}
 
@@ -44,7 +68,7 @@ int main(int argc, char **argv)
 	//  display(stack_b);
 	 
 
-	 assig_indice(stack_a);
+	assig_indice(stack_a);
 	//  display(stack_a);
 	//  ft_printf("____________________\n");
 
@@ -62,8 +86,6 @@ int main(int argc, char **argv)
 		else if (length_elements > 5)
 		{
 			ksort(stack_a, stack_b);
-			// ksort_part_one(&stack_a,&stack_b,length_elements);
-			// ksort_part_two(&stack_a,&stack_b,length_elements);
 		}
 	}
 
@@ -113,4 +135,6 @@ int main(int argc, char **argv)
 	(566)
 	./push_swap 69 79 70 52 62 41 54 66 96 15 29 4 81 88 3 18 87 59 77 19 92 55 53 10 33 76 56 82 65 68 22 97 50 90 7 83 16 28 35 46 91 49 20 40 57 100 51 93 8 25 21 61 71 47 34 11 24 64 5 58 9 63 31 6 74 44 86 30 99 45 42 73 75 43 13 95 80 89 37 32 36 48 1 14 98 12 39 85 67 2 94 60 26 84 78 17 27 72 38 23 | wc -l
 	(562)
+
+	//1000000000000000000000000000000000000000000000000000000000000000
 */

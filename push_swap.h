@@ -24,8 +24,8 @@
 typedef struct s_node
 {
 	int				value; // Valor armazenado no nó
-	struct s_node	*next; // Ponteiro para o próximo nó na pilha
 	int				index; // Índice associado ao nó
+	struct s_node	*next; // Ponteiro para o próximo nó na pilha
 }	t_node;
 
 /*
@@ -35,13 +35,6 @@ typedef struct s_stack
 {
 	t_node	*top; // Ponteiro para o nó no topo da pilha
 }	t_stack;
-
-
-typedef struct s_temp
-{
-	int		value;
-	int		index;
-}	t_temp;
 
 //###### INICIALIZAÇÃO E MANIPULAÇÃO DA PILHA #####
 // Função para inicializar uma pilha vazia
@@ -96,7 +89,7 @@ void	free_stack(t_stack *stack);
 
 //## VALIDAR ARGUMENTOS E INICIALIZAR STACKS
 //Função verificando se str representa número válido dentro do intervalo de int
-long	ft_is_valid_number(const char *str, t_stack *stack_a, t_stack *stack_b);
+long	ft_valid_number(const char *str, t_stack *a, t_stack *b);
 //Função para verificar se um número já está presente na pilha
 int		check_duplicate(t_stack *stack, int num);
 //Função para validar os valores e empilhá-los

@@ -56,7 +56,7 @@ void	validate_and_push(char **args, t_stack *tmp, t_stack *a, t_stack *b)
 	{
 		if (!ft_digit_valid(args[i]))
 			free_all(args, tmp, a, b);
-		num = ft_is_valid_number(args[i], a, b);
+		num = ft_valid_number(args[i], a, b);
 		if (num == 2147483648)
 			free_all(args, tmp, a, b);
 		if (!check_duplicate(tmp, num))

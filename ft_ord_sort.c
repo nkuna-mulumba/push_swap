@@ -118,23 +118,3 @@ void	sort_five(t_stack *stack_a, t_stack *stack_b, int count)
 	while (stack_b->top != NULL)
 		pa(stack_a, stack_b);
 }
-
-
-
-/*
-	Função para ordenar um grande número de elementos na stack_a 
-	utilizando a stack_b como pilha auxiliar.
-	Esta função utiliza uma combinação de divisão e conquista e funções 
-	auxiliares para garantir a ordenação eficiente dos elementos.
-	* stack_a: Pilha principal que contém os elementos a serem ordenados.
-	* stack_b: Pilha auxiliar usada durante o processo de ordenação.
-	* total_elements: Número total de elementos na stack_a.
-
-
-void	sort_large(t_stack *stack_a, t_stack *stack_b, int total_elements)
-{
-	move_to_stack_b(stack_a, stack_b, &total_elements);
-	finalize_sort(stack_a, stack_b, total_elements);
-}
-//1000000000000000000000000000000000000000000000000000000000000000
-*/

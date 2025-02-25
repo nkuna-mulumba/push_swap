@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
 /*
 	Função para rotacionar a pilha A, movendo o primeiro elemento para o final
 */
@@ -40,15 +41,12 @@ void	rb(t_stack *stack_b, int print)
 	t_node	*new_node;
 	t_node	*current;
 
-	// if (is_empty(stack_b) || stack_b->top->next == NULL)
-	// 	return ;
 	if (is_empty(stack_b) || stack_b->top->next == NULL)
 		return ;
 	new_node = stack_b->top;
 	stack_b->top = stack_b->top->next;
 	new_node->next = NULL;
 	current = stack_b->top;
-	// ft_printf("------>rotare:%d",current->value);
 	while (current->next != NULL)
 		current = current->next;
 	current->next = new_node;

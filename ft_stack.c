@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
 /*
 	Função para inicializar a pilha vazia com valor 
 	NULL no top, sem nenhum parametro
@@ -49,7 +50,6 @@ void	display(t_stack *stack)
 	current = stack->top;
 	while (current)
 	{
-		//ft_printf("%d  %d \n", current->value, current->index);
 		ft_printf("%d\n", current->value);
 		current = current->next;
 	}
@@ -64,7 +64,7 @@ void	free_stack(t_stack *stack)
 	t_node	*current;
 	t_node	*next_node;
 
-	if (!is_empty(stack))
+	if (!stack)
 		return ;
 	current = stack->top;
 	while (current != NULL)
@@ -82,9 +82,10 @@ void	free_stack(t_stack *stack)
 int	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b)
 {
 	t_stack	*temp_stack;
-	int		temp_index = 0;
-	int		value;// Valor
+	int		temp_index;
+	int		value;
 
+	temp_index = 0;
 	*stack_a = init_stack();
 	*stack_b = init_stack();
 	temp_stack = init_stack();
@@ -92,10 +93,8 @@ int	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b)
 		return (-1);
 	while (!is_empty(temp_stack))
 	{
-		// value = pop_index(temp_stack, &temp_index);//Valor e índex
 		value = pop(temp_stack);
-		// push(*stack_a, pop(temp_stack));
-		push(*stack_a, value, temp_index);//Passar valor e índex
+		push(*stack_a, value, temp_index);
 	}
 	free_stack(temp_stack);
 	if (*stack_a && stack_size(*stack_a) <= 0)
