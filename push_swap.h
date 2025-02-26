@@ -96,7 +96,7 @@ int		check_duplicate(t_stack *stack, int num);
 void	validate_and_push(char **args, t_stack *tmp, t_stack *a, t_stack *b);
 //Função para dividir a string em substrings e validar os valores
 void	process_arguments(char *arg, t_stack *tmp, t_stack *a, t_stack *b);
-//FUnçao para validar argumentos ou parceros de strings
+//Funçao para validar argumentos ou parceros de strings
 int		validate_args(char **argv, t_stack *tmp, t_stack *a, t_stack *b);
 
 /*
@@ -121,7 +121,7 @@ void	sort_five(t_stack *stack_a, t_stack *stack_b, int count);
 //Assignar indice nos nodos
 void	assig_indice(t_stack *stack_a);
 //Calcula a raiz quadrada inteira de um número
-int		ft_sqrt(int	num);
+int		ft_sqrt(int num);
 //count_r - Conta o número de nós até encontrar o índice especificado
 int		count_r(t_node *stack, int index);
 //k_sort1 - Ordena a pilha stack_a transferindo elementos para stack_b
@@ -132,5 +132,3 @@ void	k_sort2(t_stack *stack_a, t_stack *stack_b, int length);
 void	ksort(t_stack *stack_a, t_stack *stack_b);
 
 #endif
-
-

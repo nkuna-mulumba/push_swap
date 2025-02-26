@@ -1,5 +1,14 @@
 {
 	"files.associations": {
-		"push_swap.h": "c"
-	}
+		"push_swap.h": "c",
+		"libft.h": "c",
+		"cctype": "cpp"
+	},
+	"makefile.launchConfigurations": [
+		{
+			"cwd": "/home/jcongolo/Desktop/push_swap",
+			"binaryPath": "/home/jcongolo/Desktop/push_swap/push_swap",
+			"binaryArgs": []
+		}
+	]
 }

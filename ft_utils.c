@@ -35,11 +35,19 @@ int	check_duplicate(t_stack *stack, int num)
 */
 static void	free_all(char **args, t_stack *tmp, t_stack *a, t_stack *b)
 {
+	int	allocated;
+
 	ft_printf("Error\n");
 	free_stack(a);
 	free_stack(b);
 	free_stack(tmp);
-	ft_freememoria(args);
+	if (args)
+	{
+		allocated = 0;
+		while (args[allocated])
+			allocated++;
+		ft_freememoria(args, allocated);
+	}
 	exit(1);
 }
 
@@ -73,18 +81,29 @@ void	validate_and_push(char **args, t_stack *tmp, t_stack *a, t_stack *b)
 void	process_arguments(char *arg, t_stack *tmp, t_stack *a, t_stack *b)
 {
 	char	**args;
+	int		allocated;
 
 	args = ft_split(arg, ' ');
-	if (!args || args[0] == NULL)
+	if (!args || !args[0])
 	{
 		ft_printf("Error\n");
-		ft_freememoria(args);
+		allocated = 0;
+		if (args)
+		{
+			while (args[allocated])
+				allocated++;
+			ft_freememoria(args, allocated);
+		}
 		free_stack(a);
 		free_stack(b);
+		free(tmp);
 		exit(1);
 	}
 	validate_and_push(args, tmp, a, b);
-	ft_freememoria(args);
+	allocated = 0;
+	while (args[allocated])
+		allocated++;
+	ft_freememoria(args, allocated);
 }
 
 /*
@@ -100,8 +119,6 @@ int	validate_args(char **argv, t_stack *tmp, t_stack *a, t_stack *b)
 		if (ft_strlen(argv[i]) == 0)
 		{
 			ft_printf("Error\n");
-			free_stack(a);
-			free_stack(b);
 			free_stack(tmp);
 			return (0);
 		}

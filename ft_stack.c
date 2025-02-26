@@ -100,6 +100,8 @@ int	initialize_stacks(char **argv, t_stack **stack_a, t_stack **stack_b)
 	if (*stack_a && stack_size(*stack_a) <= 0)
 	{
 		free_stack(*stack_a);
+		free_stack(*stack_b);
+		free(temp_stack);
 		exit(1);
 	}
 	return (stack_size(*stack_a));
