@@ -22,8 +22,8 @@ CC = cc
 # Flags do compilador
 FLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address,leak
 # Diretórios das bibliotecas LIBFT e PRINTF
-LIBFT_DIR = ../libft
-PRINTF_DIR = ../printf
+LIBFT_DIR = libft
+PRINTF_DIR = printf
 
 # Nomes dos arquivos das bibliotecas
 LIBFT_NAME = libft.a

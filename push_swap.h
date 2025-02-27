@@ -14,8 +14,8 @@
 # define PUSH_SWAP_H
 
 // Inclua apenas as bibliotecas necessárias
-# include "../printf/ft_printf.h"
-# include "../libft/libft.h"
+# include "printf/ft_printf.h"
+# include "libft/libft.h"
 
 /*
 	Estrutura que representa um unico elemento (nó) na pilha
